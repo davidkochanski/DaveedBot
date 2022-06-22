@@ -9,7 +9,7 @@ import requests
 
 class Coms:
     global DIR
-    DIR = os.path.dirname(__file__)
+    DIR = os.path.dirname(__file__)[:-5]
 
     async def generic_embed(ctx, title, *, desc = None, colour = 0xff0000, name = None):
         if desc != None:
@@ -20,7 +20,7 @@ class Coms:
             em = nextcord.Embed(title = title,
                             colour = colour)
         
-        filepath = os.path.join(DIR,"Media\\proto.png")
+        filepath = os.path.join(DIR,"..\\cogs\\Media\\proto.png")
         fl = nextcord.File(filepath, filename = "proto.png")
 
         em.set_thumbnail(url = "attachment://{}".format("proto.png"))
@@ -39,7 +39,7 @@ class Coms:
                         description = "Something went wrong! {}".format(random.choice(face)),
                         colour = 0xffff00)
 
-        filepath = os.path.join(DIR,"Media\\proto.png")
+        filepath = os.path.join(DIR,"..\\cogs\\\\Media\\proto.png")
         fl = nextcord.File(filepath, filename = "proto.png")
                 
         em.set_thumbnail(url = "attachment://{}".format("proto.png"))
@@ -97,7 +97,7 @@ class Coms:
         else:
             myfile = "{}_{}".format(name, target.id)
 
-        return os.path.join(DIR, f'Save\\{name}\\{myfile}.{ext}'), f"{myfile}.{ext}"
+        return os.path.join(DIR, f'cogs\\Save\\{name}\\{myfile}.{ext}'), f"{myfile}.{ext}"
 
 
 

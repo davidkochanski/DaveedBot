@@ -8,25 +8,32 @@ from util.BotComs import Coms
 from util.BotComs import DIR
 from util.SuperSecretSettings import TOKEN
 
-print("DIR: " + DIR)
 
-client = commands.Bot(command_prefix = "d!", activity = nextcord.Activity(type=nextcord.ActivityType.listening, name="d!help :3"), status = nextcord.Status.online)
-client.remove_command("help")
 
-@client.event
-async def on_ready():
-    print("OwO!", end="\n\n")
+def main():
+    client = commands.Bot(command_prefix = "d!", activity = nextcord.Activity(type=nextcord.ActivityType.listening, name="d!help :3"), status = nextcord.Status.online)
+    client.remove_command("help")
 
-@client.event
-async def on_command_error(ctx, error):
-    if isinstance(error, commands.MissingRequiredArgument):
-        await Coms.generic_embed(ctx, title = "Oh no...", desc = "Missing or Inappropriate arguments!\n\nMaybe try again? TwT", colour = 0xffff00)
+    print("DIR: " + DIR)
 
-DO_NOT_LOAD = []
+    @client.event
+    async def on_ready():
+        print("OwO!", end="\n\n")
 
-for filename in os.listdir("./cogs"):
-    if filename.endswith(".py") and filename not in DO_NOT_LOAD:
-        client.load_extension(f"Scripts.{filename[:-3]}")
-        print(f"Loaded Scripts.{filename[:-3]}!")
+    @client.event
+    async def on_command_error(ctx, error):
+        if isinstance(error, commands.MissingRequiredArgument):
+            await Coms.generic_embed(ctx, title = "Oh no...", desc = "Missing or Inappropriate arguments!\n\nMaybe try again? TwT", colour = 0xffff00)
 
-client.run(TOKEN) #!! EXCLUSIVE
+    DO_NOT_LOAD = []
+
+    for filename in os.listdir("./cogs"):
+        if filename.endswith(".py") and filename not in DO_NOT_LOAD:
+            client.load_extension(f"cogs.{filename[:-3]}")
+            print(f"Loaded cogs.{filename[:-3]}!")
+
+    client.run(TOKEN) #!! EXCLUSIVE
+    
+
+if __name__ == "__main__":
+    main()

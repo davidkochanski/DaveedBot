@@ -1,4 +1,3 @@
-from calendar import c
 from util.BotComs import Coms 
 from util.BotComs import DIR
 import nextcord
@@ -34,7 +33,7 @@ class Avatars(commands.Cog):
     async def jar(self, ctx, target: Member = None):
         filepath, filename = await Coms.generate_filepath(ctx, target, "jar", "png")
 
-        jar = Image.open(os.path.join(DIR, "Media\\mtjar.png"))
+        jar = Image.open(os.path.join(DIR, "util\\Media\\mtjar.png"))
         av = await Coms.read_av(ctx, target, 256)
 
         jar.paste(av,(230, 420))
@@ -57,7 +56,7 @@ class Avatars(commands.Cog):
     async def pet(self, ctx, target: Member = None):
         filepath, filename = await Coms.generate_filepath(ctx, target, "pet", "gif")
 
-        gifHand = Image.open(fp = os.path.join(DIR, f'Media\\petpet.gif'))
+        gifHand = Image.open(fp = os.path.join(DIR, f'util\\Media\\petpet.gif'))
         av = await Coms.read_av(ctx, target, 512)
 
         allFrames = []
@@ -86,8 +85,8 @@ class Avatars(commands.Cog):
         filepath, filename = await Coms.generate_filepath(ctx, target, "speech", "gif")
         av = await Coms.read_av(ctx, target, 512)
 
-        bubble = Image.open(os.path.join(DIR, f'Media\\speech.png')).convert('L').resize(av.size)
-        rim = Image.open(os.path.join(DIR, f'Media\\speech_rim.png')).convert("RGBA").resize(av.size)
+        bubble = Image.open(os.path.join(DIR, f'cogs\\Media\\speech.png')).convert('L').resize(av.size)
+        rim = Image.open(os.path.join(DIR, f'cogs\\Media\\speech_rim.png')).convert("RGBA").resize(av.size)
 
         av.putalpha(bubble)
         av.paste(rim, (0,0), rim)
@@ -105,7 +104,7 @@ class Avatars(commands.Cog):
 
 
     @commands.command()
-    async def pride(self, ctx, flag: str = "Gay", target: Member = None, ):
+    async def pride(self, ctx, flag: str = "Gay", target: Member = None):
         filepath, filename = await Coms.generate_filepath(ctx, target, "pride", "png")
         av = await Coms.read_av(ctx, target, 512)
         av.convert("RGBA")
@@ -135,7 +134,7 @@ class Avatars(commands.Cog):
                     break
         
         if flag_filename is not None:
-            flagimg = Image.open(os.path.join(DIR, f'Media\\Pride\\{flag_filename}.png')).convert("RGBA").resize(av.size)
+            flagimg = Image.open(os.path.join(DIR, f'util\\Media\\Pride\\{flag_filename}.png')).convert("RGBA").resize(av.size)
             av.paste(flagimg, (0,0), flagimg)
             av.save(filepath)
 
