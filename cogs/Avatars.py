@@ -3,10 +3,9 @@ from util.BotComs import DIR
 import nextcord
 from nextcord import Member
 from nextcord.ext import commands
+from nextcord.ext.commands.errors import BadBoolArgument
 import os
-import PIL
 from PIL import Image, ImageSequence
-from io import BytesIO
 
 
 class Avatars(commands.Cog):
@@ -153,20 +152,27 @@ class Avatars(commands.Cog):
         if isinstance(error, commands.BadArgument):
             await Coms.generic_error(ctx)
 
-
     @commands.command()
-    async def ascii(self, ctx, target: Member = None, inv: bool = False):
+    async def ascii(self, ctx, arg = None, size: int = 21, inv = False):
+        if size > 30 or size < 1:
+            await ctx.send("`size` must be at most 30 and at least 1... are you trying to kill me or something?")
+            return
 
-        av = await Coms.read_av(ctx, target, 21)
+        try:
+            inv = bool(inv)
+        except BadBoolArgument:
+            await ctx.send("`invert` flag must be a boolean value (try True/False)")
+            return
 
+        arg = await Coms.conv_member(ctx, arg)
+        av = await Coms.read_av(ctx, arg, size)
 
         img = av.convert("L")
-
         pixel_list = list(img.getdata())
 
         string = ""
         counter = 0
-        
+
         if not inv:
             for i in pixel_list:
                 if i > 239:
@@ -189,8 +195,7 @@ class Avatars(commands.Cog):
                     string += '@ '
 
                 counter += 1
-
-                if counter == 21:
+                if counter == size:
                     counter = 0
                     string += '\n'
 
@@ -214,27 +219,18 @@ class Avatars(commands.Cog):
                     string += '. '
                 else:
                     string += '  '
-
+                
                 counter += 1
-
-                if counter == 21:
+                if counter == size:
                     counter = 0
                     string += '\n'
 
-
-        
-
-            
-
-        print(string)
-        
         await ctx.send(f"```{string}```")
 
-
-
-
-
-
+    @ascii.error
+    async def info_error(ctx, error):
+        if isinstance(error, commands.MemberNotFound):
+            await Coms.generic_error(ctx)
 
 
 def setup(client):
