@@ -1,5 +1,5 @@
-from util.BotComs import Coms 
-from util.BotComs import DIR
+from util.BotUtils import Utils 
+from util.BotUtils import DIR
 import nextcord
 from nextcord import Member
 from nextcord.ext import commands
@@ -25,15 +25,15 @@ class Avatars(commands.Cog):
     @av.error
     async def info_error(ctx, error):
         if isinstance(error, commands.BadArgument):
-            await Coms.generic_error(ctx)
+            await Utils.generic_error(ctx)
 
 
     @commands.command()
     async def jar(self, ctx, target: Member = None):
-        filepath, filename = await Coms.generate_filepath(ctx, target, "jar", "png")
+        filepath, filename = await Utils.generate_filepath(ctx, target, "jar", "png")
 
         jar = Image.open(os.path.join(DIR, "util\\Media\\mtjar.png"))
-        av = await Coms.read_av(ctx, target, 256)
+        av = await Utils.read_av(ctx, target, 256)
 
         jar.paste(av,(230, 420))
         jar.save(filepath)
@@ -47,16 +47,16 @@ class Avatars(commands.Cog):
     @jar.error
     async def info_error(ctx, error):
         if isinstance(error, commands.BadArgument):
-            await Coms.generic_error(ctx)
+            await Utils.generic_error(ctx)
 
 
 
     @commands.command()
     async def pet(self, ctx, target: Member = None):
-        filepath, filename = await Coms.generate_filepath(ctx, target, "pet", "gif")
+        filepath, filename = await Utils.generate_filepath(ctx, target, "pet", "gif")
 
         gifHand = Image.open(fp = os.path.join(DIR, f'util\\Media\\petpet.gif'))
-        av = await Coms.read_av(ctx, target, 512)
+        av = await Utils.read_av(ctx, target, 512)
 
         allFrames = []
         for gifFrame in ImageSequence.Iterator(gifHand):
@@ -75,14 +75,14 @@ class Avatars(commands.Cog):
     @pet.error
     async def info_error(ctx, error):
         if isinstance(error, commands.BadArgument):
-            await Coms.generic_error(ctx)
+            await Utils.generic_error(ctx)
 
 
 
     @commands.command()
     async def speech(self, ctx, target: Member = None):
-        filepath, filename = await Coms.generate_filepath(ctx, target, "speech", "gif")
-        av = await Coms.read_av(ctx, target, 512)
+        filepath, filename = await Utils.generate_filepath(ctx, target, "speech", "gif")
+        av = await Utils.read_av(ctx, target, 512)
 
         bubble = Image.open(os.path.join(DIR, f'cogs\\Media\\speech.png')).convert('L').resize(av.size)
         rim = Image.open(os.path.join(DIR, f'cogs\\Media\\speech_rim.png')).convert("RGBA").resize(av.size)
@@ -99,13 +99,13 @@ class Avatars(commands.Cog):
     @speech.error
     async def info_error(ctx, error):
         if isinstance(error, commands.BadArgument):
-            await Coms.generic_error(ctx)
+            await Utils.generic_error(ctx)
 
 
     @commands.command()
     async def pride(self, ctx, flag: str = "Gay", target: Member = None):
-        filepath, filename = await Coms.generate_filepath(ctx, target, "pride", "png")
-        av = await Coms.read_av(ctx, target, 512)
+        filepath, filename = await Utils.generate_filepath(ctx, target, "pride", "png")
+        av = await Utils.read_av(ctx, target, 512)
         av.convert("RGBA")
         flags = {
             "gay": ["gay", "homosexual"],
@@ -144,13 +144,13 @@ class Avatars(commands.Cog):
 
             await ctx.send(file = fl, embed = em)
         else:
-            await Coms.generic_embed(ctx, "Missing or inappropriate argument!",
+            await Utils.generic_embed(ctx, "Missing or inappropriate argument!",
                                desc = "Try d!pride `[flag]` `[name]`")
 
     @pride.error
     async def info_error(ctx, error):
         if isinstance(error, commands.BadArgument):
-            await Coms.generic_error(ctx)
+            await Utils.generic_error(ctx)
 
     @commands.command()
     async def ascii(self, ctx, arg = None, size: int = 21, inv = False):
@@ -164,8 +164,8 @@ class Avatars(commands.Cog):
             await ctx.send("`invert` flag must be a boolean value (try True/False)")
             return
 
-        arg = await Coms.conv_member(ctx, arg)
-        av = await Coms.read_av(ctx, arg, size)
+        arg = await Utils.conv_member(ctx, arg)
+        av = await Utils.read_av(ctx, arg, size)
 
         img = av.convert("L")
         pixel_list = list(img.getdata())
@@ -230,7 +230,7 @@ class Avatars(commands.Cog):
     @ascii.error
     async def info_error(ctx, error):
         if isinstance(error, commands.MemberNotFound):
-            await Coms.generic_error(ctx)
+            await Utils.generic_error(ctx)
 
 
 def setup(client):

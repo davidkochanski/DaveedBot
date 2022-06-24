@@ -4,14 +4,21 @@
 import nextcord
 from nextcord.ext import commands
 import os
-from util.BotComs import Coms
-from util.BotComs import DIR
+from util.BotUtils import Utils
+from util.BotUtils import DIR
 from util.SuperSecretSettings import TOKEN
 
 
 
 def main():
-    client = commands.Bot(command_prefix = "d!", activity = nextcord.Activity(type=nextcord.ActivityType.listening, name="d!help :3"), status = nextcord.Status.online)
+
+    intents = nextcord.Intents.default()
+    intents.message_content = True
+
+    client = commands.Bot(command_prefix = "d!",
+                          intents = intents, 
+                          activity = nextcord.Activity(type=nextcord.ActivityType.listening, name="d!help :3"), 
+                          status = nextcord.Status.online)
     client.remove_command("help")
 
     print("DIR: " + DIR)
@@ -23,7 +30,7 @@ def main():
     @client.event
     async def on_command_error(ctx, error):
         if isinstance(error, commands.MissingRequiredArgument):
-            await Coms.generic_embed(ctx, title = "Oh no...", desc = "Missing or Inappropriate arguments!\n\nMaybe try again? TwT", colour = 0xffff00)
+            await Utils.generic_embed(ctx, title = "Oh no...", desc = "Missing or Inappropriate arguments!\n\nMaybe try again? TwT", colour = 0xffff00)
 
     DO_NOT_LOAD = []
 

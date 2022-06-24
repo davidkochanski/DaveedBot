@@ -1,5 +1,8 @@
 from types import MemberDescriptorType
 import nextcord
+
+
+
 from nextcord.ext import commands
 from nextcord.ext.commands import MemberConverter, MemberNotFound
 import random
@@ -7,31 +10,32 @@ import os
 from PIL import Image
 import requests
 
-
-class Coms:
+class Utils:
     global DIR
     DIR = os.path.dirname(__file__)[:-5]
 
     async def generic_embed(ctx, title, *, desc = None, colour = 0xff0000, name = None):
-        if desc != None:
-            em = nextcord.Embed(title = title,
-                            description = desc + "\n ",
-                            colour = colour)
-        else:
-            em = nextcord.Embed(title = title,
-                            colour = colour)
-        
-        filepath = os.path.join(DIR,"..\\cogs\\Media\\proto.png")
-        fl = nextcord.File(filepath, filename = "proto.png")
+        try:
+            if desc != None:
+                em = nextcord.Embed(title = title,
+                                description = desc + "\n ",
+                                colour = colour)
+            else:
+                em = nextcord.Embed(title = title,
+                                colour = colour)
+            
+            filepath = os.path.join(DIR,"cogs\\Media\\proto.png")
+            fl = nextcord.File(filepath, filename = "proto.png")
 
-        em.set_thumbnail(url = "attachment://{}".format("proto.png"))
-        em.set_footer(text = "DaveedBot™ | {}".format(ctx.author))
-        
-        if name != None:
-            em.set_author(name = name)
-        
-        await ctx.send(embed = em, file = fl)
-
+            em.set_thumbnail(url = "attachment://{}".format("proto.png"))
+            em.set_footer(text = "DaveedBot™ | {}".format(ctx.author))
+            
+            if name != None:
+                em.set_author(name = name)
+            
+            await ctx.send(embed = em, file = fl)
+        except Exception as e:
+            print(e)
 
     async def generic_error(ctx):
         face = ["TwT", ">w>", "<w<", ".w.", "-w-", "~w~", "XwX", "=w=", ";w;", "\_w\_", "\*w\*", "@w@", "QwQ", "qwq"]
@@ -40,7 +44,7 @@ class Coms:
                         description = "Something went wrong! {}".format(random.choice(face)),
                         colour = 0xffff00)
 
-        filepath = os.path.join(DIR,"..\\cogs\\Media\\proto.png")
+        filepath = os.path.join(DIR,"cogs\\Media\\proto.png")
         fl = nextcord.File(filepath, filename = "proto.png")
                 
         em.set_thumbnail(url = "attachment://{}".format("proto.png"))
@@ -50,7 +54,7 @@ class Coms:
 
 
 
-    async def conv_member(ctx, string):
+    async def conv_member(ctx, string, to_name:bool = False):
         '''
         Attempts to convert String to Member object.
         '''
@@ -64,7 +68,7 @@ class Coms:
         except TypeError:
             return string
 
-        return member
+        return member.name if to_name else member
 
 
 
@@ -82,19 +86,29 @@ class Coms:
 
 
     async def scenify(ctx, target, texts: list, is_self: str=None, special_cases: list(tuple())=None):
-        target = await Coms.conv_member_name(ctx, target)
+        '''
+        Displays a Discord embed.
+        In all texts, use "{n}" in place of, and "{t}" in place of target.
+        texts: list of texts, that one of which will be randomly selected
+        if none of the other conditions is satisfied.
+        is_self: a singluar string that is displayed if the user calls the target to be themselves.
+        special_cases: a list of tuples, where the first item in the tuple is the name that has to
+        be inputted for the special case override the message, and the second item is the message that
+        will be displayed instead.
+        '''
+        name = await Utils.conv_member(ctx, target, to_name=True)
         if is_self is not None:
-            if target == ctx.author.mention or target == ctx.author.name:
-                await Coms.generic_embed(ctx, title = is_self.replace("{n}", ctx.author.name).replace("{t}", target))
+            if name == ctx.author.mention or name == ctx.author.name:
+
+                await Utils.generic_embed(ctx, title = is_self.replace("{n}", ctx.author.name).replace("{t}", name))
                 return
-            
+        
         if special_cases is not None:
             for tups in special_cases:
                 if target == tups[0]:
-                    await Coms.generic_embed(ctx, title = tups[1].replace("{n}", ctx.author.name).replace("{t}", target))
+                    await Utils.generic_embed(ctx, title = tups[1].replace("{n}", ctx.author.name).replace("{t}", name))
                     return
-        
-        await Coms.generic_embed(ctx, title = texts[random.randint(0, len(texts)-1)].replace("{n}", ctx.author.name).replace("{t}", target))
+        await Utils.generic_embed(ctx, title = texts[random.randint(0, len(texts)-1)].replace("{n}", ctx.author.name).replace("{t}", name))
 
 
 

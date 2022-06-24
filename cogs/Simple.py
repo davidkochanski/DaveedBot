@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-import
 
-from util.BotComs import Coms
-from util.BotComs import DIR
+from util.BotUtils import Utils
+from util.BotUtils import DIR
 import nextcord
 from nextcord import Member
 from nextcord.ext import commands
@@ -27,12 +27,12 @@ class Simple(commands.Cog):
                     "\`w\`", "OmO", "VwV", "twt", "'w'",
                     "This is a SECRET MESSAGE! You got lucky!"]
 
-        await Coms.generic_embed(ctx, title = f"{random.choice(responses)}", desc = "", colour = 0xff0000)
+        await Utils.generic_embed(ctx, title = f"{random.choice(responses)}", desc = "", colour = 0xff0000)
 
 
     @commands.command()
     async def ban(self, ctx):
-        await Coms.generic_embed(ctx, title = "Ok? Who asked? Care?", desc = "now ᴘʟᴀʏɪɴɢ: Who asked (Feat: Nobody)\n ───────────⚪────── \n◄◄⠀▐▐⠀►► 𝟸:𝟷𝟾 / 𝟹:𝟻𝟼⠀───○ 🔊")
+        await Utils.generic_embed(ctx, title = "Ok? Who asked? Care?", desc = "now ᴘʟᴀʏɪɴɢ: Who asked (Feat: Nobody)\n ───────────⚪────── \n◄◄⠀▐▐⠀►► 𝟸:𝟷𝟾 / 𝟹:𝟻𝟼⠀───○ 🔊")
 
     
     @commands.command()
@@ -45,7 +45,7 @@ class Simple(commands.Cog):
 
     @commands.command(aliases = ["dave", "daveontop"])
     async def dave_(self, ctx):
-        await Coms.generic_embed(ctx, title = "#DAVEONTOP #FEARTHEDAVE", desc = "Ok? mad? sad? gonna cry? bad? ez? LLL LOOL #dave LLLLL #daveONTOP #daveSkyWars CRY? #daveBEDWARS #davePIT #daveSB #daveAIRLINES EASY #daveLEGITLUNAR #daveLLL #daveDOTGG #daveGG mad? :) LLLL CRY ABOUT IT? LOL?   #daveLEADERBOARDS #daveUNTOUCHABLE NO CONTEST LOL #daveCANNOTBESTOPPED #daveBEST #PAYFORTRUCE SO SAD LL?? DUELED ME LOL? #daveEZ #daveGG DOGWATER LOL GG HE PARTIED ME LMAOOOOOO SIT DOWN #daveONTOP LLLLLLLLLLLLLLLLLL MAD???? :) :) :) :) MAD? CRY L DANCE LLL #dave LLL #dave L BOXED L MAD????????? :) SOMEONE'S MAD :) :) :) L :) <3 HOW CAN YOU BE SO MAD :) lololol Accept that #dave is superior. :) L mad :) ? :) L")
+        await Utils.generic_embed(ctx, title = "#DAVEONTOP #FEARTHEDAVE", desc = "Ok? mad? sad? gonna cry? bad? ez? LLL LOOL #dave LLLLL #daveONTOP #daveSkyWars CRY? #daveBEDWARS #davePIT #daveSB #daveAIRLINES EASY #daveLEGITLUNAR #daveLLL #daveDOTGG #daveGG mad? :) LLLL CRY ABOUT IT? LOL?   #daveLEADERBOARDS #daveUNTOUCHABLE NO CONTEST LOL #daveCANNOTBESTOPPED #daveBEST #PAYFORTRUCE SO SAD LL?? DUELED ME LOL? #daveEZ #daveGG DOGWATER LOL GG HE PARTIED ME LMAOOOOOO SIT DOWN #daveONTOP LLLLLLLLLLLLLLLLLL MAD???? :) :) :) :) MAD? CRY L DANCE LLL #dave LLL #dave L BOXED L MAD????????? :) SOMEONE'S MAD :) :) :) L :) <3 HOW CAN YOU BE SO MAD :) lololol Accept that #dave is superior. :) L mad :) ? :) L")
 
 
     @commands.command(aliases = ["rl", "rocketleague", "rocket"])
@@ -66,7 +66,7 @@ class Simple(commands.Cog):
         else:
             descrip = f"{random.choice(responces)}"
 
-        await Coms.generic_embed(ctx, title = descrip, desc = "", colour = 0xff0000)
+        await Utils.generic_embed(ctx, title = descrip, desc = "", colour = 0xff0000)
 
     @commands.command()
     async def ratio(self, ctx, target: Member = None):
@@ -79,7 +79,7 @@ class Simple(commands.Cog):
 
     @commands.command()
     async def areyouonline(self, ctx):
-        await Coms.generic_embed(ctx, title = "Nope!", desc = "DaveedBot is currently offline and unable to respond to ANY commands. :3")
+        await Utils.generic_embed(ctx, title = "Nope!", desc = "DaveedBot is currently offline and unable to respond to ANY commands. :3")
 
     
     @commands.command()

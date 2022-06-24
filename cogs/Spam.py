@@ -1,11 +1,10 @@
-from util.BotComs import Coms 
-from util.BotComs import DIR
+from util.BotUtils import Utils 
+from util.BotUtils import DIR
 import nextcord
 from nextcord.ext import commands
 import os
 import random
 import asyncio
-import pokebase
 
 class Spam(commands.Cog):
     def __init__(self, client):
@@ -30,17 +29,17 @@ class Spam(commands.Cog):
                 await ctx.send("Didn't Send! LLL")
 
         else:
-            await Coms.generic_embed(ctx, title = "HEY!", desc = "You're not DAVE.")
+            await Utils.generic_embed(ctx, title = "HEY!", desc = "You're not DAVE.")
 
 
     @commands.command()
     async def attack(self, ctx, *, target):
         continuing = True
-        _member = await Coms.conv_member(ctx, target)
+        _member = await Utils.conv_member(ctx, target)
 
         try:
             if _member.id == 763914302175445002:
-                await Coms.generic_embed(ctx, title = "No.", desc = "What wrong did I ever do to you? QwQ")
+                await Utils.generic_embed(ctx, title = "No.", desc = "What wrong did I ever do to you? QwQ")
                 continuing = False
             else:
                 continuing = True
@@ -103,7 +102,7 @@ class Spam(commands.Cog):
     
     @commands.command()
     async def help(ctx):
-        await Coms.generic_embed(ctx, "Something went horribly, horribly wrong.", desc = "(or dave's too lazy to make a help command. Probably the latter")
+        await Utils.generic_embed(ctx, "Something went horribly, horribly wrong.", desc = "(or dave's too lazy to make a help command. Probably the latter")
 
 
 

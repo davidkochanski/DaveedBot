@@ -1,13 +1,9 @@
-from util.BotComs import Coms
+from util.BotUtils import Utils
 import nextcord
 from nextcord import Member
 from nextcord.ext import commands
 import os
 import random
-
-
-
-
 
 class Actions(commands.Cog):
     def __init__(self, client):
@@ -15,7 +11,7 @@ class Actions(commands.Cog):
 
     @commands.command()
     async def tf(self, ctx, *, target):
-        await Coms.scenify(ctx, target,["{n} transforms into {t}! They seem to love their new form~ uwu",
+        await Utils.scenify(ctx, target,["{n} transforms into {t}! They seem to love their new form~ uwu",
                                         "{n} screeches in pain, before slowly transforming into {t} o.O",
                                         "{n} drinks a mystical potion, and then transformes into {t}! OwO",
                                         "{n} collides with some funky goo, transforming them into {t}! O.O",
@@ -28,7 +24,7 @@ class Actions(commands.Cog):
 
     @commands.command()
     async def vore(self, ctx, *, target):
-        await Coms.scenify(ctx, target,["{n} vores {t} cutely! Yum :yum:",
+        await Utils.scenify(ctx, target,["{n} vores {t} cutely! Yum :yum:",
                                         "{n} vores {t} aggressively! ÒwÓ~",
                                         "{n} opens their maw as much as they can, and then devoures {t} in one bite!",
                                         "{n} throws {t} into their maw, eating them! O.O"],
@@ -37,13 +33,13 @@ class Actions(commands.Cog):
 
     @commands.command()
     async def yiff(self, ctx, *, target):
-        await Coms.scenify(ctx, target,["{n} yiffs {t}! o.O"],
+        await Utils.scenify(ctx, target,["{n} yiffs {t}! o.O"],
                                         
                                         "{n} yiffs... themselves? wh- how?")
     
     @commands.command()
     async def stomp(self, ctx, *, target):
-        await Coms.scenify(ctx, target,["{n} stomps {t} into the ground! UwU",
+        await Utils.scenify(ctx, target,["{n} stomps {t} into the ground! UwU",
                                         "The macro {n} stomps the micro {t} into the ground! owo",
                                         "The huge {n} lifts their paw up into the sky above tiny {t}, before stomping their pawb/hoof/talon/peet/other straight into {t}~",
                                         "{n} stepped on {t} without even noticing! {t} doesn't seem to mind though X3",
@@ -55,19 +51,19 @@ class Actions(commands.Cog):
 
     @commands.command()
     async def inflate(self, ctx, *, target):
-        await Coms.scenify(ctx, target,["{n} inflates {t}, making them big and round! \nhttps://youtu.be/NP-UxkYeLV0"],
+        await Utils.scenify(ctx, target,["{n} inflates {t}, making them big and round! \nhttps://youtu.be/NP-UxkYeLV0"],
 
                                         "{n} inflates themselves!! I knew carring that pump everywhere everyday would be worth it! \nhttps://youtu.be/NP-UxkYeLV0")
 
     @commands.command()
     async def nuzzle(self, ctx, *, target):
-        await Coms.scenify(ctx, target,["{n} nuzzles {t}! It does 20 base damage, and paralyzes them! owO"],
+        await Utils.scenify(ctx, target,["{n} nuzzles {t}! It does 20 base damage, and paralyzes them! owO"],
         
                                         "{n} nuzzles themselves! It does 20 base damage, and paralyzes themself! owO")
 
     @commands.command()
     async def hug(self, ctx, *, target):
-        await Coms.scenify(ctx, target,["{n} hugs {t} tightly! UwU~",
+        await Utils.scenify(ctx, target,["{n} hugs {t} tightly! UwU~",
                                         "{n} hugs {t}, whispering \"I love you so much, {t}\" ^w^",
                                         "{n} quietly wraps their arms around {t} OuO",
                                         "{n} wraps their arms tight around {t}, smushing them in love and appreciation :3",
@@ -77,7 +73,7 @@ class Actions(commands.Cog):
     
     @commands.command()
     async def kiss(self, ctx, *, target):
-        await Coms.scenify(ctx, target,["{n} grabs {t} close, and kisses them right on the snoot! UwU",
+        await Utils.scenify(ctx, target,["{n} grabs {t} close, and kisses them right on the snoot! UwU",
                                         "{n} gives {t} a little kiss! cuties~",
                                         "{n} tightly hugs {t}, before kissing them~ >///<"],
 
@@ -85,7 +81,7 @@ class Actions(commands.Cog):
 
     @commands.command()
     async def lick(self, ctx, *, target):
-        await Coms.scenify(ctx, target,["{n} unexpectedly licks {t}'s pawbs/hooves/feet/talons/etc! OwO",
+        await Utils.scenify(ctx, target,["{n} unexpectedly licks {t}'s pawbs/hooves/feet/talons/etc! OwO",
                                         "{n} grabs {t}'s pawbs/hooves/feet/talons/etc, before licking them completely clean! UwU",
                                         "{n} gives {t}'s pawbs/hooves/feet/talons/etc a lil\' lick >w<",
                                         "{n} kisses {t}'s pawbs/hooves/feet/talons/etc~",
@@ -98,7 +94,7 @@ class Actions(commands.Cog):
 
     @commands.command()
     async def boop(self, ctx, *, target):
-        await Coms.scenify(ctx, target,["{n} boops {t} right on the snoot! UwU",
+        await Utils.scenify(ctx, target,["{n} boops {t} right on the snoot! UwU",
                                         "{n} tried to boop {t}, but instead {t} booped them first! OwO",
                                         "{n}  booped {t}, and {t} booped them right back! ^w^"],
 
