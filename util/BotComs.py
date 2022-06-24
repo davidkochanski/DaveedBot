@@ -1,6 +1,7 @@
+from types import MemberDescriptorType
 import nextcord
 from nextcord.ext import commands
-from nextcord.ext.commands import MemberConverter, BadArgument
+from nextcord.ext.commands import MemberConverter, MemberNotFound
 import random
 import os
 from PIL import Image
@@ -39,7 +40,7 @@ class Coms:
                         description = "Something went wrong! {}".format(random.choice(face)),
                         colour = 0xffff00)
 
-        filepath = os.path.join(DIR,"..\\cogs\\\\Media\\proto.png")
+        filepath = os.path.join(DIR,"..\\cogs\\Media\\proto.png")
         fl = nextcord.File(filepath, filename = "proto.png")
                 
         em.set_thumbnail(url = "attachment://{}".format("proto.png"))
@@ -49,26 +50,35 @@ class Coms:
 
 
 
-    async def conv_member(ctx, target):
+    async def conv_member(ctx, string):
+        '''
+        Attempts to convert String to Member object.
+        '''
         try:
             converter = MemberConverter()
-            member = await converter.convert(ctx, target)
+            member = await converter.convert(ctx, string)
 
-        except BadArgument:
-            member = target
+        except MemberNotFound:
+            return string
+
+        except TypeError:
+            return string
 
         return member
 
 
-    async def conv_member_name(ctx, target):
+
+    async def is_member(ctx, target) -> bool:
         try:
             converter = MemberConverter()
-            member = await converter.convert(ctx, target)
+            await converter.convert(ctx, target)
+            return True
 
-        except BadArgument:
-            return target
+        except MemberNotFound:
+            return False
 
-        return member.name
+        except TypeError:
+            return False
 
 
     async def scenify(ctx, target, texts: list, is_self: str=None, special_cases: list(tuple())=None):
@@ -102,8 +112,7 @@ class Coms:
 
 
     async def read_av(ctx, target, size:int = 512, *, force_avatar:bool = False):
-        if target is None:
-            target = ctx.message.author
+            
         ALLOWED_TYPES = ["image/gif", "image/jpeg", "image/png"]
 
         if ctx.message.attachments and ctx.message.attachments[0].content_type in ALLOWED_TYPES and not force_avatar:
@@ -111,13 +120,16 @@ class Coms:
                 img = Image.open((requests.get(ctx.message.attachments[0].url, stream=True).raw))
                 img.seek(0)
                 return img.resize((size, size)).convert("RGBA")
-                
-
+            
             else:
                 img = Image.open((requests.get(ctx.message.attachments[0].url, stream=True).raw))
                 return img.resize((size, size))
 
+        # No attachments in message that are valid
         else:
+            if not isinstance(target, nextcord.member.Member) or target is None:
+                target = ctx.message.author
+            
             img = Image.open(requests.get(target.avatar.url, stream=True).raw)
             return img.resize((size, size))
         
