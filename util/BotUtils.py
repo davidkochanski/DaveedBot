@@ -1,8 +1,4 @@
-from types import MemberDescriptorType
 import nextcord
-
-
-
 from nextcord.ext import commands
 from nextcord.ext.commands import MemberConverter, MemberNotFound
 import random

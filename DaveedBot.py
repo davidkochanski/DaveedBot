@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Created by davefoxxo ^w^
 
 import nextcord
@@ -8,10 +7,7 @@ from util.BotUtils import Utils
 from util.BotUtils import DIR
 from util.SuperSecretSettings import TOKEN
 
-
-
 def main():
-
     intents = nextcord.Intents.default()
     intents.message_content = True
 
