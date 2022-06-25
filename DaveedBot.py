@@ -41,7 +41,7 @@ def main():
             client.load_extension(f"cogs.{filename[:-3]}")
             print(f"Loaded cogs.{filename[:-3]}!")
 
-    client.run(TOKEN) #!! EXCLUSIVE
+    client.run(TOKEN)
     
 
 if __name__ == "__main__":

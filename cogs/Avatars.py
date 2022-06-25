@@ -159,59 +159,18 @@ class Avatars(commands.Cog):
         string = ""
         counter = 0
 
-        # TODO Condense this garbage lmao
+        chars = ['@ ', '# ', 'X ', 'o ', '; ', ': ', '- ', '. ', '  ']
 
-        if not inv:
-            for i in pixel_list:
-                if i > 239:
-                    string += '  '
-                elif i > 223:
-                    string += '. '
-                elif i > 191:
-                    string += '- '
-                elif i > 159:
-                    string += ': '
-                elif i > 127:
-                    string += '; '
-                elif i > 95:
-                    string += 'o '
-                elif i > 63:
-                    string += 'X '
-                elif i > 31:
-                    string += '# '
-                else:
-                    string += '@ '
+        if inv:
+            chars.reverse()
 
-                counter += 1
-                if counter == size:
-                    counter = 0
-                    string += '\n'
+        for i in pixel_list:
+            string += chars[i // 32]
 
-        else:
-            for i in pixel_list:
-                if i > 239:
-                    string += '@ '
-                elif i > 223:
-                    string += '# '
-                elif i > 191:
-                    string += 'X '
-                elif i > 159:
-                    string += 'o '
-                elif i > 127:
-                    string += '; '
-                elif i > 95:
-                    string += ': '
-                elif i > 63:
-                    string += '- '
-                elif i > 31:
-                    string += '. '
-                else:
-                    string += '  '
-                
-                counter += 1
-                if counter == size:
-                    counter = 0
-                    string += '\n'
+            counter += 1
+            if counter == size:
+                counter = 0
+                string += '\n'
 
         await ctx.send(f"```{string}```")
 
