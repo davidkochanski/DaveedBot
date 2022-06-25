@@ -31,7 +31,7 @@ class Spam(commands.Cog):
         else:
             await Utils.generic_embed(ctx, title = "HEY!", desc = "You're not DAVE.")
 
-
+    # yeah dont ask please
     @commands.command()
     async def attack(self, ctx, *, target):
         continuing = True

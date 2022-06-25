@@ -13,7 +13,7 @@ def main():
 
     client = commands.Bot(command_prefix = "d!",
                           intents = intents, 
-                          activity = nextcord.Activity(type=nextcord.ActivityType.listening, name="d!help :3"), 
+                          activity = nextcord.Activity(type=nextcord.ActivityType.playing, name="a game on my visor"), 
                           status = nextcord.Status.online)
     client.remove_command("help")
 
@@ -27,6 +27,12 @@ def main():
     async def on_command_error(ctx, error):
         if isinstance(error, commands.MissingRequiredArgument):
             await Utils.generic_embed(ctx, title = "Oh no...", desc = "Missing or Inappropriate arguments!\n\nMaybe try again? TwT", colour = 0xffff00)
+
+        if isinstance(error, commands.CommandOnCooldown):
+            await ctx.send("**HEY!** Slow down a bit! >w>")
+
+        if isinstance(error, commands.BadArgument):
+            await Utils.generic_error(ctx)
 
     DO_NOT_LOAD = []
 

@@ -13,22 +13,19 @@ class Avatars(commands.Cog):
         self.client = client
 
     @commands.command()
+    @commands.cooldown(1, 2.5, commands.BucketType.user)
     async def av(self, ctx, target: Member = None):
         if target == None:
             target = ctx.author
         embed = nextcord.Embed(title = f"Avatar of {target.name}", 
                                 description = "" if target.id != 763914302175445002 else "Hey, that's me! :3",
                                 colour = 0xff0000)
-        embed.set_image(url = target.avatar_url_as(size = 512))
+        embed.set_image(url = target.avatar.url)
 
         await ctx.send(embed = embed)
-    @av.error
-    async def info_error(ctx, error):
-        if isinstance(error, commands.BadArgument):
-            await Utils.generic_error(ctx)
-
 
     @commands.command()
+    @commands.cooldown(1, 2.5, commands.BucketType.user)
     async def jar(self, ctx, target: Member = None):
         filepath, filename = await Utils.generate_filepath(ctx, target, "jar", "png")
 
@@ -44,14 +41,10 @@ class Avatars(commands.Cog):
 
         em.set_image(url = f"attachment://{filename}")
         await ctx.send(embed = em, file = fl)
-    @jar.error
-    async def info_error(ctx, error):
-        if isinstance(error, commands.BadArgument):
-            await Utils.generic_error(ctx)
-
 
 
     @commands.command()
+    @commands.cooldown(1, 2.5, commands.BucketType.user)
     async def pet(self, ctx, target: Member = None):
         filepath, filename = await Utils.generate_filepath(ctx, target, "pet", "gif")
 
@@ -72,14 +65,12 @@ class Avatars(commands.Cog):
 
         em.set_image(url = f"attachment://{filename}")
         await ctx.send(embed = em, file = fl)
-    @pet.error
-    async def info_error(ctx, error):
-        if isinstance(error, commands.BadArgument):
-            await Utils.generic_error(ctx)
+
 
 
 
     @commands.command()
+    @commands.cooldown(1, 2.5, commands.BucketType.user)
     async def speech(self, ctx, target: Member = None):
         filepath, filename = await Utils.generate_filepath(ctx, target, "speech", "gif")
         av = await Utils.read_av(ctx, target, 512)
@@ -96,13 +87,10 @@ class Avatars(commands.Cog):
 
         fl = nextcord.File(filepath, filename = filename)
         await ctx.send(file = fl, embed = em)
-    @speech.error
-    async def info_error(ctx, error):
-        if isinstance(error, commands.BadArgument):
-            await Utils.generic_error(ctx)
 
 
     @commands.command()
+    @commands.cooldown(1, 2.5, commands.BucketType.user)
     async def pride(self, ctx, flag: str = "Gay", target: Member = None):
         filepath, filename = await Utils.generate_filepath(ctx, target, "pride", "png")
         av = await Utils.read_av(ctx, target, 512)
@@ -147,12 +135,10 @@ class Avatars(commands.Cog):
             await Utils.generic_embed(ctx, "Missing or inappropriate argument!",
                                desc = "Try d!pride `[flag]` `[name]`")
 
-    @pride.error
-    async def info_error(ctx, error):
-        if isinstance(error, commands.BadArgument):
-            await Utils.generic_error(ctx)
+
 
     @commands.command()
+    @commands.cooldown(1, 2.5, commands.BucketType.user)
     async def ascii(self, ctx, arg = None, size: int = 21, inv = False):
         if size > 30 or size < 1:
             await ctx.send("`size` must be at most 30 and at least 1... are you trying to kill me or something?")
@@ -172,6 +158,8 @@ class Avatars(commands.Cog):
 
         string = ""
         counter = 0
+
+        # TODO Condense this garbage lmao
 
         if not inv:
             for i in pixel_list:
@@ -226,11 +214,6 @@ class Avatars(commands.Cog):
                     string += '\n'
 
         await ctx.send(f"```{string}```")
-
-    @ascii.error
-    async def info_error(ctx, error):
-        if isinstance(error, commands.MemberNotFound):
-            await Utils.generic_error(ctx)
 
 
 def setup(client):
