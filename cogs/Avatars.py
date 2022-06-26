@@ -159,13 +159,14 @@ class Avatars(commands.Cog):
         string = ""
         counter = 0
 
-        chars = ['@ ', '# ', 'X ', 'o ', '; ', ': ', '- ', '. ', '  ']
+        chars = ['$','8','#','b','w','0','X','u',')','}','-','<','l',',',".",' ']
 
         if inv:
             chars.reverse()
 
         for i in pixel_list:
-            string += chars[i // 32]
+            string += chars[i // 16]
+            string += ' '
 
             counter += 1
             if counter == size:
