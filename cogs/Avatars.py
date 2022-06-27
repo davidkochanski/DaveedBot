@@ -3,6 +3,7 @@ from util.BotUtils import DIR
 import nextcord
 from nextcord import Member
 from nextcord.ext import commands
+from nextcord.ext.commands import Context
 from nextcord.ext.commands.errors import BadBoolArgument
 import os
 from PIL import Image, ImageSequence
@@ -14,7 +15,7 @@ class Avatars(commands.Cog):
 
     @commands.command()
     @commands.cooldown(1, 2.5, commands.BucketType.user)
-    async def av(self, ctx, target: Member = None):
+    async def av(self, ctx: Context, target: Member = None):
         if target == None:
             target = ctx.author
         embed = nextcord.Embed(title = f"Avatar of {target.name}", 
@@ -26,7 +27,7 @@ class Avatars(commands.Cog):
 
     @commands.command()
     @commands.cooldown(1, 2.5, commands.BucketType.user)
-    async def jar(self, ctx, target: Member = None):
+    async def jar(self, ctx: Context, target: Member = None):
         filepath, filename = await Utils.generate_filepath(ctx, target, "jar", "png")
 
         jar = Image.open(os.path.join(DIR, "util\\Media\\mtjar.png"))
@@ -45,7 +46,7 @@ class Avatars(commands.Cog):
 
     @commands.command()
     @commands.cooldown(1, 2.5, commands.BucketType.user)
-    async def pet(self, ctx, target: Member = None):
+    async def pet(self, ctx: Context, target: Member = None):
         filepath, filename = await Utils.generate_filepath(ctx, target, "pet", "gif")
 
         gifHand = Image.open(fp = os.path.join(DIR, f'util\\Media\\petpet.gif'))
@@ -71,7 +72,7 @@ class Avatars(commands.Cog):
 
     @commands.command()
     @commands.cooldown(1, 2.5, commands.BucketType.user)
-    async def speech(self, ctx, target: Member = None):
+    async def speech(self, ctx: Context, target: Member = None):
         filepath, filename = await Utils.generate_filepath(ctx, target, "speech", "gif")
         av = await Utils.read_av(ctx, target, 512)
 
@@ -91,7 +92,7 @@ class Avatars(commands.Cog):
 
     @commands.command()
     @commands.cooldown(1, 2.5, commands.BucketType.user)
-    async def pride(self, ctx, flag: str = "Gay", target: Member = None):
+    async def pride(self, ctx: Context, flag: str = "Gay", target: Member = None):
         filepath, filename = await Utils.generate_filepath(ctx, target, "pride", "png")
         av = await Utils.read_av(ctx, target, 512)
         av.convert("RGBA")
@@ -139,7 +140,7 @@ class Avatars(commands.Cog):
 
     @commands.command()
     @commands.cooldown(1, 2.5, commands.BucketType.user)
-    async def ascii(self, ctx, arg = None, size: int = 21, inv = False):
+    async def ascii(self, ctx: Context, arg = None, size: int = 21, inv = False):
         if size > 30 or size < 1:
             await ctx.send("`size` must be at most 30 and at least 1... are you trying to kill me or something?")
             return

@@ -1,6 +1,6 @@
 import nextcord
 from nextcord.ext import commands
-from nextcord.ext.commands import MemberConverter, MemberNotFound
+from nextcord.ext.commands import MemberConverter, MemberNotFound, Context
 import random
 import os
 from PIL import Image
@@ -10,30 +10,29 @@ class Utils:
     global DIR
     DIR = os.path.dirname(__file__)[:-5]
 
-    async def generic_embed(ctx, title, *, desc = None, colour = 0xff0000, name = None):
-        try:
-            if desc != None:
-                em = nextcord.Embed(title = title,
-                                description = desc + "\n ",
-                                colour = colour)
-            else:
-                em = nextcord.Embed(title = title,
-                                colour = colour)
-            
-            filepath = os.path.join(DIR,"cogs\\Media\\proto.png")
-            fl = nextcord.File(filepath, filename = "proto.png")
+    async def generic_embed(ctx: Context, title: str, *, desc:str = None, colour = 0xff0000, name = None):
+        
+        if desc != None:
+            em = nextcord.Embed(title = title,
+                            description = desc + "\n ",
+                            colour = colour)
+        else:
+            em = nextcord.Embed(title = title,
+                            colour = colour)
+        
+        filepath = os.path.join(DIR,"cogs\\Media\\proto.png")
+        fl = nextcord.File(filepath, filename = "proto.png")
 
-            em.set_thumbnail(url = "attachment://{}".format("proto.png"))
-            em.set_footer(text = "DaveedBot™ | {}".format(ctx.author))
-            
-            if name != None:
-                em.set_author(name = name)
-            
-            await ctx.send(embed = em, file = fl)
-        except Exception as e:
-            print(e)
+        em.set_thumbnail(url = "attachment://{}".format("proto.png"))
+        em.set_footer(text = "DaveedBot™ | {}".format(ctx.author))
+        
+        if name != None:
+            em.set_author(name = name)
+        
+        await ctx.send(embed = em, file = fl)
 
-    async def generic_error(ctx):
+
+    async def generic_error(ctx: Context):
         face = ["TwT", ">w>", "<w<", ".w.", "-w-", "~w~", "XwX", "=w=", ";w;", "\_w\_", "\*w\*", "@w@", "QwQ", "qwq"]
 
         em = nextcord.Embed(title = "Oh no!",
@@ -50,7 +49,7 @@ class Utils:
 
 
 
-    async def conv_member(ctx, string, to_name:bool = False):
+    async def conv_member(ctx: Context, string: str, to_name:bool = False):
         '''
         Attempts to convert String to Member object.
         '''
@@ -68,7 +67,7 @@ class Utils:
 
 
 
-    async def is_member(ctx, target) -> bool:
+    async def is_member(ctx: Context, target) -> bool:
         try:
             converter = MemberConverter()
             await converter.convert(ctx, target)
@@ -81,10 +80,10 @@ class Utils:
             return False
 
 
-    async def scenify(ctx, target, texts: list, is_self: str=None, special_cases: list(tuple())=None):
+    async def scenify(ctx: Context, target, texts: list, is_self: str=None, special_cases: list(tuple())=None):
         '''
         Displays a Discord embed.
-        In all texts, use "{n}" in place of, and "{t}" in place of target.
+        In all texts, use "{n}" in place of author, and "{t}" in place of target.
         texts: list of texts, that one of which will be randomly selected
         if none of the other conditions is satisfied.
         is_self: a singluar string that is displayed if the user calls the target to be themselves.
@@ -108,7 +107,7 @@ class Utils:
 
 
 
-    async def generate_filepath(ctx, target, name: str, ext: str):
+    async def generate_filepath(ctx: Context, target, name: str, ext: str):
         if target == None:
             target = ctx.author
 
@@ -121,7 +120,7 @@ class Utils:
 
 
 
-    async def read_av(ctx, target, size:int = 512, *, force_avatar:bool = False):
+    async def read_av(ctx: Context, target, size:int = 512, *, force_avatar:bool = False):
             
         ALLOWED_TYPES = ["image/gif", "image/jpeg", "image/png"]
 
