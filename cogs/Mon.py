@@ -3,6 +3,7 @@ from util.BotUtils import nextcord
 import nextcord
 from nextcord.ext import commands
 import random
+import pokebase
 
 class Mon(commands.Cog):
     def __init__(self, client):
