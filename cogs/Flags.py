@@ -40,7 +40,7 @@ class Flags(commands.Cog):
                 await Utils.generic_embed(ctx, title = f"It starts with the letter '{flag[0]}'")
             elif msg == "d!len":
                 await Utils.generic_embed(ctx, title = f"It's name is {len(namefirst)} letters long")
-            elif msg == "d!mon":
+            elif msg == "d!flag":
                 break
             i+=1
 
