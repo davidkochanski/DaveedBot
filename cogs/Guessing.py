@@ -18,8 +18,10 @@ class Guessing(commands.Cog):
             namesplit = name.split("-")[0]
             namespace = name.replace("-", " ")
 
+            url = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/{}.png".format(mon)
+
             embed = nextcord.Embed(title = "Guess that Mon!", colour = 0xff0000)
-            embed.set_image(url = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/{}.png".format(mon))
+            embed.set_image(url = url)
 
             await ctx.send(embed = embed)
 
@@ -28,12 +30,15 @@ class Guessing(commands.Cog):
     @commands.command()
     async def flag(self, ctx):
         async with ctx.typing():
+            
             flag = random.choice(COUNTRIES).lower()
             namefirst = flag.split(" ")[0]
             namespace = flag.replace(" ", "")
 
+            url = "https://countryflagsapi.com/png/{}".format(flag.replace(" ", "%20"))
+
             embed = nextcord.Embed(title = "Guess that flag!", colour = 0xff0000)
-            embed.set_image(url = "https://countryflagsapi.com/png/{}".format(flag))
+            embed.set_image(url = url)
 
             await ctx.send(embed = embed)
 
