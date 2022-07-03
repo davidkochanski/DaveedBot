@@ -107,7 +107,7 @@ class Utils:
 
 
 
-    async def generate_filepath(ctx: Context, target, name: str, ext: str):
+    async def generate_filepath(ctx: Context, target, name: str, ext: str) -> tuple[str]:
         if target == None:
             target = ctx.author
 
@@ -120,7 +120,14 @@ class Utils:
 
 
 
-    async def read_av(ctx: Context, target, size:int = 512, *, force_avatar:bool = False):
+    async def read_av(ctx: Context, target, size:int = 512, *, force_avatar:bool = False) -> Image:
+        '''
+            Attempts to read a client's attachment image, or if none exist, their Discord profile picture
+
+            Pass context and the name of the target
+            size: How many pixels the image will be resized to
+            force_avatar: optionally always ignore the user's attachments and instead take their avatar.
+        '''
             
         ALLOWED_TYPES = ["image/gif", "image/jpeg", "image/png"]
 
@@ -141,6 +148,33 @@ class Utils:
             
             img = Image.open(requests.get(target.avatar.url, stream=True).raw)
             return img.resize((size, size))
+
+
+    async def handle_guesses(ctx: Context, client: nextcord.client, name: str, correct_guesses: tuple[str], *excluded_guesses: tuple[str]) -> None:
+        '''
+        Handles user messages input for guessing games in this bot.
+
+        Pass the context object and the client object to be able to read and send stuff
+        name: name of command that is being handled
+        correct_guesses: tuple that contains all correct guesses for the generated guessable
+        excluded_guesses: optionally guesses that are on blacklist from triggering a correct response
+        '''
+        for _ in range(64): # time out after 64 messages
+            message = await client.wait_for("message")
+            msg = message.content.lower()
+            if msg in correct_guesses and msg not in excluded_guesses:
+                await Utils.generic_embed(ctx, title = f"Correct! {correct_guesses[0].title()}", desc = f"{message.author.name} got it!")
+                break
+            elif msg == "d!idk":
+                await Utils.generic_embed(ctx, title = f"It's ||{correct_guesses[0].title()}!||")
+                break
+            elif msg == "d!hint":
+                await Utils.generic_embed(ctx, title = f"It starts with the letter '{correct_guesses[0][0]}'")
+            elif msg == "d!len":
+                await Utils.generic_embed(ctx, title = f"It's name is {len(correct_guesses[1])} letters long")
+            elif msg == f"d!{name}":
+                # New instance of command called
+                break
         
 
 
