@@ -171,7 +171,7 @@ class Utils:
             elif msg == "d!hint":
                 await Utils.generic_embed(ctx, title = f"It starts with the letter '{correct_guesses[0][0]}'")
             elif msg == "d!len":
-                await Utils.generic_embed(ctx, title = f"It's name is {len(correct_guesses[1])} letters long")
+                await Utils.generic_embed(ctx, title = f"It's name is {len(correct_guesses[0])} letters long")
             elif msg == f"d!{name}":
                 # New instance of command called
                 break
