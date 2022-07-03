@@ -32,11 +32,11 @@ class Utils:
         await ctx.send(embed = em, file = fl)
 
 
-    async def generic_error(ctx: Context):
+    async def generic_error(ctx: Context, error: Exception = None):
         face = ["TwT", ">w>", "<w<", ".w.", "-w-", "~w~", "XwX", "=w=", ";w;", "\_w\_", "\*w\*", "@w@", "QwQ", "qwq"]
 
         em = nextcord.Embed(title = "Oh no!",
-                        description = "Something went wrong! {}".format(random.choice(face)),
+                        description = "Something went wrong! {}\n\n`{}`".format(random.choice(face), error),
                         colour = 0xffff00)
 
         filepath = os.path.join(DIR,"cogs\\Media\\proto.png")

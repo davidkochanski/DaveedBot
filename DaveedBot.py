@@ -26,13 +26,13 @@ def main():
     @client.event
     async def on_command_error(ctx, error):
         if isinstance(error, commands.MissingRequiredArgument):
-            await Utils.generic_embed(ctx, title = "Oh no...", desc = "Missing or Inappropriate arguments!\n\nMaybe try again? TwT", colour = 0xffff00)
+            await Utils.generic_error(ctx, error)
 
         if isinstance(error, commands.CommandOnCooldown):
             await ctx.send("**HEY!** Slow down a bit! >w>")
 
         if isinstance(error, commands.BadArgument):
-            await Utils.generic_error(ctx)
+            await Utils.generic_error(ctx, error)
 
     DO_NOT_LOAD = []
 
