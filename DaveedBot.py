@@ -5,7 +5,7 @@ from nextcord.ext import commands
 import os
 from util.BotUtils import Utils
 from util.BotUtils import DIR
-from util.SuperSecretSettings import TOKEN
+from util.SuperSecretSettings import TOKEN, TOKEN2
 
 def main():
     intents = nextcord.Intents.default()
