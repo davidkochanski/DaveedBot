@@ -3,7 +3,7 @@ from nextcord.ext import commands
 from nextcord.ext.commands import MemberConverter, MemberNotFound, Context
 import random
 import os
-from PIL import Image
+from PIL import Image, ImageOps
 import requests
 
 class Utils:
@@ -120,13 +120,14 @@ class Utils:
 
 
 
-    async def read_av(ctx: Context, target, size:int = 512, *, force_avatar:bool = False):
+    async def read_av(ctx: Context, target, size:int = 512, *, force_avatar:bool = False, force_square:bool = False):
         '''
             Attempts to read a client's attachment image, or if none exist, their Discord profile picture
 
             Pass context and the name of the target
             size: How many pixels the image will be resized to
             force_avatar: optionally always ignore the user's attachments and instead take their avatar.
+            force_square: optionally force the aspect ratio of the returned image to be 1:1 instead of maintaining aspect ratio given
         '''
             
         ALLOWED_TYPES = ["image/gif", "image/jpeg", "image/png"]
@@ -139,7 +140,7 @@ class Utils:
             
             else:
                 img = Image.open((requests.get(ctx.message.attachments[0].url, stream=True).raw))
-                return img.resize((size, size))
+                return img.resize((size, size)) if force_square else ImageOps.contain(img, (size, size))
 
         # No attachments in message that are valid
         else:
@@ -147,7 +148,7 @@ class Utils:
                 target = ctx.message.author
             
             img = Image.open(requests.get(target.avatar.url, stream=True).raw)
-            return img.resize((size, size))
+            return img.resize((size, size)) if force_square else ImageOps.contain(img, (size, size))
 
 
     async def handle_guesses(ctx: Context, client: nextcord.client, name: str, correct_guesses: tuple[str], *excluded_guesses: tuple[str]) -> None:
