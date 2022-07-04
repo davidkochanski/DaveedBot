@@ -44,7 +44,7 @@ class Guessing(commands.Cog):
 
             await ctx.send(embed = embed)
 
-        await Utils.handle_guesses(ctx, self.client, "flag", (flag, namefirst, namespace) , ("saint"))
+        await Utils.handle_guesses(ctx, self.client, "flag", (flag, namefirst, namespace) , ("saint", "united", "the"))
 
 def setup(client):
     client.add_cog(Guessing(client))
