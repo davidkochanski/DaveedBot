@@ -32,14 +32,17 @@ class Avatars(commands.Cog):
 
         jar = Image.open(os.path.join(DIR, "cogs\\Media\\mtjar.png"))
         av = await Utils.read_av(ctx, target, 256)
-        
+
         jar.paste(av,(230, 420))
         jar.save(filepath)
-        
         fl = nextcord.File(filepath, filename = filename)
-        em = nextcord.Embed(title = f"{target.name} in a jar!" if target.id != 763914302175445002 else "-w-",
-                           colour = 0xff0000)
 
+        if target is not None:
+            title = "-w-" if target.id == 763914302175445002 else f"{target.name} in a jar!"
+        else:
+            title = ""
+
+        em = nextcord.Embed(title = title, colour = 0xff0000)
         em.set_image(url = f"attachment://{filename}")
         await ctx.send(embed = em, file = fl)
 
