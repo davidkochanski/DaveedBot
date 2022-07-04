@@ -79,8 +79,8 @@ class Avatars(commands.Cog):
         bubble = Image.open(os.path.join(DIR, f'cogs\\Media\\speech.png')).convert('L').resize(av.size)
         rim = Image.open(os.path.join(DIR, f'cogs\\Media\\speech_rim.png')).convert("RGBA").resize(av.size)
 
-        av.putalpha(bubble)
         av.paste(rim, (0,0), rim)
+        av.putalpha(bubble)
         av.save(filepath)
 
         em = nextcord.Embed(title = "", colour = 0xff0000)
