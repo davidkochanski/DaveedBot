@@ -120,7 +120,7 @@ class Utils:
 
 
 
-    async def read_av(ctx: Context, target, size:int = 512, *, force_avatar:bool = False) -> Image:
+    async def read_av(ctx: Context, target, size:int = 512, *, force_avatar:bool = False):
         '''
             Attempts to read a client's attachment image, or if none exist, their Discord profile picture
 
