@@ -30,12 +30,12 @@ class Avatars(commands.Cog):
     async def jar(self, ctx: Context, target: Member = None):
         filepath, filename = await Utils.generate_filepath(ctx, target, "jar", "png")
 
-        jar = Image.open(os.path.join(DIR, "util\\Media\\mtjar.png"))
+        jar = Image.open(os.path.join(DIR, "cogs\\Media\\mtjar.png"))
         av = await Utils.read_av(ctx, target, 256)
-
+        
         jar.paste(av,(230, 420))
         jar.save(filepath)
-
+        
         fl = nextcord.File(filepath, filename = filename)
         em = nextcord.Embed(title = f"{target.name} in a jar!" if target.id != 763914302175445002 else "-w-",
                            colour = 0xff0000)
@@ -49,7 +49,7 @@ class Avatars(commands.Cog):
     async def pet(self, ctx: Context, target: Member = None):
         filepath, filename = await Utils.generate_filepath(ctx, target, "pet", "gif")
 
-        gifHand = Image.open(fp = os.path.join(DIR, f'util\\Media\\petpet.gif'))
+        gifHand = Image.open(fp = os.path.join(DIR, f'cogs\\Media\\petpet.gif'))
         av = await Utils.read_av(ctx, target, 512)
 
         allFrames = []
@@ -92,9 +92,10 @@ class Avatars(commands.Cog):
 
     @commands.command()
     @commands.cooldown(1, 2.5, commands.BucketType.user)
-    async def pride(self, ctx: Context, flag: str = "Gay", target: Member = None):
+    async def pride(self, ctx: Context, flag: str, target: Member = None):
         filepath, filename = await Utils.generate_filepath(ctx, target, "pride", "png")
         av = await Utils.read_av(ctx, target, 512)
+        print(type(av))
         av.convert("RGBA")
         flags = {
             "gay": ["gay", "homosexual"],
@@ -122,7 +123,7 @@ class Avatars(commands.Cog):
                     break
         
         if flag_filename is not None:
-            flagimg = Image.open(os.path.join(DIR, f'util\\Media\\Pride\\{flag_filename}.png')).convert("RGBA").resize(av.size)
+            flagimg = Image.open(os.path.join(DIR, f'cogs\\Media\\Pride\\{flag_filename}.png')).convert("RGBA").resize(av.size)
             av.paste(flagimg, (0,0), flagimg)
             av.save(filepath)
 
@@ -134,7 +135,7 @@ class Avatars(commands.Cog):
             await ctx.send(file = fl, embed = em)
         else:
             await Utils.generic_embed(ctx, "Missing or inappropriate argument!",
-                               desc = "Try d!pride `[flag]` `[name]`")
+                                      desc = "Try d!pride `[flag]` `[name]`")
 
 
 
