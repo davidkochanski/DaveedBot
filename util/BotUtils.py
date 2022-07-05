@@ -52,6 +52,14 @@ class Utils:
     async def conv_member(ctx: Context, string: str, to_name:bool = False):
         '''
         Attempts to convert String to Member object.
+
+        Returns
+        -------
+        The original input if member conversion is unsuccessful;
+        - The member is not found, or
+        - Something that is not a string is passed.
+
+        A nextcord.member.Member type object if member conversion is successful.
         '''
         try:
             converter = MemberConverter()
@@ -80,16 +88,28 @@ class Utils:
             return False
 
 
-    async def scenify(ctx: Context, target, texts: list, is_self: str=None, special_cases: list(tuple())=None):
-        '''
-        Displays a Discord embed.
+    async def scenify(ctx: Context, target, texts: list, is_self: str=None, special_cases: list(tuple())=None) -> None:
+        '''Displays a Discord embed.
+
+        First checking for if user passed theirselves as the argument, then check if user passed some special case as the argument,
+        and finally defaulting to a random selection from a list of responses.
+
+        Note
+        ----
         In all texts, use "{n}" in place of author, and "{t}" in place of target.
-        texts: list of texts, that one of which will be randomly selected
-        if none of the other conditions is satisfied.
-        is_self: a singluar string that is displayed if the user calls the target to be themselves.
-        special_cases: a list of tuples, where the first item in the tuple is the name that has to
-        be inputted for the special case override the message, and the second item is the message that
-        will be displayed instead.
+        
+        Parameters
+        ----------
+        ctx : Context
+            Nextcord context object
+        target
+            The name that the user called when using an action command.
+        texts : list
+            list of texts, that one of which will be randomly selected if none of the other conditions is satisfied.
+        is_self : str
+            a singluar string that is displayed if the user calls the target to be themselves.
+        special_cases : list(tuple()) 
+            a list of tuples, where the first item in the tuple is the name that has to be inputted for the special case override the message, and the second item is the message that will be displayed instead.
         '''
         name = await Utils.conv_member(ctx, target, to_name=True)
         if is_self is not None:
@@ -108,6 +128,25 @@ class Utils:
 
 
     async def generate_filepath(ctx: Context, target, name: str, ext: str) -> tuple[str]:
+        '''Generates a filepath given a name, extention, and the local directory.
+
+        Parameters
+        ----------
+        ctx : Context
+            Nextcord context object
+        target
+            The name that the user called when using an action command.
+        name : str
+            The intended file name.
+        ext : str
+            The file extension. (png, gif, et cetera)
+
+        Returns
+        -------
+        tuple[str]
+            Where the index 0 is the full directory of the saved file,
+            and the index 1 is just the file name and extension
+        '''
         if target == None:
             target = ctx.author
 
@@ -124,10 +163,23 @@ class Utils:
         '''
             Attempts to read a client's attachment image, or if none exist, their Discord profile picture
 
-            Pass context and the name of the target
-            size: How many pixels the image will be resized to
-            force_avatar: optionally always ignore the user's attachments and instead take their avatar.
-            force_square: optionally force the aspect ratio of the returned image to be 1:1 instead of maintaining aspect ratio given
+            Parameters
+            ----------
+            ctx : Context
+                Nextcord context object
+            target
+                The name that the user called when using an action command.
+            size : int (default 512)
+                How many pixels the image will be resized to.
+            force_avatar : bool
+                optionally always ignore the user's attachments and instead take their avatar.
+            force_square : bool
+                optionally force the aspect ratio of the returned image to be 1:1 instead of maintaining aspect ratio given.
+            
+            Returns
+            -------
+            PIL png, jpeg, or gif object.
+            
         '''
             
         ALLOWED_TYPES = ["image/gif", "image/jpeg", "image/png"]
