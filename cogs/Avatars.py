@@ -37,6 +37,7 @@ class Avatars(commands.Cog):
         jar.save(filepath)
         fl = nextcord.File(filepath, filename = filename)
 
+        # TODO Maybe make this into a method safe_target_title()
         if target is not None:
             title = "-w-" if target.id == 763914302175445002 else f"{target.name} in a jar!"
         else:
@@ -65,7 +66,13 @@ class Avatars(commands.Cog):
         allFrames[0].save(filepath, save_all = True,append_images=allFrames[1:], duration=100, loop=0)
 
         fl = nextcord.File(filepath, filename = filename)
-        em = nextcord.Embed(title = f"{ctx.author.name} pets {target.name}!", colour = 0xff0000)
+
+        if target is not None:
+            title = f"{ctx.author.name} pets themselves!" if ctx.author == target else f"{ctx.author.name} pets {target.name}!"
+        else:
+            title = ""
+
+        em = nextcord.Embed(title = title, colour = 0xff0000)
 
         em.set_image(url = f"attachment://{filename}")
         await ctx.send(embed = em, file = fl)
