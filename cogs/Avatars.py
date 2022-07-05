@@ -31,7 +31,7 @@ class Avatars(commands.Cog):
         filepath, filename = await Utils.generate_filepath(ctx, target, "jar", "png")
 
         jar = Image.open(os.path.join(DIR, "cogs\\Media\\mtjar.png"))
-        av = await Utils.read_av(ctx, target, 256)
+        av = await Utils.read_av(ctx, target, 256, force_square = True)
 
         jar.paste(av,(230, 420))
         jar.save(filepath)
