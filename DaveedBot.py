@@ -19,6 +19,7 @@ NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
 LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
 '''
 
 # Created by davefoxxo ^w^
@@ -56,7 +57,7 @@ def main():
         if isinstance(error, commands.BadArgument):
             await Utils.generic_error(ctx, error)
 
-    DO_NOT_LOAD = []
+    DO_NOT_LOAD = [] # For Debug use
 
     for filename in os.listdir("./cogs"):
         if filename.endswith(".py") and filename not in DO_NOT_LOAD:
