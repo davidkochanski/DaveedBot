@@ -14,6 +14,7 @@ class Simple(commands.Cog):
         self.client = client
 
     @commands.command()
+    @commands.cooldown(1, 2.5, commands.BucketType.user)
     async def furry(self, ctx):
         responses = ["OwO", "owo", "OWO", "**OwO**", "oWo",
                     "UwU", "uwu", "UWU", "**UwU**", "uWu",
@@ -31,11 +32,13 @@ class Simple(commands.Cog):
 
 
     @commands.command()
+    @commands.cooldown(1, 2.5, commands.BucketType.user)
     async def ban(self, ctx):
         await Utils.generic_embed(ctx, title = "Ok? Who asked? Care?", desc = "now ᴘʟᴀʏɪɴɢ: Who asked (Feat: Nobody)\n ───────────⚪────── \n◄◄⠀▐▐⠀►► 𝟸:𝟷𝟾 / 𝟹:𝟻𝟼⠀───○ 🔊")
 
     
     @commands.command()
+    @commands.cooldown(1, 2.5, commands.BucketType.user)
     async def flip(self, ctx):
         responses = ["You got heads."] * 4 + ["You got tails."] * 4 + ["Oh? The coin landed on it's side!"]
         await ctx.send("Wait for it!")
@@ -44,11 +47,13 @@ class Simple(commands.Cog):
 
 
     @commands.command(aliases = ["dave", "daveontop"])
+    @commands.cooldown(1, 2.5, commands.BucketType.user)
     async def dave_(self, ctx):
         await Utils.generic_embed(ctx, title = "#DAVEONTOP #FEARTHEDAVE", desc = "Ok? mad? sad? gonna cry? bad? ez? LLL LOOL #dave LLLLL #daveONTOP #daveSkyWars CRY? #daveBEDWARS #davePIT #daveSB #daveAIRLINES EASY #daveLEGITLUNAR #daveLLL #daveDOTGG #daveGG mad? :) LLLL CRY ABOUT IT? LOL?   #daveLEADERBOARDS #daveUNTOUCHABLE NO CONTEST LOL #daveCANNOTBESTOPPED #daveBEST #PAYFORTRUCE SO SAD LL?? DUELED ME LOL? #daveEZ #daveGG DOGWATER LOL GG HE PARTIED ME LMAOOOOOO SIT DOWN #daveONTOP LLLLLLLLLLLLLLLLLL MAD???? :) :) :) :) MAD? CRY L DANCE LLL #dave LLL #dave L BOXED L MAD????????? :) SOMEONE'S MAD :) :) :) L :) <3 HOW CAN YOU BE SO MAD :) lololol Accept that #dave is superior. :) L mad :) ? :) L")
 
 
     @commands.command(aliases = ["rl", "rocketleague", "rocket"])
+    @commands.cooldown(1, 2.5, commands.BucketType.user)
     async def rl_(self, ctx):
         scene = random.randint(1,8)
 
@@ -69,6 +74,7 @@ class Simple(commands.Cog):
         await Utils.generic_embed(ctx, title = descrip, desc = "", colour = 0xff0000)
 
     @commands.command()
+    @commands.cooldown(1, 30, commands.BucketType.user)
     async def ratio(self, ctx, target: Member = None):
         if target != None:
             msg = await ctx.send(f"{target.mention} ratio")
@@ -78,11 +84,13 @@ class Simple(commands.Cog):
         await msg.add_reaction("👍")
 
     @commands.command()
+    @commands.cooldown(1, 2.5, commands.BucketType.user)
     async def areyouonline(self, ctx):
         await Utils.generic_embed(ctx, title = "Nope!", desc = "DaveedBot is currently offline and unable to respond to ANY commands. :3")
 
     
     @commands.command()
+    @commands.cooldown(1, 2.5, commands.BucketType.user)
     async def cry(self, ctx):
         scene = random.randint(1,24)
 
@@ -97,6 +105,7 @@ class Simple(commands.Cog):
 
 
     @commands.command()
+    @commands.cooldown(1, 2.5, commands.BucketType.user)
     async def limote(self, ctx):
         responses =['<:16bitsLi:919701730189541438>','<:64bitsLi:919701724581732383>','<:8bitsLi:919701736183185460>','<:blepLi:919701617530519562>',
                     '<:blushLi:928664465602400288>','<:boopLi:919701635582795836>','<:bruhLi:919701823504412692>','<:chadLi:919701594956771438>',
