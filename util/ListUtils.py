@@ -62,7 +62,6 @@ COUNTRIES = [
 	"Estonia",
 	"Eswatini",
 	"Ethiopia",
-	"Faroe Islands",
 	"Fiji",
 	"Finland",
 	"France",
