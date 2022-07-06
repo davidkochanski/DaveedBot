@@ -41,7 +41,7 @@ class Leaderboards(commands.Cog):
                 else:
                     desc += ":military_medal: "
 
-                desc += f'{pos+1}. <@!{user}> | {top_users[user][0]} | {top_users[user][1]}\n'
+                desc += f'{pos+1}. <@!{user}> | {top_users[user][0]} | {len(top_users[user][1])}\n'
 
             await Utils.generic_embed(ctx, title = "Mon Leaderboards", desc = desc)
 
@@ -71,7 +71,7 @@ class Leaderboards(commands.Cog):
                 else:
                     desc += ":military_medal: "
 
-                desc += f'{pos+1}. <@!{user}> | {top_users[user][0]} | {top_users[user][1]}\n'
+                desc += f'{pos+1}. <@!{user}> | {top_users[user][0]} | {len(top_users[user][1])}\n'
 
             await Utils.generic_embed(ctx, title = "Flag Leaderboards", desc = desc)
 

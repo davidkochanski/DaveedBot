@@ -5,6 +5,7 @@ import random
 import os
 from PIL import Image, ImageOps
 import requests
+import json
 
 class Utils:
     global DIR
@@ -217,6 +218,27 @@ class Utils:
             msg = message.content.lower()
             if msg in correct_guesses and msg not in excluded_guesses:
                 await Utils.generic_embed(ctx, title = f"Correct! {correct_guesses[0].title()}", desc = f"{message.author.name} got it!")
+
+
+                with open(f"cogs\\Leaderboards\\{name}.json", "r") as fl:
+                    lb_file = json.load(fl)
+
+                user_key = str(message.author.id)
+
+                if not user_key in lb_file:
+                    lb_file[user_key] = [0, []]
+
+
+                lb_file[user_key][0] += 1 # alltime_points
+
+                alltime_seen = lb_file[user_key][1]
+                if correct_guesses[0] not in alltime_seen:
+                    alltime_seen.append(correct_guesses[0])
+                
+                with open(f"cogs\\Leaderboards\\{name}.json", "w") as fl:
+                    json.dump(lb_file, fl)
+
+
                 break
             elif msg == "d!idk":
                 await Utils.generic_embed(ctx, title = f"It's ||{correct_guesses[0].title()}!||")
