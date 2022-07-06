@@ -159,7 +159,7 @@ class Utils:
 
 
 
-    async def read_av(ctx: Context, target, size:int = 512, *, force_avatar:bool = False, force_square:bool = False):
+    async def read_av(ctx: Context, target, size:int = 512, *, force_avatar:bool = False, force_square:bool = False, force_first_frame:bool = False):
         '''
             Attempts to read a client's attachment image, or if none exist, their Discord profile picture
 
@@ -187,9 +187,9 @@ class Utils:
         if ctx.message.attachments and ctx.message.attachments[0].content_type in ALLOWED_TYPES and not force_avatar:
             if ctx.message.attachments[0].content_type == "image/gif":
                 img = Image.open((requests.get(ctx.message.attachments[0].url, stream=True).raw))
-                img.seek(0)
-                return img.resize((size, size)).convert("RGBA")
-            
+                img.seek(0) # First frame of GIF
+                return img.resize((size, size)).convert("RGBA") if force_square else ImageOps.contain(img, (size, size))
+
             else:
                 img = Image.open((requests.get(ctx.message.attachments[0].url, stream=True).raw))
                 return img.resize((size, size)) if force_square else ImageOps.contain(img, (size, size))
