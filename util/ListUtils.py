@@ -1,3 +1,5 @@
+DO_NOT_LOAD = [] # debug
+
 COUNTRIES = [
 	"Afghanistan",
 	"Albania",
@@ -40,7 +42,6 @@ COUNTRIES = [
 	"Chile",
 	"China",
 	"Christmas Island",
-	"Cocos Islands",
 	"Colombia",
 	"Comoros",
 	"Democratic Republic of Congo",
@@ -212,7 +213,6 @@ COUNTRIES = [
 	"Vanuatu",
 	"Venezuela",
 	"Vietnam",
-	"Virgin Islands",
 	"Western Sahara",
 	"Yemen",
 	"Zambia",

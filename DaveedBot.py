@@ -3,8 +3,8 @@
 import nextcord
 from nextcord.ext import commands
 import os
-from util.BotUtils import Utils
-from util.BotUtils import DIR
+from util.BotUtils import Utils, DIR
+from util.ListUtils import DO_NOT_LOAD
 from util.SuperSecretSettings import TOKEN, TOKEN2
 
 def main():
@@ -33,8 +33,6 @@ def main():
 
         if isinstance(error, commands.BadArgument):
             await Utils.generic_error(ctx, error)
-
-    DO_NOT_LOAD = []
 
     for filename in os.listdir("./cogs"):
         if filename.endswith(".py") and filename not in DO_NOT_LOAD:
