@@ -57,8 +57,6 @@ def main():
         if isinstance(error, commands.BadArgument):
             await Utils.generic_error(ctx, error)
 
-    DO_NOT_LOAD = [] # For Debug use
-
     for filename in os.listdir("./cogs"):
         if filename.endswith(".py") and filename not in DO_NOT_LOAD:
             client.load_extension(f"cogs.{filename[:-3]}")
