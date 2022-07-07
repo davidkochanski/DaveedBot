@@ -250,6 +250,32 @@ class Utils:
             elif msg == f"d!{name}":
                 # New instance of command called
                 break
+
+
+    async def display_leaderboard(ctx: Context, name: str):
+        with open(f"cogs\\Leaderboards\\{name}.json", "r") as fl:
+            lb_mon = json.load(fl)
+
+        top_users = {k: v for k, v in sorted(lb_mon.items(), key=lambda item: item[1], reverse=True)}
+        print(top_users)
+
+        desc = f"Name **|** All-time {name.title()}s Guessed **|** Unique {name.title()}s Guessed__\n"
+        for pos, user in enumerate(top_users):
+            if pos == 10:
+                break
+
+            if pos == 0:
+                desc += ":first_place: "
+            elif pos == 1:
+                desc += ":second_place: "
+            elif pos == 2:
+                desc += ":third_place: "
+            else:
+                desc += ":military_medal: "
+
+            desc += f'{pos+1}. <@!{user}> | {top_users[user][0]} | {len(top_users[user][1])}\n'
+
+        await Utils.generic_embed(ctx, title = f"{name.title()} Leaderboards", desc = desc)
         
 
 
