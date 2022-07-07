@@ -171,7 +171,6 @@ COUNTRIES = [
 	"Saint Vincent and the Grenadines",
 	"Samoa",
 	"San Marino",
-	"Sao Tome and Principe",
 	"Saudi Arabia",
 	"Senegal",
 	"Serbia",
