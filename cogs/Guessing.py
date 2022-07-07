@@ -8,7 +8,18 @@ import random
 class Guessing(commands.Cog):
     def __init__(self, client):
         self.client = client
+    
+    @commands.command(aliases = ["lb", "leaderboards"])
+    async def leaderboard(self, ctx, lb):
+        LEADERBOARDS = ["mon", "flag"]
 
+        if lb in LEADERBOARDS:
+            await Utils.display_leaderboard(ctx, lb)
+
+        else:
+            await Utils.generic_error(ctx, f"'{lb}' is not a valid leaderboard.")
+
+    @commands.cooldown(1, 1, commands.BucketType.user)
     @commands.command()
     async def mon(self, ctx):
         async with ctx.typing():
@@ -28,6 +39,7 @@ class Guessing(commands.Cog):
 
         await Utils.handle_guesses(ctx, self.client, "mon", (name, namesplit, namespace), ("tapu", "mr", "mime"))
 
+    @commands.cooldown(1, 1, commands.BucketType.user)
     @commands.command()
     async def flag(self, ctx):
         async with ctx.typing():
