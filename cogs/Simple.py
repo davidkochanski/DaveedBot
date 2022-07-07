@@ -14,7 +14,6 @@ class Simple(commands.Cog):
         self.client = client
 
     @commands.command()
-    @commands.cooldown(1, 2.5, commands.BucketType.user)
     async def furry(self, ctx):
         responses = ["OwO", "owo", "OWO", "**OwO**", "oWo",
                     "UwU", "uwu", "UWU", "**UwU**", "uWu",
@@ -29,6 +28,12 @@ class Simple(commands.Cog):
                     "This is a SECRET MESSAGE! You got lucky!"]
 
         await Utils.generic_embed(ctx, title = f"{random.choice(responses)}", desc = "", colour = 0xff0000)
+
+    @commands.command(aliases = ["source", "git", "github", "repo", "star"])
+    async def git_hub(self, ctx):
+        await Utils.generic_embed(ctx, title = "Code Repository: https://github.com/davefoxxo/DaveedBot/",
+                                  desc = "Please consider giving DaveedBot a :star: on GitHub!\nI'd really appreaciate it c:")
+
 
 
     @commands.command()
