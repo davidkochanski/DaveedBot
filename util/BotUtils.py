@@ -50,7 +50,7 @@ class Utils:
 
 
 
-    async def conv_member(ctx: Context, string: str, to_name:bool = False):
+    async def conv_member(ctx: Context, string, to_name:bool = False):
         '''
         Attempts to convert String to Member object.
 
@@ -64,7 +64,7 @@ class Utils:
         '''
         try:
             converter = MemberConverter()
-            member = await converter.convert(ctx, string)
+            member = await converter.convert(ctx, str(string))
 
         except MemberNotFound:
             return string
@@ -188,8 +188,9 @@ class Utils:
         if ctx.message.attachments and ctx.message.attachments[0].content_type in ALLOWED_TYPES and not force_avatar:
             if ctx.message.attachments[0].content_type == "image/gif":
                 img = Image.open((requests.get(ctx.message.attachments[0].url, stream=True).raw))
-                img.seek(0) # First frame of GIF
-                return img.resize((size, size)).convert("RGBA") if force_square else ImageOps.contain(img, (size, size))
+                if force_first_frame: 
+                    img.seek(0) # First frame of GIF
+                return img.resize((size, size)).convert("RGBA") if force_square else ImageOps.contain(img, (size, size)).convert("RGBA")
 
             else:
                 img = Image.open((requests.get(ctx.message.attachments[0].url, stream=True).raw))
@@ -224,14 +225,15 @@ class Utils:
                     lb_file = json.load(fl)
 
                 user_key = str(message.author.id)
+                user_name = str(await Utils.conv_member(ctx, message.author.id))
 
                 if not user_key in lb_file:
-                    lb_file[user_key] = [0, []]
+                    lb_file[user_key] = [0, user_name, []] # Create instance of user score if it does not exis
 
-
+                lb_file[user_key][1] = user_name
                 lb_file[user_key][0] += 1 # alltime_points
 
-                alltime_seen = lb_file[user_key][1]
+                alltime_seen = lb_file[user_key][2]
                 if correct_guesses[0] not in alltime_seen:
                     alltime_seen.append(correct_guesses[0])
                 
@@ -266,7 +268,7 @@ class Utils:
             elif pos == 2: desc += ":third_place: "
             else: desc += ":military_medal: "
 
-            desc += f'{pos+1}. <@!{user}> | {top_users[user][0]} | {len(top_users[user][1])}\n'
+            desc += f'{pos+1}. **{top_users[user][1][:-5]}**{top_users[user][1][-5:]} | `{top_users[user][0]}` | `{len(top_users[user][2])}`\n'
 
         await Utils.generic_embed(ctx, title = f"{name.title()} Leaderboards", desc = desc)
         
