@@ -99,7 +99,7 @@ class Simple(commands.Cog):
     async def cry(self, ctx):
         scene = random.randint(1,24)
 
-        crypath = os.path.join(DIR, "Media\\Cry\\cryaboutit{}.gif".format(scene))
+        crypath = os.path.join(DIR, "cogs\\Media\\Cry\\cryaboutit{}.gif".format(scene))
         cryfile = "cryaboutit{}.gif".format(scene)
         
         file = nextcord.File(crypath, filename = cryfile)
