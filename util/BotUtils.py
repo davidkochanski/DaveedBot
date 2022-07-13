@@ -205,7 +205,7 @@ class Utils:
             return img.resize((size, size)) if force_square else ImageOps.contain(img, (size, size))
 
 
-    async def handle_guesses(ctx: Context, client: nextcord.client, name: str, correct_guesses: tuple[str], *excluded_guesses: tuple[str]) -> None:
+    async def handle_guesses(ctx: Context, client: nextcord.client, name: str, correct_guesses: list[str], excluded_guesses: list[str]) -> None:
         '''
         Handles user messages input for guessing games in this bot.
 

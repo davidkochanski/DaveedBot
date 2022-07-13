@@ -37,7 +37,7 @@ class Guessing(commands.Cog):
 
             await ctx.send(embed = embed)
 
-        await Utils.handle_guesses(ctx, self.client, "mon", (name, namesplit, namespace), ("tapu", "mr", "mime"))
+        await Utils.handle_guesses(ctx, self.client, "mon", [name, namesplit, namespace], ["tapu", "mr", "mime"])
 
     @commands.cooldown(1, 1, commands.BucketType.user)
     @commands.command()
@@ -56,7 +56,7 @@ class Guessing(commands.Cog):
 
             await ctx.send(embed = embed)
 
-        await Utils.handle_guesses(ctx, self.client, "flag", (flag, namefirst, namespace) , ("saint", "united", "the"))
+        await Utils.handle_guesses(ctx, self.client, "flag", [flag, namefirst, namespace] , ["saint", "united", "the"])
 
 def setup(client):
     client.add_cog(Guessing(client))
