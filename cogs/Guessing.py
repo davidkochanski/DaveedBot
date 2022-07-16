@@ -1,9 +1,12 @@
-from util.BotUtils import Utils
-from util.BotUtils import nextcord
+from io import BytesIO
+from util.BotUtils import Utils, DIR
 import nextcord
 from nextcord.ext import commands
 from util.ListUtils import POKEMON, COUNTRIES
 import random
+import requests
+from PIL import Image
+import os
 
 class Guessing(commands.Cog):
     def __init__(self, client):
@@ -19,42 +22,44 @@ class Guessing(commands.Cog):
         else:
             await Utils.generic_error(ctx, f"'{lb}' is not a valid leaderboard.")
 
-    @commands.cooldown(1, 1, commands.BucketType.user)
+    @commands.cooldown(1, 2, commands.BucketType.user)
     @commands.command()
     async def mon(self, ctx):
-        async with ctx.typing():
-            mon = random.randint(1, 898)
 
-            name = POKEMON[mon-1].lower()
-            namesplit = name.split("-")[0]
-            namespace = name.replace("-", " ")
+        mon = random.randint(1, 898)
 
-            url = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/{}.png".format(mon)
-            print(name)
+        name = POKEMON[mon-1].lower()
+        namesplit = name.split("-")[0]
+        namespace = name.replace("-", " ")
 
-            embed = nextcord.Embed(title = "Guess that Mon!", colour = 0xff0000)
-            embed.set_image(url = url)
+        url = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/{}.png".format(mon)
+        print(name)
 
-            await ctx.send(embed = embed)
+        embed = nextcord.Embed(title = "Guess that Mon!", colour = 0xff0000)
+        embed.set_image(url = url)
+
+        await ctx.send(embed = embed)
 
         await Utils.handle_guesses(ctx, self.client, "mon", [name, namesplit, namespace], ["tapu", "mr", "mime"])
 
-    @commands.cooldown(1, 1, commands.BucketType.user)
+    @commands.cooldown(1, 2, commands.BucketType.user)
     @commands.command()
     async def flag(self, ctx):
-        async with ctx.typing():
 
-            flag = random.choice(COUNTRIES).lower()
-            namefirst = flag.split(" ")[0]
-            namespace = flag.replace(" ", "")
+        flag = random.choice(COUNTRIES).lower()
+        namefirst = flag.split(" ")[0]
+        namespace = flag.replace(" ", "")
+        print(flag)
 
-            url = "https://countryflagsapi.com/png/{}".format(flag.replace(" ", "%20"))
-            print(flag)
+        flag_url = requests.get("https://countryflagsapi.com/png/{}".format(flag.replace(" ", "%20")))
+        flag_img = Image.open(BytesIO(flag_url.content))
+        flag_img.save(os.path.join(DIR, "cogs\\save\\NICE_TRY_LUCA.png"))
 
-            embed = nextcord.Embed(title = "Guess that flag!", colour = 0xff0000)
-            embed.set_image(url = url)
+        file = nextcord.File(os.path.join(DIR, "cogs\\save\\NICE_TRY_LUCA.png"))
+        embed = nextcord.Embed(title = "Guess that flag!", colour = 0xff0000)
+        embed.set_image(url = f"attachment://NICE_TRY_LUCA.png")
 
-            await ctx.send(embed = embed)
+        await ctx.send(embed = embed, file = file)
 
         await Utils.handle_guesses(ctx, self.client, "flag", [flag, namefirst, namespace] , ["saint", "united", "the"])
 

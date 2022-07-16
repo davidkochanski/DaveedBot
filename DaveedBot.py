@@ -51,11 +51,15 @@ def main():
         if isinstance(error, commands.MissingRequiredArgument):
             await Utils.generic_error(ctx, error)
 
-        if isinstance(error, commands.CommandOnCooldown):
+        elif isinstance(error, commands.CommandOnCooldown):
             await ctx.send("**HEY!** Slow down a bit! >w>")
 
-        if isinstance(error, commands.BadArgument):
+        elif isinstance(error, commands.BadArgument):
             await Utils.generic_error(ctx, error)
+
+        else:
+            print(error)
+        
 
     for filename in os.listdir("./cogs"):
         if filename.endswith(".py") and filename not in DO_NOT_LOAD:
