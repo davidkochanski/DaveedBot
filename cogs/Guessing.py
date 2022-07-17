@@ -39,7 +39,7 @@ class Guessing(commands.Cog):
 
         file = nextcord.File(os.path.join(DIR, "cogs\\save\\mon.png"))
         embed = nextcord.Embed(title = "Guess that Mon!", colour = 0xff0000)
-        embed.set_image(url = url)
+        embed.set_image(url = f"attachment://mon.png")
 
         await ctx.send(embed = embed, file = file)
 
