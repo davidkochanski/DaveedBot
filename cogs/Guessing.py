@@ -65,5 +65,15 @@ class Guessing(commands.Cog):
 
         await Utils.handle_guesses(ctx, self.client, "flag", [flag, namefirst, namespace] , ["saint", "united", "the"])
 
+    # Dummy commands
+    @commands.command()
+    async def idk(self, ctx): pass
+
+    @commands.command()
+    async def hint(self, ctx): pass
+
+    @commands.command()
+    async def len(self, ctx): pass
+
 def setup(client):
     client.add_cog(Guessing(client))
