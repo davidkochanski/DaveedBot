@@ -1,3 +1,4 @@
+from re import M
 import nextcord
 from nextcord.ext import commands
 from nextcord.ext.commands import MemberConverter, MemberNotFound, Context
@@ -214,12 +215,15 @@ class Utils:
         correct_guesses: tuple that contains all correct guesses for the generated guessable
         excluded_guesses: optionally guesses that are on blacklist from triggering a correct response
         '''
+        def check(msg: nextcord.Message):
+            return msg.channel.id == ctx.channel.id 
+
         for _ in range(64): # time out after 64 messages
-            message = await client.wait_for("message")
+            message = await client.wait_for("message", check = check)
             msg = message.content.lower()
             if msg in correct_guesses and msg not in excluded_guesses:
-                await Utils.generic_embed(ctx, title = f"Correct! {correct_guesses[0].title()}", desc = f"{message.author.name} got it!")
 
+                await Utils.generic_embed(ctx, title = f"Correct! {correct_guesses[0].title()}", desc = f"{message.author.name} got it!")
 
                 with open(f"cogs\\Leaderboards\\{name}.json", "r") as fl:
                     lb_file = json.load(fl)
@@ -228,7 +232,7 @@ class Utils:
                 user_name = str(await Utils.conv_member(ctx, message.author.id))
 
                 if not user_key in lb_file:
-                    lb_file[user_key] = [0, user_name, []] # Create instance of user score if it does not exis
+                    lb_file[user_key] = [0, user_name, []] # Create instance of user score if it does not exist
 
                 lb_file[user_key][1] = user_name
                 lb_file[user_key][0] += 1 # alltime_points
@@ -239,9 +243,8 @@ class Utils:
                 
                 with open(f"cogs\\Leaderboards\\{name}.json", "w") as fl:
                     json.dump(lb_file, fl)
-
-
                 break
+
             elif msg == "d!idk":
                 await Utils.generic_embed(ctx, title = f"It's ||{correct_guesses[0].title()}!||")
                 break
@@ -252,6 +255,16 @@ class Utils:
             elif msg == f"d!{name}":
                 # New instance of command called
                 break
+            else:
+                correct = correct_guesses[0]
+                if abs(len(correct) - len(msg)) <= 1:
+                    wrong = 0
+                    for i in range(min(len(correct), len(msg))):
+                        if correct[i] != msg[i]: wrong += 1
+
+                    if wrong <= 2:
+                        await ctx.send(f"{message.author} CLOSE!")
+
 
 
     async def display_leaderboard(ctx: Context, name: str):
