@@ -57,8 +57,7 @@ def main():
         elif isinstance(error, commands.BadArgument):
             await Utils.generic_error(ctx, error)
 
-        else:
-            print(error)
+        print("{}: {}".format(error.__class__.__name__, error))
         
 
     for filename in os.listdir("./cogs"):
