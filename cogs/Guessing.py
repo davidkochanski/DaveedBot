@@ -11,16 +11,19 @@ import os
 class Guessing(commands.Cog):
     def __init__(self, client):
         self.client = client
+        self.boards = ["mon", "flag"]
     
     @commands.command(aliases = ["lb", "leaderboards"])
-    async def leaderboard(self, ctx, lb):
-        LEADERBOARDS = ["mon", "flag"]
+    async def leaderboard(self, ctx, leaderboard):
+        '''
 
-        if lb in LEADERBOARDS:
-            await Utils.display_leaderboard(ctx, lb)
+        '''
+
+        if leaderboard in self.boards:
+            await Utils.display_leaderboard(ctx, leaderboard)
 
         else:
-            await Utils.generic_error(ctx, f"'{lb}' is not a valid leaderboard.")
+            await Utils.generic_error(ctx, f"'{leaderboard}' is not a valid leaderboard.")
 
     @commands.cooldown(1, 2, commands.BucketType.user)
     @commands.command()
