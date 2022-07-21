@@ -8,6 +8,8 @@ from nextcord.ext import commands
 import random
 import time
 import os
+from google_images_search import GoogleImagesSearch
+from icrawler.builtin import GoogleImageCrawler
 
 class Simple(commands.Cog):
     def __init__(self, client):
@@ -126,7 +128,26 @@ class Simple(commands.Cog):
 
         await ctx.send(random.choice(responses))
 
-        
+    @commands.command()
+    @commands.cooldown(1, 5, commands.BucketType.user)
+    async def order(self, ctx, *, thing):
+        async with ctx.typing():
+            path = os.path.join(DIR, "cogs\\Save\\order")
+            print(path)
+
+            google_crawler = GoogleImageCrawler(storage = {'root_dir': path})
+            google_crawler.crawl(keyword=thing, max_num=1)
+
+            path2 = os.path.join(path, "000001.jpg")
+
+            fl = nextcord.File(path2, filename="000001.jpg")
+            em = nextcord.Embed(title = f"Order up! {thing}", color = 0xff0000)
+
+            em.set_image("attachment://000001.jpg")
+
+            await ctx.send(embed = em, file = fl)
+
+            os.remove(path2)
 
 
 def setup(client):
