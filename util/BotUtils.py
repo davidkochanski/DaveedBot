@@ -1,3 +1,4 @@
+import enum
 from re import M
 import nextcord
 from nextcord.ext import commands
@@ -269,19 +270,38 @@ class Utils:
 
     async def display_leaderboard(ctx: Context, name: str):
         with open(f"cogs\\Leaderboards\\{name}.json", "r") as fl: lb_mon = json.load(fl)
-
+        not_top_ten = True
         top_users = {k: v for k, v in sorted(lb_mon.items(), key=lambda item: item[1], reverse=True)}
 
         desc = f"Name **|** All-time {name.title()}s Guessed **|** Unique {name.title()}s Guessed\n"
         for pos, user in enumerate(top_users):
             if pos == 10: break
-
+                
             if pos == 0: desc +=   ":first_place: "
             elif pos == 1: desc += ":second_place: "
             elif pos == 2: desc += ":third_place: "
             else: desc += ":military_medal: "
 
-            desc += f'{pos+1}. **{top_users[user][1][:-5]}**{top_users[user][1][-5:]} | `{top_users[user][0]}` | `{len(top_users[user][2])}`\n'
+            if user == str(ctx.author.id): 
+                desc += "__"
+                not_top_ten = False
+
+            desc += f'{pos+1}. **{top_users[user][1][:-5]}**{top_users[user][1][-5:]} | `{top_users[user][0]}` | `{len(top_users[user][2])}`'
+
+            desc += "__ :arrow_left:\n" if user == str(ctx.author.id) else "\n"
+
+
+        if not_top_ten:
+            desc += "...\n"
+
+            for pos, user in enumerate(top_users):
+                if user == str(ctx.author.id):
+                    desc += f'__{pos+1}. **{top_users[user][1][:-5]}**{top_users[user][1][-5:]} | `{top_users[user][0]}` | `{len(top_users[user][2])}`__ :arrow_left:'
+                    break
+                
+            else:
+                desc += f'__∞. **{str(ctx.author)[:-5]}**{str(ctx.author)[-5:]} | `0` | `0`__ :arrow_left:\n'
+                desc += f"You haven't played any games yet!"
 
         await Utils.generic_embed(ctx, title = f"{name.title()} Leaderboards", desc = desc)
         

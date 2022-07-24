@@ -15,9 +15,6 @@ class Guessing(commands.Cog):
     
     @commands.command(aliases = ["lb", "leaderboards"])
     async def leaderboard(self, ctx, leaderboard):
-        '''
-
-        '''
 
         if leaderboard in self.boards:
             await Utils.display_leaderboard(ctx, leaderboard)
