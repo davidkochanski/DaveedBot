@@ -99,10 +99,7 @@ class Spam(commands.Cog):
                     await asyncio.sleep(random.uniform(0.2, 1.2))
 
                 await msg.edit(embed = emX)
-    
-    @commands.command()
-    async def help(ctx):
-        await Utils.generic_embed(ctx, "Something went horribly, horribly wrong.", desc = "(or dave's too lazy to make a help command. Probably the latter")
+
 
 
 
