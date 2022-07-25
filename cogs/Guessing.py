@@ -25,6 +25,9 @@ class Guessing(commands.Cog):
     @commands.cooldown(1, 2, commands.BucketType.user)
     @commands.command()
     async def mon(self, ctx):
+        '''
+        test
+        '''
 
         mon = random.randint(1, 898)
 
