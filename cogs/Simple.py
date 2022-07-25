@@ -8,12 +8,15 @@ from nextcord.ext import commands
 import random
 import time
 import os
-from google_images_search import GoogleImagesSearch
 from icrawler.builtin import GoogleImageCrawler
+from PIL import Image
+
+from util.ListUtils import BLACKLIST
 
 class Simple(commands.Cog):
     def __init__(self, client):
         self.client = client
+        self.is_searching = False
 
     @commands.command()
     async def furry(self, ctx):
@@ -129,25 +132,47 @@ class Simple(commands.Cog):
         await ctx.send(random.choice(responses))
 
     @commands.command()
-    @commands.cooldown(1, 5, commands.BucketType.user)
+    @commands.cooldown(1, 10, commands.BucketType.user)
     async def order(self, ctx, *, thing):
-        async with ctx.typing():
-            path = os.path.join(DIR, "cogs\\Save\\order")
-            print(path)
+        if thing in BLACKLIST:
+            await ctx.send("You horny bastard.")
 
-            google_crawler = GoogleImageCrawler(storage = {'root_dir': path})
-            google_crawler.crawl(keyword=thing, max_num=1)
+        else:
+            if not self.is_searching:
+                self.is_searching = True
+                async with ctx.typing():
+                    path = os.path.join(DIR, "cogs\\Save\\order")
+                    try:
+                        google_crawler = GoogleImageCrawler(parser_threads=1, downloader_threads=1, storage = {'root_dir': path})
+                        google_crawler.crawl(keyword=thing, max_num=1)
 
-            path2 = os.path.join(path, "000001.jpg")
+                        pathjpg = os.path.join(path, "000001.jpg")
+                        pathpng = os.path.join(path, "000001.png")
 
-            fl = nextcord.File(path2, filename="000001.jpg")
-            em = nextcord.Embed(title = f"Order up! {thing}", color = 0xff0000)
+                        try:
+                            img = Image.open(pathjpg).convert("RGB")
+                            img.save(pathpng)
+                        except: pass
 
-            em.set_image("attachment://000001.jpg")
+                        fl = nextcord.File(pathpng, filename="000001.png")
+                        em = nextcord.Embed(title = f"Order up! {thing}", color = 0xff0000)
 
-            await ctx.send(embed = em, file = fl)
+                        em.set_image("attachment://000001.png")
 
-            os.remove(path2)
+                        await ctx.send(embed = em, file = fl)
+                        
+                    except Exception as e:
+                        await Utils.generic_error(ctx, f"Could not find a(n) {thing}.")
+
+                    try:
+                        os.remove(pathjpg)
+                    except: pass
+                    try:
+                        os.remove(pathpng)
+                    except: pass
+                    self.is_searching = False
+            else:
+                await ctx.send("**HEY!** Wait just a tick <w>")
 
 
 def setup(client):
