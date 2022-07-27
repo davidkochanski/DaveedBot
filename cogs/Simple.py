@@ -132,12 +132,19 @@ class Simple(commands.Cog):
         await ctx.send(random.choice(responses))
 
     @commands.command()
-    @commands.cooldown(1, 10, commands.BucketType.user)
+    @commands.cooldown(1, 5, commands.BucketType.user)
     async def order(self, ctx, *, thing):
-        if thing in BLACKLIST:
+        for string in thing.lower().split(" "):
+            if string in BLACKLIST:
+                await ctx.send("You horny bastard.")
+                return
+        
+        if thing.lower().replace(" ", "") in BLACKLIST:
             await ctx.send("You horny bastard.")
-
-        else:
+            return
+            
+        EASTER_EGGS = ["john cena"]
+        if thing.lower() not in EASTER_EGGS:
             if not self.is_searching:
                 self.is_searching = True
                 async with ctx.typing():
@@ -161,7 +168,7 @@ class Simple(commands.Cog):
 
                         await ctx.send(embed = em, file = fl)
                         
-                    except Exception as e:
+                    except Exception:
                         await Utils.generic_error(ctx, f"Could not find a(n) {thing}.")
 
                     try:
@@ -173,6 +180,14 @@ class Simple(commands.Cog):
                     self.is_searching = False
             else:
                 await ctx.send("**HEY!** Wait just a tick <w>")
+
+        else: 
+            fl = nextcord.File(os.path.join(DIR, "cogs\\Media\\trans.jpg"), filename="trans.jpg")
+            em = nextcord.Embed(title = f"Order up! {thing}", color = 0xff0000)
+
+            em.set_image("attachment://trans.jpg")
+
+            await ctx.send(embed = em, file = fl)
 
 
 def setup(client):

@@ -101,12 +101,5 @@ class Spam(commands.Cog):
                 await msg.edit(embed = emX)
 
 
-
-
-
-
-
-
-
 def setup(client):
     client.add_cog(Spam(client))
