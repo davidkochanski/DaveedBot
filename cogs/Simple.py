@@ -19,6 +19,54 @@ class Simple(commands.Cog):
         self.is_searching = False
 
     @commands.command()
+    async def quiz(self, ctx):
+        scenes = [
+            ("What Pokemon is this?", "slugma", "SLUGMA NUTS"),
+            ("What Pokemon is this?", "gulpin", "GULPIN DEEZ NUTS"),
+            ("What Pokemon is this?", "rookidee", "ROOKIDEEZ NUTS"),
+            ("What Pokemon is this?", "machoke", "MACHOKE ON MY COCK"),
+            ("What Pokemon is this?", "rhydon", "RHYDON DEEZ NUTS"),
+            ("What is this gym leader's name?", "candice", "CANDICE DICK FIT IN YO MOUTH"),
+            ("What is the mythical creature on the Welsh flag?", "dragon", "DRAGON DEEZ NUTS ON YOUR FACE"),
+            ("What is the name of this sweet desert?", "pudding", "PUDDING DEEZ NUTS ON YOUR FACE"),
+            ("What country has this flag?", "kenya", "KENYA FIT DEEZ NUTS IN YOUR MOUTH"),
+            ("What is the name of this famous Canadian meal?", "poutine", "POUTINE DEEZ NUTS IN YOUR MOUTH"),
+            ("Who is this?", "putin", "PUTIN DEEZ NUTS IN YOUR MOUTH")
+        ]
+
+        n = random.choice(scenes)
+
+        fl = nextcord.File(os.path.join(DIR, f"cogs\\Media\\Deez\\{n[1]}.jpg"), filename = f"{n[1]}.jpg")
+        em = nextcord.Embed(title = n[0], color=0xff0000)
+
+        em.set_image(f"attachment://{n[1]}.jpg")
+
+        await ctx.send(embed = em, file = fl)
+
+        def check(msg: nextcord.Message):
+            return msg.channel.id == ctx.channel.id 
+
+        for _ in range(64): # time out after 64 messages
+            message = await self.client.wait_for("message", check = check)
+            msg = message.content.lower()
+
+            if msg == n[1]:
+                await ctx.send(f"{message.author.mention} {n[2]}")
+                break
+
+            elif msg == "d!quiz":
+                break
+            
+
+        
+        
+
+
+
+
+
+
+    @commands.command()
     async def furry(self, ctx):
         responses = ["OwO", "owo", "OWO", "**OwO**", "oWo",
                     "UwU", "uwu", "UWU", "**UwU**", "uWu",
@@ -134,6 +182,8 @@ class Simple(commands.Cog):
     @commands.command()
     @commands.cooldown(1, 5, commands.BucketType.user)
     async def order(self, ctx, *, thing):
+        # TODO refactor lmfao what is this nested if bullshit
+
         for string in thing.lower().split(" "):
             if string in BLACKLIST:
                 await ctx.send("You horny bastard.")
