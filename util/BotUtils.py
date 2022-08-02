@@ -263,7 +263,7 @@ class Utils:
                     for i in range(min(len(correct), len(msg))):
                         if correct[i] != msg[i]: wrong += 1
 
-                    if wrong <= 2:
+                    if wrong <= 1:
                         await ctx.send(f"{message.author} CLOSE!")
 
 
