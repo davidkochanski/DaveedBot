@@ -56,14 +56,6 @@ class Simple(commands.Cog):
 
             elif msg == "d!quiz":
                 break
-            
-
-        
-        
-
-
-
-
 
 
     @commands.command()
@@ -184,6 +176,16 @@ class Simple(commands.Cog):
     async def order(self, ctx, *, thing):
         # TODO refactor lmfao what is this nested if bullshit
 
+        EASTER_EGGS = ["john cena"]
+
+        if thing.lower() in EASTER_EGGS:
+            fl = nextcord.File(os.path.join(DIR, "cogs\\Media\\trans.jpg"), filename="trans.jpg")
+            em = nextcord.Embed(title = f"Order up! {thing}", color = 0xff0000)
+            em.set_image("attachment://trans.jpg")
+
+            await ctx.send(embed = em, file = fl)
+            return
+
         for string in thing.lower().split(" "):
             if string in BLACKLIST:
                 await ctx.send("You horny bastard.")
@@ -193,51 +195,45 @@ class Simple(commands.Cog):
             await ctx.send("You horny bastard.")
             return
             
-        EASTER_EGGS = ["john cena"]
-        if thing.lower() not in EASTER_EGGS:
-            if not self.is_searching:
-                self.is_searching = True
-                async with ctx.typing():
-                    path = os.path.join(DIR, "cogs\\Save\\order")
-                    try:
-                        google_crawler = GoogleImageCrawler(parser_threads=1, downloader_threads=1, storage = {'root_dir': path})
-                        google_crawler.crawl(keyword=thing, max_num=1)
+        if not self.is_searching:
+            self.is_searching = True
+            async with ctx.typing():
+                path = os.path.join(DIR, "cogs\\Save\\order")
+                try:
+                    google_crawler = GoogleImageCrawler(parser_threads=1, downloader_threads=1, storage = {'root_dir': path})
+                    google_crawler.crawl(keyword=thing, max_num=1)
 
-                        pathjpg = os.path.join(path, "000001.jpg")
-                        pathpng = os.path.join(path, "000001.png")
-
-                        try:
-                            img = Image.open(pathjpg).convert("RGB")
-                            img.save(pathpng)
-                        except: pass
-
-                        fl = nextcord.File(pathpng, filename="000001.png")
-                        em = nextcord.Embed(title = f"Order up! {thing}", color = 0xff0000)
-
-                        em.set_image("attachment://000001.png")
-
-                        await ctx.send(embed = em, file = fl)
-                        
-                    except Exception:
-                        await Utils.generic_error(ctx, f"Could not find a(n) {thing}.")
+                    pathjpg = os.path.join(path, "000001.jpg")
+                    pathpng = os.path.join(path, "000001.png")
 
                     try:
-                        os.remove(pathjpg)
+                        img = Image.open(pathjpg).convert("RGB")
+                        img.save(pathpng)
                     except: pass
-                    try:
-                        os.remove(pathpng)
-                    except: pass
-                    self.is_searching = False
-            else:
-                await ctx.send("**HEY!** Wait just a tick <w>")
 
-        else: 
-            fl = nextcord.File(os.path.join(DIR, "cogs\\Media\\trans.jpg"), filename="trans.jpg")
-            em = nextcord.Embed(title = f"Order up! {thing}", color = 0xff0000)
+                    fl = nextcord.File(pathpng, filename="000001.png")
+                    em = nextcord.Embed(title = f"Order up! {thing}", color = 0xff0000)
 
-            em.set_image("attachment://trans.jpg")
+                    em.set_image("attachment://000001.png")
 
-            await ctx.send(embed = em, file = fl)
+                    await ctx.send(embed = em, file = fl)
+                    
+                except Exception:
+                    await Utils.generic_error(ctx, f"Could not find a(n) {thing}.")
+
+                try:
+                    os.remove(pathjpg)
+                except: pass
+                try:
+                    os.remove(pathpng)
+                except: pass
+
+                self.is_searching = False
+                return
+
+        await ctx.send("**HEY!** Wait just a tick <w>")
+
+
 
 
 def setup(client):
