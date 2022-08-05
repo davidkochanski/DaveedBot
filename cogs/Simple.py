@@ -31,15 +31,21 @@ class Simple(commands.Cog):
             ("What is the name of this sweet desert?", "pudding", "PUDDING DEEZ NUTS ON YOUR FACE"),
             ("What country has this flag?", "kenya", "KENYA FIT DEEZ NUTS IN YOUR MOUTH"),
             ("What is the name of this famous Canadian meal?", "poutine", "POUTINE DEEZ NUTS IN YOUR MOUTH"),
-            ("Who is this?", "putin", "PUTIN DEEZ NUTS IN YOUR MOUTH")
+            ("Who is this?", "putin", "PUTIN DEEZ NUTS IN YOUR MOUTH"),
+            ("What is the brand name of this product?", "vaseline", "VASE*LEAN* IN AND KISS DEEZ NUTS"),
+            ("What is the name of this video game character?", "king dedede", "YOU'RE KING OF DEDEDEEZ NUTS"),
+            ("What is Bank of America's short form?", "bofa", "BOFA DEEZ NUTS"),
+            ("What popular Pop Band made songs like 'Believer', 'Radioactive' and 'Demons?'", "imagine dragons", "IMAGINE DRAGON DEEZ NUTS ACROSS YOUR FACE")
         ]
 
         n = random.choice(scenes)
 
-        fl = nextcord.File(os.path.join(DIR, f"cogs\\Media\\Deez\\{n[1]}.jpg"), filename = f"{n[1]}.jpg")
+        fp = str(n[1]).replace(" ", "_")
+
+        fl = nextcord.File(os.path.join(DIR, f"cogs\\Media\\Deez\\{fp}.jpg"), filename = f"{fp}.jpg")
         em = nextcord.Embed(title = n[0], color=0xff0000)
 
-        em.set_image(f"attachment://{n[1]}.jpg")
+        em.set_image(f"attachment://{fp}.jpg")
 
         await ctx.send(embed = em, file = fl)
 
@@ -174,7 +180,6 @@ class Simple(commands.Cog):
     @commands.command()
     @commands.cooldown(1, 5, commands.BucketType.user)
     async def order(self, ctx, *, thing):
-        # TODO refactor lmfao what is this nested if bullshit
 
         EASTER_EGGS = ["john cena"]
 
