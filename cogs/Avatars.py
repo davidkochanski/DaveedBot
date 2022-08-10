@@ -187,6 +187,42 @@ class Avatars(commands.Cog):
 
         await ctx.send(f"```{string}```")
 
+    @commands.command()
+    @commands.cooldown(1, 2.5, commands.BucketType.user)
+    async def sub(self, ctx: Context, target: Member = None):
+        filepath, filename = await Utils.generate_filepath(ctx, target, "sub", "jpg")
+
+        template = Image.open(os.path.join(DIR, "cogs\Media\subway_template.jpg"))
+        av = await Utils.read_av(ctx, target, 256, force_square=True)
+
+        template.paste(av, (74, 118))
+        template.save(filepath)
+        fl = nextcord.File(filepath, filename = filename)
+
+        em = nextcord.Embed(color = 0xff0000)
+        em.set_image(f"attachment://{filename}")
+
+        await ctx.send(file = fl, embed = em)
+
+    @commands.command()
+    @commands.cooldown(1, 2.5, commands.BucketType.user)
+    async def dom(self, ctx: Context, target: Member = None):
+        filepath, filename = await Utils.generate_filepath(ctx, target, "dom", "jpg")
+
+        template = Image.open(os.path.join(DIR, "cogs\Media\dominos_template.jpg"))
+        av = await Utils.read_av(ctx, target, 256, force_square=True)
+
+        template.paste(av, (195, 118))
+        template.save(filepath)
+        fl = nextcord.File(filepath, filename = filename)
+
+        em = nextcord.Embed(color = 0xff0000)
+        em.set_image(f"attachment://{filename}")
+
+        await ctx.send(file = fl, embed = em)
+
+
+
 
 def setup(client):
     client.add_cog(Avatars(client))
