@@ -57,6 +57,9 @@ def main():
         elif isinstance(error, commands.BadArgument):
             await Utils.generic_error(ctx, error)
 
+        elif isinstance(error, commands.CommandNotFound):
+            await Utils.generic_error(ctx, f"{str(error)}, did you make a typo?")
+
         print("{}: {}".format(error.__class__.__name__, error))
         
 
