@@ -16,6 +16,10 @@ class Avatars(commands.Cog):
     @commands.command()
     @commands.cooldown(1, 2.5, commands.BucketType.user)
     async def av(self, ctx: Context, target: Member = None):
+        '''
+        Optional argument: `target`\n
+        Returns the avatar of who you specified, or yourself if you didnt specify anyone.
+        '''
         if target == None:
             target = ctx.author
         embed = nextcord.Embed(title = f"Avatar of {target.name}", 
@@ -28,6 +32,10 @@ class Avatars(commands.Cog):
     @commands.command()
     @commands.cooldown(1, 2.5, commands.BucketType.user)
     async def jar(self, ctx: Context, target: Member = None):
+        '''
+        Optional argument: `target`\n
+        Puts whoever you want, or any attached image into a jar!
+        '''        
         filepath, filename = await Utils.generate_filepath(ctx, target, "jar", "png")
 
         jar = Image.open(os.path.join(DIR, "cogs\\Media\\mtjar.png"))
@@ -51,6 +59,10 @@ class Avatars(commands.Cog):
     @commands.command()
     @commands.cooldown(1, 2.5, commands.BucketType.user)
     async def pet(self, ctx: Context, target: Member = None):
+        '''
+        Optional argument: `target`\n
+        Pet whoever you want, or any attached image, or even yourself!
+        '''
         filepath, filename = await Utils.generate_filepath(ctx, target, "pet", "gif")
 
         gifHand = Image.open(fp = os.path.join(DIR, f'cogs\\Media\\petpet.gif'))
@@ -83,6 +95,10 @@ class Avatars(commands.Cog):
     @commands.command()
     @commands.cooldown(1, 2.5, commands.BucketType.user)
     async def speech(self, ctx: Context, target: Member = None):
+        '''
+        Optional argument: `target`\n
+        Places a Speech Bubble overlay over any attached images, or the avatar of whoever you specified.
+        '''
         filepath, filename = await Utils.generate_filepath(ctx, target, "speech", "gif")
         av = await Utils.read_av(ctx, target, 512)
 
@@ -103,6 +119,12 @@ class Avatars(commands.Cog):
     @commands.command()
     @commands.cooldown(1, 2.5, commands.BucketType.user)
     async def pride(self, ctx: Context, flag: str, target: Member = None):
+        '''
+        Requred argument: `flag`\n
+        Optional argument: `target`\n
+
+        Overlays a pride flag of your choosing over an attached image, or the avatar of whoever you specified.
+        '''
         filepath, filename = await Utils.generate_filepath(ctx, target, "pride", "png")
         av = await Utils.read_av(ctx, target, 512)
         print(type(av))
@@ -152,6 +174,15 @@ class Avatars(commands.Cog):
     @commands.command()
     @commands.cooldown(1, 2.5, commands.BucketType.user)
     async def ascii(self, ctx: Context, arg = None, size: int = 21, inv = False):
+        '''
+        Optional argument: `target`
+        Optional argument: `size`, default 21x21
+        Optional argument: `inv`, default False
+
+        Converts an image or an avatar of a person into ASCII art!
+        `size` will change the dimentions of the image. Don't go too big!
+        `inv` will invert the output. Use a boolean. (true / false)
+        '''
         if size > 30 or size < 1:
             await ctx.send("`size` must be at most 30 and at least 1... are you trying to kill me or something?")
             return
@@ -190,6 +221,11 @@ class Avatars(commands.Cog):
     @commands.command()
     @commands.cooldown(1, 2.5, commands.BucketType.user)
     async def sub(self, ctx: Context, target: Member = None):
+        '''
+        Optional argument: `target`
+
+        Overlays an attachment or the avatar of the member specified onto a Subway logo.
+        '''
         filepath, filename = await Utils.generate_filepath(ctx, target, "sub", "jpg")
 
         template = Image.open(os.path.join(DIR, "cogs\Media\subway_template.jpg"))
@@ -207,6 +243,11 @@ class Avatars(commands.Cog):
     @commands.command()
     @commands.cooldown(1, 2.5, commands.BucketType.user)
     async def dom(self, ctx: Context, target: Member = None):
+        '''
+        Optional argument: `target`
+
+        Overlays an attachment or the avatar of the member specified onto a Dominos Pizza logo.
+        '''
         filepath, filename = await Utils.generate_filepath(ctx, target, "dom", "jpg")
 
         template = Image.open(os.path.join(DIR, "cogs\Media\dominos_template.jpg"))

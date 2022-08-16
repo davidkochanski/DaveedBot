@@ -26,7 +26,8 @@ class Guessing(commands.Cog):
     @commands.command()
     async def mon(self, ctx):
         '''
-        test
+        Sends a random Pokemon. Try to guess it!\n
+        Access the leaderboards using `d!lb mon`
         '''
 
         mon = random.randint(1, 898)
@@ -51,6 +52,10 @@ class Guessing(commands.Cog):
     @commands.cooldown(1, 2, commands.BucketType.user)
     @commands.command()
     async def flag(self, ctx):
+        '''
+        Sends a random country flag. Try to guess it!\n
+        Access the leaderboards using `d!lb flag`
+        '''
         flag = random.choice(COUNTRIES).lower()
         namefirst = flag.split(" ")[0]
         namespace = flag.replace(" ", "")
@@ -69,13 +74,13 @@ class Guessing(commands.Cog):
         await Utils.handle_guesses(ctx, self.client, "flag", [flag, namefirst, namespace] , ["saint", "united", "the"])
 
     # Dummy commands
-    @commands.command()
+    @commands.command(hidden=True)
     async def idk(self, ctx): pass
 
-    @commands.command()
+    @commands.command(hidden=True)
     async def hint(self, ctx): pass
 
-    @commands.command()
+    @commands.command(hidden=True)
     async def len(self, ctx): pass
 
 def setup(client):

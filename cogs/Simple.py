@@ -20,6 +20,9 @@ class Simple(commands.Cog):
 
     @commands.command()
     async def quiz(self, ctx):
+        '''
+        Asks a totally normal quiz question.
+        '''
         scenes = [
             ("What Pokemon is this?", "slugma", "SLUGMA NUTS"),
             ("What Pokemon is this?", "gulpin", "GULPIN DEEZ NUTS"),
@@ -66,6 +69,9 @@ class Simple(commands.Cog):
 
     @commands.command()
     async def furry(self, ctx):
+        '''
+        Sends a random furry emoticon.
+        '''
         responses = ["OwO", "owo", "OWO", "**OwO**", "oWo",
                     "UwU", "uwu", "UWU", "**UwU**", "uWu",
                     "^w^", "^W^", ">w<", "~^w^~", ">W<",
@@ -82,6 +88,10 @@ class Simple(commands.Cog):
 
     @commands.command(aliases = ["source", "git", "github", "repo", "star"])
     async def git_hub(self, ctx):
+        '''
+        Shows a link to the source code of this very bot.\n
+        You can look at my insides!
+        '''
         await Utils.generic_embed(ctx, title = "Code Repository: https://github.com/davefoxxo/DaveedBot/",
                                   desc = "Please consider giving DaveedBot a :star: on GitHub!\nI'd really appreaciate it c:")
 
@@ -96,6 +106,9 @@ class Simple(commands.Cog):
     @commands.command()
     @commands.cooldown(1, 2.5, commands.BucketType.user)
     async def flip(self, ctx):
+        '''
+        Flips a coin. What did you expect it to do?
+        '''
         responses = ["You got heads."] * 4 + ["You got tails."] * 4 + ["Oh? The coin landed on it's side!"]
         await ctx.send("Wait for it!")
         time.sleep(random.uniform(1,3))
@@ -105,12 +118,18 @@ class Simple(commands.Cog):
     @commands.command(aliases = ["dave", "daveontop"])
     @commands.cooldown(1, 2.5, commands.BucketType.user)
     async def dave_(self, ctx):
+        '''
+        #DAVEONTOP #FEARTHEDAVE", desc = "Ok? mad? sad? gonna cry? bad? ez? LLL LOOL #dave LLLLL #daveONTOP #daveSkyWars CRY? #daveBEDWARS #davePIT #daveSB #daveAIRLINES EASY #daveLEGITLUNAR #daveLLL #daveDOTGG #daveGG mad? :) LLLL CRY ABOUT IT? LOL?   #daveLEADERBOARDS #daveUNTOUCHABLE NO CONTEST LOL #daveCANNOTBESTOPPED #daveBEST #PAYFORTRUCE SO SAD LL?? DUELED ME LOL? #daveEZ #daveGG DOGWATER LOL GG HE PARTIED ME LMAOOOOOO SIT DOWN #daveONTOP LLLLLLLLLLLLLLLLLL MAD???? :) :) :) :) MAD? CRY L DANCE LLL #dave LLL #dave L BOXED L MAD????????? :) SOMEONE'S MAD :) :) :) L :) <3 HOW CAN YOU BE SO MAD :) lololol Accept that #dave is superior. :) L mad :) ? :) L
+        '''
         await Utils.generic_embed(ctx, title = "#DAVEONTOP #FEARTHEDAVE", desc = "Ok? mad? sad? gonna cry? bad? ez? LLL LOOL #dave LLLLL #daveONTOP #daveSkyWars CRY? #daveBEDWARS #davePIT #daveSB #daveAIRLINES EASY #daveLEGITLUNAR #daveLLL #daveDOTGG #daveGG mad? :) LLLL CRY ABOUT IT? LOL?   #daveLEADERBOARDS #daveUNTOUCHABLE NO CONTEST LOL #daveCANNOTBESTOPPED #daveBEST #PAYFORTRUCE SO SAD LL?? DUELED ME LOL? #daveEZ #daveGG DOGWATER LOL GG HE PARTIED ME LMAOOOOOO SIT DOWN #daveONTOP LLLLLLLLLLLLLLLLLL MAD???? :) :) :) :) MAD? CRY L DANCE LLL #dave LLL #dave L BOXED L MAD????????? :) SOMEONE'S MAD :) :) :) L :) <3 HOW CAN YOU BE SO MAD :) lololol Accept that #dave is superior. :) L mad :) ? :) L")
 
 
     @commands.command(aliases = ["rl", "rocketleague", "rocket"])
     @commands.cooldown(1, 2.5, commands.BucketType.user)
     async def rl_(self, ctx):
+        '''
+        Sends a random Rocket League quick chat.
+        '''
         scene = random.randint(1,8)
 
         responces = ["$#@%!", "All yours.", "Bumping!", "Calculated.", "Centering!", "Close one!", "Defending...", "Faking.", "Go for it!", "Great clear!",
@@ -132,6 +151,10 @@ class Simple(commands.Cog):
     @commands.command()
     @commands.cooldown(1, 30, commands.BucketType.user)
     async def ratio(self, ctx, target: Member = None):
+        '''
+        Optional argument: `target`\n
+        Send a ratio message in chat. Optionally ratio someone
+        '''
         if target != None:
             msg = await ctx.send(f"{target.mention} ratio")
         else:
@@ -142,12 +165,18 @@ class Simple(commands.Cog):
     @commands.command()
     @commands.cooldown(1, 2.5, commands.BucketType.user)
     async def areyouonline(self, ctx):
+        '''
+        :3
+        '''
         await Utils.generic_embed(ctx, title = "Nope!", desc = "DaveedBot is currently offline and unable to respond to ANY commands. :3")
 
     
     @commands.command()
     @commands.cooldown(1, 2.5, commands.BucketType.user)
     async def cry(self, ctx):
+        '''
+        Sends a random 'Cry About It' gif.
+        '''
         scene = random.randint(1,24)
 
         crypath = os.path.join(DIR, "cogs\\Media\\Cry\\cryaboutit{}.gif".format(scene))
@@ -163,6 +192,9 @@ class Simple(commands.Cog):
     @commands.command()
     @commands.cooldown(1, 2.5, commands.BucketType.user)
     async def limote(self, ctx):
+        '''
+        Sends a random Lisek Emoji (Limote:tm:) from my collection.
+        '''
         responses =['<:16bitsLi:919701730189541438>','<:64bitsLi:919701724581732383>','<:8bitsLi:919701736183185460>','<:blepLi:919701617530519562>',
                     '<:blushLi:928664465602400288>','<:boopLi:919701635582795836>','<:bruhLi:919701823504412692>','<:chadLi:919701594956771438>',
                     '<:chadLi2:919701603974512730>','<a:cubeLi:951279611050868786>','<:foxLi:939621573525143642>','<:highLi:949465143249600522>',
@@ -180,6 +212,10 @@ class Simple(commands.Cog):
     @commands.command()
     @commands.cooldown(1, 5, commands.BucketType.user)
     async def order(self, ctx, *, thing):
+        '''
+        Required argument: `thing`\n
+        Order something off Google.
+        '''
 
         EASTER_EGGS = ["john cena"]
 
