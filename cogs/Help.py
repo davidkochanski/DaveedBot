@@ -3,6 +3,8 @@ from util.BotUtils import DIR
 import nextcord
 from nextcord import Member
 from nextcord.ext import commands
+import numpy as np
+import os
 
 
 class Help(commands.Cog):
@@ -11,7 +13,31 @@ class Help(commands.Cog):
 
     
     @commands.command()
-    async def help(self, ctx, cmd):
+    async def help(self, ctx, cmd = None):
+        '''
+        Why would you need help using the help command?
+        '''
+        if cmd == None:
+            comms = []
+            for c in self.client.walk_commands():
+                if not c.hidden:
+                    comms.append("\n" + str(c).replace("_", ""))
+
+            three_coms = np.array_split(comms, 3)
+            em = nextcord.Embed(title = "Welcome to DaveedBot:tm:!", description = "The command prefix is `d!`. Use `d!help [cmd]` to get more info on any other command! \n List of all commands:\n", color = 0xff0000)
+            em.add_field(name = ":fox:", value = "".join(three_coms[0]))
+            em.add_field(name = ":fox:", value = "".join(three_coms[1]))
+            em.add_field(name = ":fox:", value = "".join(three_coms[2]))
+
+            filepath = os.path.join(DIR,"cogs\\Media\\proto.png")
+            fl = nextcord.File(filepath, filename = "proto.png")
+
+            em.set_thumbnail(url = "attachment://{}".format("proto.png"))
+            em.set_footer(text = "DaveedBot™ | {}".format(ctx.author))
+
+            await ctx.send(embed = em, file = fl)
+            return
+
         desc = ""
         for c in self.client.walk_commands():
 
