@@ -17,7 +17,8 @@ class Avatars(commands.Cog):
     @commands.cooldown(1, 2.5, commands.BucketType.user)
     async def av(self, ctx: Context, target: Member = None):
         '''
-        Optional argument: `target`\n
+        Optional argument: `target`
+        
         Returns the avatar of who you specified, or yourself if you didnt specify anyone.
         '''
         if target == None:
@@ -33,7 +34,8 @@ class Avatars(commands.Cog):
     @commands.cooldown(1, 2.5, commands.BucketType.user)
     async def jar(self, ctx: Context, target: Member = None):
         '''
-        Optional argument: `target`\n
+        Optional argument: `target`
+
         Puts whoever you want, or any attached image into a jar!
         '''        
         filepath, filename = await Utils.generate_filepath(ctx, target, "jar", "png")
@@ -60,7 +62,8 @@ class Avatars(commands.Cog):
     @commands.cooldown(1, 2.5, commands.BucketType.user)
     async def pet(self, ctx: Context, target: Member = None):
         '''
-        Optional argument: `target`\n
+        Optional argument: `target`
+
         Pet whoever you want, or any attached image, or even yourself!
         '''
         filepath, filename = await Utils.generate_filepath(ctx, target, "pet", "gif")
@@ -96,7 +99,8 @@ class Avatars(commands.Cog):
     @commands.cooldown(1, 2.5, commands.BucketType.user)
     async def speech(self, ctx: Context, target: Member = None):
         '''
-        Optional argument: `target`\n
+        Optional argument: `target`
+
         Places a Speech Bubble overlay over any attached images, or the avatar of whoever you specified.
         '''
         filepath, filename = await Utils.generate_filepath(ctx, target, "speech", "gif")
@@ -120,24 +124,20 @@ class Avatars(commands.Cog):
     @commands.cooldown(1, 2.5, commands.BucketType.user)
     async def pride(self, ctx: Context, flag: str, target: Member = None):
         '''
-        Requred argument: `flag`\n
-        Optional argument: `target`\n
+        Requred argument: `flag`
+        Optional argument: `target`
 
         Overlays a pride flag of your choosing over an attached image, or the avatar of whoever you specified.
         '''
-        filepath, filename = await Utils.generate_filepath(ctx, target, "pride", "png")
-        av = await Utils.read_av(ctx, target, 512)
-        print(type(av))
-        av.convert("RGBA")
         flags = {
             "gay": ["gay", "homosexual"],
             "trans": ["trans", "transgender"],
             "bi": ["bi", "bisexual"],
             "pan": ["pan", "pansexual"],
-            "enby": ["enby", "nonbinary", "non binary"],
-            "asexual": ["asexual", "ace"],
+            "enby": ["enby", "nonbinary", "non binary", "nb"],
+            "asexual": ["asexual", "ace", "ase"],
             "genderfluid": ["genderfluid", "fluid"],
-            "ally": ["ally", "pride"],
+            "ally": ["ally", "pride", "progress", "lgbt", "lgbtq", "lgtbq+"],
             "agender": ["agender"],
             "lesbian": ["lesbian"],
             "queer": ["queer", "genderqueer"],
@@ -145,6 +145,15 @@ class Avatars(commands.Cog):
             "poly": ["poly", "polyamoury", "polyamory"],
             "intersex": ["intersex", "inter", "intersexual"]
         }
+        
+        if flag.lower() == "list":
+            await ctx.send(flags)
+            return
+
+        filepath, filename = await Utils.generate_filepath(ctx, target, "pride", "png")
+        av = await Utils.read_av(ctx, target, 512, force_square = True)
+        av.convert("RGBA")
+
 
         flag_filename = None
 
@@ -190,7 +199,7 @@ class Avatars(commands.Cog):
         try:
             inv = bool(inv)
         except BadBoolArgument:
-            await ctx.send("`invert` flag must be a boolean value (try True/False)")
+            await ctx.send("`invert` flag must be a boolean value (try True / False)")
             return
 
         arg = await Utils.conv_member(ctx, arg)
