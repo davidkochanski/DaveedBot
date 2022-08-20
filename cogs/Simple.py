@@ -84,10 +84,10 @@ class Simple(commands.Cog):
                     "\`w\`", "OmO", "VwV", "twt", "'w'",
                     "This is a SECRET MESSAGE! You got lucky!"]
 
-        await Utils.generic_embed(ctx, title = f"{random.choice(responses)}", desc = "", colour = 0xff0000)
+        await ctx.send(random.choice(responses))
 
-    @commands.command(aliases = ["source", "git", "github", "repo", "star"])
-    async def git_hub(self, ctx):
+    @commands.command(aliases = ["source", "git", "repo", "star"])
+    async def github(self, ctx):
         '''
         Shows a link to the source code of this very bot.\n
         You can look at my insides!
@@ -97,7 +97,7 @@ class Simple(commands.Cog):
 
 
 
-    @commands.command()
+    @commands.command(hidden=True)
     @commands.cooldown(1, 2.5, commands.BucketType.user)
     async def ban(self, ctx):
         await Utils.generic_embed(ctx, title = "Ok? Who asked? Care?", desc = "now ᴘʟᴀʏɪɴɢ: Who asked (Feat: Nobody)\n ───────────⚪────── \n◄◄⠀▐▐⠀►► 𝟸:𝟷𝟾 / 𝟹:𝟻𝟼⠀───○ 🔊")
@@ -152,7 +152,8 @@ class Simple(commands.Cog):
     @commands.cooldown(1, 30, commands.BucketType.user)
     async def ratio(self, ctx, target: Member = None):
         '''
-        Optional argument: `target`\n
+        Optional argument: `target`
+
         Send a ratio message in chat. Optionally ratio someone
         '''
         if target != None:
@@ -205,15 +206,16 @@ class Simple(commands.Cog):
                     '<:sarLi2:963936532010520626>','<:scrunkLi:943706412930969630>','<:sitLi:919701712946745365>','<:sleepyPawsLi:931573923177459752>',
                     '<a:spinLi:919701933017665636>','<:unoLi:920051493653078066>','<:vrBlepLi:935341746093686844>','<:vrSadLi:935341730172133486>',
                     '<:vrSmugLi:959627074467942450>','<:wheezeLi:933887689172852758>','<:wheezeLi2:933887721137668167>','<:yeahLi:919701553978421278>',
-                    '<:yeahLi2:919701564858445935>']
+                    '<:yeahLi2:919701564858445935>','<:partyLi:975520974827048960>','<:layLi:981651009279500378>','<:glueLi:1000226176712847391>','<:derpLi:1000225942586802277>']
 
         await ctx.send(random.choice(responses))
 
-    @commands.command()
+    @commands.command(hidden=True)
     @commands.cooldown(1, 5, commands.BucketType.user)
     async def order(self, ctx, *, thing):
         '''
-        Required argument: `thing`\n
+        Required argument: `thing`
+
         Order something off Google.
         '''
 
