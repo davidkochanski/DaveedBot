@@ -207,7 +207,7 @@ class Utils:
             return img.resize((size, size)) if force_square else ImageOps.contain(img, (size, size))
 
 
-    async def handle_guesses(ctx: Context, client: nextcord.client, name: str, correct_guesses: list[str], excluded_guesses: list[str]) -> None:
+    async def handle_guesses(ctx: Context, client: nextcord.client, name: str, correct_guesses: list[str], excluded_guesses: list[str] = None) -> None:
         '''
         Handles user messages input for guessing games in this bot.
 
@@ -218,6 +218,8 @@ class Utils:
         '''
         def check(msg: nextcord.Message):
             return msg.channel.id == ctx.channel.id 
+
+        if excluded_guesses is None: excluded_guesses = []
 
         for _ in range(64): # time out after 64 messages
             message = await client.wait_for("message", check = check)
