@@ -271,8 +271,5 @@ class Avatars(commands.Cog):
 
         await ctx.send(file = fl, embed = em)
 
-
-
-
 def setup(client):
     client.add_cog(Avatars(client))
