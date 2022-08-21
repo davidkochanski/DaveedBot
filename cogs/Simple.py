@@ -277,7 +277,17 @@ class Simple(commands.Cog):
         await ctx.send("**HEY!** Wait just a tick <w>")
 
 
+    @commands.command()
+    @commands.cooldown(1, 2.5, commands.BucketType.user)
+    async def fox(self, ctx):
+        '''
+        Get a random picture of a fox.
+        '''
+        em = nextcord.Embed(title = f"Fox!", color = 0xff0000)
+        em.set_image(url = f"https://randomfox.ca/images/{random.randint(1, 123)}.jpg")
 
+        await ctx.send(embed = em)
+        
 
 def setup(client):
     client.add_cog(Simple(client))
