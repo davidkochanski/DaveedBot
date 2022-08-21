@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-import
+# -*- coding: utf-8 -*-
 
 from util.BotUtils import Utils
 from util.BotUtils import DIR
@@ -146,7 +146,7 @@ class Simple(commands.Cog):
         else:
             descrip = f"{random.choice(responces)}"
 
-        await Utils.generic_embed(ctx, title = descrip, desc = "", colour = 0xff0000)
+        await ctx.send(descrip)
 
     @commands.command()
     @commands.cooldown(1, 30, commands.BucketType.user)

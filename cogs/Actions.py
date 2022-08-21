@@ -1,9 +1,5 @@
 from util.BotUtils import Utils
-import nextcord
-from nextcord import Member
 from nextcord.ext import commands
-import os
-import random
 
 class Actions(commands.Cog):
     def __init__(self, client):

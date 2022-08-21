@@ -28,7 +28,7 @@ from nextcord.ext import commands
 import os
 from util.BotUtils import Utils, DIR
 from util.ListUtils import DO_NOT_LOAD
-from util.SuperSecretSettings import TOKEN, TOKEN2
+from util.SuperSecretSettings import TOKEN
 
 def main():
     intents = nextcord.Intents.default()

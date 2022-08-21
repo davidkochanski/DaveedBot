@@ -15,7 +15,7 @@ class Avatars(commands.Cog):
 
     @commands.command()
     @commands.cooldown(1, 2.5, commands.BucketType.user)
-    async def av(self, ctx: Context, target: Member = None):
+    async def av(self, ctx: Context, *, target: Member = None):
         '''
         Optional argument: `target`
         
@@ -32,7 +32,7 @@ class Avatars(commands.Cog):
 
     @commands.command()
     @commands.cooldown(1, 2.5, commands.BucketType.user)
-    async def jar(self, ctx: Context, target: Member = None):
+    async def jar(self, ctx: Context, *, target: Member = None):
         '''
         Optional argument: `target`
 
@@ -60,7 +60,7 @@ class Avatars(commands.Cog):
 
     @commands.command()
     @commands.cooldown(1, 2.5, commands.BucketType.user)
-    async def pet(self, ctx: Context, target: Member = None):
+    async def pet(self, ctx: Context, *, target: Member = None):
         '''
         Optional argument: `target`
 
@@ -122,7 +122,7 @@ class Avatars(commands.Cog):
 
     @commands.command()
     @commands.cooldown(1, 2.5, commands.BucketType.user)
-    async def pride(self, ctx: Context, flag: str, target: Member = None):
+    async def pride(self, ctx: Context, flag: str, *, target: Member = None):
         '''
         Requred argument: `flag`
         Optional argument: `target`
@@ -229,7 +229,7 @@ class Avatars(commands.Cog):
 
     @commands.command()
     @commands.cooldown(1, 2.5, commands.BucketType.user)
-    async def sub(self, ctx: Context, target: Member = None):
+    async def sub(self, ctx: Context, *, target: Member = None):
         '''
         Optional argument: `target`
 
@@ -251,7 +251,7 @@ class Avatars(commands.Cog):
 
     @commands.command()
     @commands.cooldown(1, 2.5, commands.BucketType.user)
-    async def dom(self, ctx: Context, target: Member = None):
+    async def dom(self, ctx: Context, *, target: Member = None):
         '''
         Optional argument: `target`
 
