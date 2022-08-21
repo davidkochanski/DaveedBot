@@ -115,18 +115,18 @@ class Simple(commands.Cog):
         await ctx.send(random.choice(responses))
 
 
-    @commands.command(aliases = ["dave", "daveontop"])
+    @commands.command()
     @commands.cooldown(1, 2.5, commands.BucketType.user)
-    async def dave_(self, ctx):
+    async def dave(self, ctx):
         '''
         #DAVEONTOP #FEARTHEDAVE", desc = "Ok? mad? sad? gonna cry? bad? ez? LLL LOOL #dave LLLLL #daveONTOP #daveSkyWars CRY? #daveBEDWARS #davePIT #daveSB #daveAIRLINES EASY #daveLEGITLUNAR #daveLLL #daveDOTGG #daveGG mad? :) LLLL CRY ABOUT IT? LOL?   #daveLEADERBOARDS #daveUNTOUCHABLE NO CONTEST LOL #daveCANNOTBESTOPPED #daveBEST #PAYFORTRUCE SO SAD LL?? DUELED ME LOL? #daveEZ #daveGG DOGWATER LOL GG HE PARTIED ME LMAOOOOOO SIT DOWN #daveONTOP LLLLLLLLLLLLLLLLLL MAD???? :) :) :) :) MAD? CRY L DANCE LLL #dave LLL #dave L BOXED L MAD????????? :) SOMEONE'S MAD :) :) :) L :) <3 HOW CAN YOU BE SO MAD :) lololol Accept that #dave is superior. :) L mad :) ? :) L
         '''
         await Utils.generic_embed(ctx, title = "#DAVEONTOP #FEARTHEDAVE", desc = "Ok? mad? sad? gonna cry? bad? ez? LLL LOOL #dave LLLLL #daveONTOP #daveSkyWars CRY? #daveBEDWARS #davePIT #daveSB #daveAIRLINES EASY #daveLEGITLUNAR #daveLLL #daveDOTGG #daveGG mad? :) LLLL CRY ABOUT IT? LOL?   #daveLEADERBOARDS #daveUNTOUCHABLE NO CONTEST LOL #daveCANNOTBESTOPPED #daveBEST #PAYFORTRUCE SO SAD LL?? DUELED ME LOL? #daveEZ #daveGG DOGWATER LOL GG HE PARTIED ME LMAOOOOOO SIT DOWN #daveONTOP LLLLLLLLLLLLLLLLLL MAD???? :) :) :) :) MAD? CRY L DANCE LLL #dave LLL #dave L BOXED L MAD????????? :) SOMEONE'S MAD :) :) :) L :) <3 HOW CAN YOU BE SO MAD :) lololol Accept that #dave is superior. :) L mad :) ? :) L")
 
 
-    @commands.command(aliases = ["rl", "rocketleague", "rocket"])
+    @commands.command(aliases = ["rocketleague", "rocket"])
     @commands.cooldown(1, 2.5, commands.BucketType.user)
-    async def rl_(self, ctx):
+    async def rl(self, ctx):
         '''
         Sends a random Rocket League quick chat.
         '''
@@ -287,6 +287,11 @@ class Simple(commands.Cog):
         em.set_image(url = f"https://randomfox.ca/images/{random.randint(1, 123)}.jpg")
 
         await ctx.send(embed = em)
+
+    @commands.command()
+    @commands.cooldown(1, 60, commands.BucketType.user)
+    async def null(self, ctx):
+        await ctx.send("⠀")
         
 
 def setup(client):
