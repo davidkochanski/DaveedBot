@@ -49,10 +49,10 @@ class Guessing(commands.Cog):
 
         url = requests.get("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/{}.png".format(mon))
         img = Image.open(BytesIO(url.content))
-        img.save(os.path.join(DIR, "cogs\\save\\mon.png"))
+        img.save(os.path.join(DIR, "cogs/save/mon.png"))
         print(name)
 
-        file = nextcord.File(os.path.join(DIR, "cogs\\save\\mon.png"))
+        file = nextcord.File(os.path.join(DIR, "cogs/save/mon.png"))
         embed = nextcord.Embed(title = "Guess that Mon!", colour = 0xff0000)
         embed.set_image(url = f"attachment://mon.png")
 
@@ -79,9 +79,9 @@ class Guessing(commands.Cog):
 
         url = requests.get("https://countryflagsapi.com/png/{}".format(flag.replace(" ", "%20")))
         img = Image.open(BytesIO(url.content))
-        img.save(os.path.join(DIR, "cogs\\save\\NICE_TRY_LUCA.png"))
+        img.save(os.path.join(DIR, "cogs/save/NICE_TRY_LUCA.png"))
 
-        file = nextcord.File(os.path.join(DIR, "cogs\\save\\NICE_TRY_LUCA.png"))
+        file = nextcord.File(os.path.join(DIR, "cogs/save/NICE_TRY_LUCA.png"))
         embed = nextcord.Embed(title = "Guess that flag!", colour = 0xff0000)
         embed.set_image(url = "attachment://NICE_TRY_LUCA.png")
 
@@ -116,7 +116,7 @@ class Guessing(commands.Cog):
         idx = random.randint(0, len(furs) - 1)
         print(furs[idx][0])
 
-        fl = nextcord.File(os.path.join(DIR, f"cogs\\Media\\Furs\\{idx}.jpg"), filename = f"{idx}.jpg")
+        fl = nextcord.File(os.path.join(DIR, f"cogs/Media/Furs/{idx}.jpg"), filename = f"{idx}.jpg")
         em = nextcord.Embed(title = "Guess that Popufur!", color = 0xff0000)
         em.set_image(url = f"attachment://{idx}.jpg")
 

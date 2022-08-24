@@ -23,7 +23,7 @@ class Utils:
             em = nextcord.Embed(title = title,
                             colour = colour)
         
-        filepath = os.path.join(DIR,"cogs\\Media\\proto.png")
+        filepath = os.path.join(DIR,"cogs/Media/proto.png")
         fl = nextcord.File(filepath, filename = "proto.png")
 
         em.set_thumbnail(url = "attachment://{}".format("proto.png"))
@@ -42,7 +42,7 @@ class Utils:
                         description = "Something went wrong! {}\n\n`{}`".format(random.choice(face), error),
                         colour = 0xffff00)
 
-        filepath = os.path.join(DIR,"cogs\\Media\\proto.png")
+        filepath = os.path.join(DIR,"cogs/Media/proto.png")
         fl = nextcord.File(filepath, filename = "proto.png")
                 
         em.set_thumbnail(url = "attachment://{}".format("proto.png"))
@@ -158,7 +158,7 @@ class Utils:
         else:
             myfile = "{}_{}".format(name, target.id)
 
-        return os.path.join(DIR, f'cogs\\Save\\{name}\\{myfile}.{ext}'), f"{myfile}.{ext}"
+        return os.path.join(DIR, f'cogs/Save/{name}/{myfile}.{ext}'), f"{myfile}.{ext}"
 
 
 
@@ -228,7 +228,7 @@ class Utils:
 
                 await Utils.generic_embed(ctx, title = f"Correct! {correct_guesses[0].title()}", desc = f"{message.author.name} got it!")
 
-                with open(f"cogs\\Leaderboards\\{name}.json", "r") as fl:
+                with open(f"cogs/Leaderboards/{name}.json", "r") as fl:
                     lb_file = json.load(fl)
 
                 user_key = str(message.author.id)
@@ -244,7 +244,7 @@ class Utils:
                 if correct_guesses[0] not in alltime_seen:
                     alltime_seen.append(correct_guesses[0])
                 
-                with open(f"cogs\\Leaderboards\\{name}.json", "w") as fl:
+                with open(f"cogs/Leaderboards/{name}.json", "w") as fl:
                     json.dump(lb_file, fl)
                 break
 
@@ -271,7 +271,7 @@ class Utils:
 
 
     async def display_leaderboard(ctx: Context, name: str):
-        with open(f"cogs\\Leaderboards\\{name}.json", "r") as fl: lb_mon = json.load(fl)
+        with open(f"cogs/Leaderboards/{name}.json", "r") as fl: lb_mon = json.load(fl)
         not_top_ten = True
         top_users = {k: v for k, v in sorted(lb_mon.items(), key=lambda item: item[1], reverse=True)}
 

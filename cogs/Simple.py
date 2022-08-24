@@ -45,7 +45,7 @@ class Simple(commands.Cog):
 
         fp = str(n[1]).replace(" ", "_")
 
-        fl = nextcord.File(os.path.join(DIR, f"cogs\\Media\\Deez\\{fp}.jpg"), filename = f"{fp}.jpg")
+        fl = nextcord.File(os.path.join(DIR, f"cogs/Media/Deez/{fp}.jpg"), filename = f"{fp}.jpg")
         em = nextcord.Embed(title = n[0], color=0xff0000)
 
         em.set_image(f"attachment://{fp}.jpg")
@@ -180,7 +180,7 @@ class Simple(commands.Cog):
         '''
         scene = random.randint(1,24)
 
-        crypath = os.path.join(DIR, "cogs\\Media\\Cry\\cryaboutit{}.gif".format(scene))
+        crypath = os.path.join(DIR, "cogs/Media/Cry/cryaboutit{}.gif".format(scene))
         cryfile = "cryaboutit{}.gif".format(scene)
         
         file = nextcord.File(crypath, filename = cryfile)
@@ -222,7 +222,7 @@ class Simple(commands.Cog):
         EASTER_EGGS = ["john cena"]
 
         if thing.lower() in EASTER_EGGS:
-            fl = nextcord.File(os.path.join(DIR, "cogs\\Media\\trans.jpg"), filename="trans.jpg")
+            fl = nextcord.File(os.path.join(DIR, "cogs/Media/trans.jpg"), filename="trans.jpg")
             em = nextcord.Embed(title = f"Order up! {thing}", color = 0xff0000)
             em.set_image("attachment://trans.jpg")
 
@@ -241,7 +241,7 @@ class Simple(commands.Cog):
         if not self.is_searching:
             self.is_searching = True
             async with ctx.typing():
-                path = os.path.join(DIR, "cogs\\Save\\order")
+                path = os.path.join(DIR, "cogs/Save/order")
                 try:
                     google_crawler = GoogleImageCrawler(parser_threads=1, downloader_threads=1, storage = {'root_dir': path})
                     google_crawler.crawl(keyword=thing, max_num=1)

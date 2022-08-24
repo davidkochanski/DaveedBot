@@ -40,10 +40,11 @@ class Avatars(commands.Cog):
         '''        
         filepath, filename = await Utils.generate_filepath(ctx, target, "jar", "png")
 
-        jar = Image.open(os.path.join(DIR, "cogs\\Media\\mtjar.png"))
+        jar = Image.open(os.path.join(DIR, "cogs/Media/mtjar.png"))
         av = await Utils.read_av(ctx, target, 256, force_square = True)
 
         jar.paste(av,(230, 420))
+        print(filepath)
         jar.save(filepath)
         fl = nextcord.File(filepath, filename = filename)
 
@@ -68,7 +69,7 @@ class Avatars(commands.Cog):
         '''
         filepath, filename = await Utils.generate_filepath(ctx, target, "pet", "gif")
 
-        gifHand = Image.open(fp = os.path.join(DIR, f'cogs\\Media\\petpet.gif'))
+        gifHand = Image.open(fp = os.path.join(DIR, f'cogs/Media/petpet.gif'))
         av = await Utils.read_av(ctx, target, 512)
 
         allFrames = []
@@ -106,8 +107,8 @@ class Avatars(commands.Cog):
         filepath, filename = await Utils.generate_filepath(ctx, target, "speech", "gif")
         av = await Utils.read_av(ctx, target, 512)
 
-        bubble = Image.open(os.path.join(DIR, f'cogs\\Media\\speech.png')).convert('L').resize(av.size)
-        rim = Image.open(os.path.join(DIR, f'cogs\\Media\\speech_rim.png')).convert("RGBA").resize(av.size)
+        bubble = Image.open(os.path.join(DIR, f'cogs/Media/speech.png')).convert('L').resize(av.size)
+        rim = Image.open(os.path.join(DIR, f'cogs/Media/speech_rim.png')).convert("RGBA").resize(av.size)
 
         av.paste(rim, (0,0), rim)
         av.putalpha(bubble)
@@ -164,7 +165,7 @@ class Avatars(commands.Cog):
                     break
         
         if flag_filename is not None:
-            flagimg = Image.open(os.path.join(DIR, f'cogs\\Media\\Pride\\{flag_filename}.png')).convert("RGBA").resize(av.size)
+            flagimg = Image.open(os.path.join(DIR, f'cogs/Media/Pride/{flag_filename}.png')).convert("RGBA").resize(av.size)
             av.paste(flagimg, (0,0), flagimg)
             av.save(filepath)
 
