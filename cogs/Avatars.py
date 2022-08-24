@@ -44,7 +44,6 @@ class Avatars(commands.Cog):
         av = await Utils.read_av(ctx, target, 256, force_square = True)
 
         jar.paste(av,(230, 420))
-        print(filepath)
         jar.save(filepath)
         fl = nextcord.File(filepath, filename = filename)
 
