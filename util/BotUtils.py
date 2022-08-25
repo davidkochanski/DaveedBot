@@ -1,7 +1,4 @@
-import enum
-from re import M
 import nextcord
-from nextcord.ext import commands
 from nextcord.ext.commands import MemberConverter, MemberNotFound, Context
 import random
 import os
@@ -13,8 +10,28 @@ class Utils:
     global DIR
     DIR = os.path.dirname(__file__)[:-5]
 
-    async def generic_embed(ctx: Context, title: str, *, desc:str = None, colour = 0xff0000, name = None):
+    async def generic_embed(ctx: Context, title: str, *, desc: str = None, colour = 0xff0000, name = None):
+        '''Sends a generic Discord embed.
+
+        Comes with DaveedBot's logo as a thumbnail, colour setting (default red), and footer styling.
+
+        Note
+        ----
+        Include await before calling the generic_embed method.
         
+        Parameters
+        ----------
+        ctx : `Context`
+            Nextcord context object
+        title : `str`
+            Title of the embed.
+        desc : `str`, optional
+            Description of the embed.
+        color : `int`, default 0xff0000 (red)
+            Set colour of embed.
+        name : `str`, default None
+            Set the name of embed by the footer.
+        '''
         if desc != None:
             em = nextcord.Embed(title = title,
                             description = desc + "\n ",
@@ -36,6 +53,15 @@ class Utils:
 
 
     async def generic_error(ctx: Context, error: Exception = None):
+        '''Sends a Discord embed, with the error text included.
+
+        Parameters
+        ----------
+        ctx : `Context`
+            nextcord context object
+        error : `Exception`
+            exception object. Will be used as a string
+        '''
         face = ["TwT", ">w>", "<w<", ".w.", "-w-", "~w~", "XwX", "=w=", ";w;", "\_w\_", "\*w\*", "@w@", "QwQ", "qwq"]
 
         em = nextcord.Embed(title = "Oh no!",
@@ -103,15 +129,15 @@ class Utils:
         
         Parameters
         ----------
-        ctx : Context
+        ctx : `Context`
             Nextcord context object
         target
             The name that the user called when using an action command.
-        texts : list
+        texts : `list`
             list of texts, that one of which will be randomly selected if none of the other conditions is satisfied.
-        is_self : str
+        is_self : `str`
             a singluar string that is displayed if the user calls the target to be themselves.
-        special_cases : list(tuple()) 
+        special_cases : `list` of `tuples`, of `strs`.
             a list of tuples, where the first item in the tuple is the name that has to be inputted for the special case override the message, and the second item is the message that will be displayed instead.
         '''
         name = await Utils.conv_member(ctx, target, to_name=True)
@@ -135,18 +161,18 @@ class Utils:
 
         Parameters
         ----------
-        ctx : Context
+        ctx : `Context`
             Nextcord context object
         target
             The name that the user called when using an action command.
-        name : str
+        name : `str`
             The intended file name.
-        ext : str
+        ext : `str`
             The file extension. (png, gif, et cetera)
 
         Returns
         -------
-        tuple[str]
+        `tuple` of `str`
             Where the index 0 is the full directory of the saved file,
             and the index 1 is just the file name and extension
         '''
@@ -164,24 +190,26 @@ class Utils:
 
     async def read_av(ctx: Context, target, size:int = 512, *, force_avatar:bool = False, force_square:bool = False, force_first_frame:bool = False):
         '''
-            Attempts to read a client's attachment image, or if none exist, their Discord profile picture
+        Attempts to read a client's attachment image, or if none exist, their Discord profile picture
 
-            Parameters
-            ----------
-            ctx : Context
-                Nextcord context object
-            target
-                The name that the user called when using an action command.
-            size : int (default 512)
-                How many pixels the image will be resized to.
-            force_avatar : bool
-                optionally always ignore the user's attachments and instead take their avatar.
-            force_square : bool
-                optionally force the aspect ratio of the returned image to be 1:1 instead of maintaining aspect ratio given.
-            
-            Returns
-            -------
-            PIL png, jpeg, or gif object.
+        Parameters
+        ----------
+        ctx : `Context`
+            Nextcord context object
+        target
+            The name that the user called when using an action command.
+        size : `int` (default 512)
+            How many pixels the image will be resized to.
+        force_avatar : `bool`, optional
+            always ignore the user's attachments and instead take their avatar.
+        force_square : `bool`, optional
+            force the aspect ratio of the returned image to be 1:1 instead of maintaining aspect ratio given.
+        force_first_frame : `bool`, optional
+            force the first frame of a GIF to be taken.
+        
+        Returns
+        -------
+        PIL png, jpeg, or gif object.
             
         '''
             
@@ -211,10 +239,18 @@ class Utils:
         '''
         Handles user messages input for guessing games in this bot.
 
-        Pass the context object and the client object to be able to read and send stuff
-        name: name of command that is being handled
-        correct_guesses: tuple that contains all correct guesses for the generated guessable
-        excluded_guesses: optionally guesses that are on blacklist from triggering a correct response
+        Parameters
+        ----------
+        ctx : `Context`
+            Nextcord context object
+        client : `nextcord.client`
+            Nextcord context client
+        name : `str`
+            name of the guessing game
+        correct_guesses : `list` of `str`
+            tuple that contains all correct guesses for the generated guessable
+        excluded_guesses : `list` of `str`, optional
+            optionally guesses that are on blacklist from triggering a correct response
         '''
         def check(msg: nextcord.Message):
             return msg.channel.id == ctx.channel.id 
@@ -271,6 +307,22 @@ class Utils:
 
 
     async def display_leaderboard(ctx: Context, name: str):
+        '''Displays a Discord Embed.
+
+        Loads the appropriate leaderboard from a JSON file, and then shows the ten highest rated players.
+        Highlights the user's name. If user's name isn't present, append their name after the top ten.
+
+        Note
+        ----
+        `name` should also be the name of the command, and also the name of the leaderboard record's file.
+
+        Parameters
+        ----------
+        ctx : `Context`
+            Nextcord context object
+        name : `str`
+            Name of the leaderboard.
+        '''
         with open(f"cogs/Leaderboards/{name}.json", "r") as fl: lb_mon = json.load(fl)
         not_top_ten = True
         top_users = {k: v for k, v in sorted(lb_mon.items(), key=lambda item: item[1], reverse=True)}
@@ -306,9 +358,3 @@ class Utils:
                 desc += f"You haven't played any games yet!"
 
         await Utils.generic_embed(ctx, title = f"{name.title()} Leaderboards", desc = desc)
-        
-
-
-
-
-    
