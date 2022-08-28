@@ -150,7 +150,7 @@ class Simple(commands.Cog):
 
     @commands.command()
     @commands.cooldown(1, 30, commands.BucketType.user)
-    async def ratio(self, ctx, target: Member = None):
+    async def ratio(self, ctx, *, target: Member = None):
         '''
         Optional argument: `target`
 

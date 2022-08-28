@@ -47,7 +47,6 @@ class Avatars(commands.Cog):
         jar.save(filepath)
         fl = nextcord.File(filepath, filename = filename)
 
-        # TODO Maybe make this into a method safe_target_title()
         if target is not None:
             title = "-w-" if target.id == 763914302175445002 else f"{target.name} in a jar!"
         else:
@@ -97,7 +96,7 @@ class Avatars(commands.Cog):
 
     @commands.command()
     @commands.cooldown(1, 2.5, commands.BucketType.user)
-    async def speech(self, ctx: Context, target: Member = None):
+    async def speech(self, ctx: Context, *, target: Member = None):
         '''
         Optional argument: `target`
 
