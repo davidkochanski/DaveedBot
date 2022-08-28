@@ -29,7 +29,7 @@ class Help(commands.Cog):
             em.add_field(name = ":fox:", value = "".join(three_coms[1]))
             em.add_field(name = ":fox:", value = "".join(three_coms[2]))
 
-            filepath = os.path.join(DIR,"cogs\\Media\\proto.png")
+            filepath = os.path.join(DIR,"cogs/Media/proto.png")
             fl = nextcord.File(filepath, filename = "proto.png")
 
             em.set_thumbnail(url = "attachment://{}".format("proto.png"))
