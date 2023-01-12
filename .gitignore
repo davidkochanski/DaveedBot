@@ -173,5 +173,4 @@ DaveedmonDeck.py
 DaveedmonPlayer.py
 
 # Leaderboard files
-*.json
 cogs/Leaderboards/
