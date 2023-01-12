@@ -1,25 +1,41 @@
 # -*- coding: utf-8 -*-
 
-from util.BotUtils import Utils
+from util.BotUtils import generic_embed, generic_error, printl, create_embed
 from util.BotUtils import DIR
-import nextcord
-from nextcord import Member
-from nextcord.ext import commands
+import discord
+from discord import app_commands
+from discord import Interaction as Intr
+from discord import Member
+from discord.ext import commands
 import random
 import time
 import os
 from icrawler.builtin import GoogleImageCrawler
 from PIL import Image
-
-from util.ListUtils import BLACKLIST
+import pyqrcode
+import png
 
 class Simple(commands.Cog):
-    def __init__(self, client):
+    def __init__(self, client: discord.Client):
         self.client = client
         self.is_searching = False
 
-    @commands.command()
-    async def quiz(self, ctx):
+    @app_commands.command(name="qr", description="Make a qr code")
+    async def qr(self, intr: Intr, link: str = None):
+
+        url = pyqrcode.create(link)
+
+        url.png(os.path.join(DIR, "cogs/Save/qr.png"), scale = 4)
+
+        img = discord.File(os.path.join(DIR, "cogs/Save/qr.png"))
+
+        await intr.response.send_message("Here is your qr code.", file=img)
+
+
+    
+
+    @app_commands.command(name="quiz", description="Asks a totally normal quiz question.")
+    async def quiz(self, intr: Intr):
         '''
         Asks a totally normal quiz question.
         '''
@@ -40,35 +56,35 @@ class Simple(commands.Cog):
             ("What is Bank of America's short form?", "bofa", "BOFA DEEZ NUTS"),
             ("What popular Pop Band made songs like 'Believer', 'Radioactive' and 'Demons?'", "imagine dragons", "IMAGINE DRAGON DEEZ NUTS ACROSS YOUR FACE")
         ]
+        ctx = await self.client.get_context(intr)
 
         n = random.choice(scenes)
-
         fp = str(n[1]).replace(" ", "_")
 
-        fl = nextcord.File(os.path.join(DIR, f"cogs/Media/Deez/{fp}.jpg"), filename = f"{fp}.jpg")
-        em = nextcord.Embed(title = n[0], color=0xff0000)
+        fl = discord.File(os.path.join(DIR, f"cogs/Media/Deez/{fp}.jpg"), filename = f"{fp}.jpg")
+        em = discord.Embed(title = n[0], color=0xff0000)
 
-        em.set_image(f"attachment://{fp}.jpg")
+        em.set_image(url = f"attachment://{fp}.jpg")
 
-        await ctx.send(embed = em, file = fl)
+        await intr.response.send_message(embed = em, file = fl)
 
-        def check(msg: nextcord.Message):
+        def check(msg: discord.Message):
             return msg.channel.id == ctx.channel.id 
 
         for _ in range(64): # time out after 64 messages
-            message = await self.client.wait_for("message", check = check)
+            message: discord.Message = await self.client.wait_for("message", check = check)
             msg = message.content.lower()
 
             if msg == n[1]:
-                await ctx.send(f"{message.author.mention} {n[2]}")
+                await intr.followup.send(f"{message.author.mention} {n[2]}")
                 break
 
             elif msg == "d!quiz":
                 break
 
 
-    @commands.command()
-    async def furry(self, ctx):
+    @app_commands.command(name="furry", description="Sends a random furry emoticon.")
+    async def furry(self, intr: Intr):
         '''
         Sends a random furry emoticon.
         '''
@@ -84,49 +100,53 @@ class Simple(commands.Cog):
                     "\`w\`", "OmO", "VwV", "twt", "'w'",
                     "This is a SECRET MESSAGE! You got lucky!"]
 
-        await ctx.send(random.choice(responses))
+        await intr.response.send_message(random.choice(responses))
 
-    @commands.command(aliases = ["source", "git", "repo", "star"])
-    async def github(self, ctx):
+    @app_commands.command(name="github", description="Shows a link to the source code of this very bot. You can look at my insides!")
+    async def github(self, intr: Intr):
         '''
         Shows a link to the source code of this very bot.\n
         You can look at my insides!
         '''
-        await Utils.generic_embed(ctx, title = "Code Repository: https://github.com/davefoxxo/DaveedBot/",
+        em = await create_embed(await self.client.get_context(intr), title = "Code Repository: https://github.com/davefoxxo/DaveedBot/",
                                   desc = "Please consider giving DaveedBot a :star: on GitHub!\nI'd really appreaciate it c:")
 
+        await intr.response.send_message(embed=em)
 
 
-    @commands.command(hidden=True)
-    @commands.cooldown(1, 2.5, commands.BucketType.user)
-    async def ban(self, ctx):
-        await Utils.generic_embed(ctx, title = "Ok? Who asked? Care?", desc = "now ᴘʟᴀʏɪɴɢ: Who asked (Feat: Nobody)\n ───────────⚪────── \n◄◄⠀▐▐⠀►► 𝟸:𝟷𝟾 / 𝟹:𝟻𝟼⠀───○ 🔊")
+
+    @app_commands.command(name="ban", description="Ban someone from a guild. Works for everyone regardless of server permission! Have fun!!!")
+    async def ban(self, intr: Intr):
+        em = await create_embed(await self.client.get_context(intr), title = "Ok? Who asked? Care?", desc = "now ᴘʟᴀʏɪɴɢ: Who asked (Feat: Nobody)\n ───────────⚪────── \n◄◄⠀▐▐⠀►► 𝟸:𝟷𝟾 / 𝟹:𝟻𝟼⠀───○ 🔊")
+
+        await intr.response.send_message(embed=em)
+        
+        
 
     
-    @commands.command()
-    @commands.cooldown(1, 2.5, commands.BucketType.user)
-    async def flip(self, ctx):
+    @app_commands.command(name="flip", description="Flips a coin. What did you expect it to do?")
+    async def flip(self, intr: Intr):
         '''
         Flips a coin. What did you expect it to do?
         '''
         responses = ["You got heads."] * 4 + ["You got tails."] * 4 + ["Oh? The coin landed on it's side!"]
-        await ctx.send("Wait for it!")
+        await intr.response.send_message("Wait for it!")
         time.sleep(random.uniform(1,3))
-        await ctx.send(random.choice(responses))
+        await intr.followup.send(random.choice(responses))
 
 
-    @commands.command()
-    @commands.cooldown(1, 2.5, commands.BucketType.user)
-    async def dave(self, ctx):
+    @app_commands.command(name="dave", description=":3")
+    async def dave(self, intr: Intr):
         '''
         #DAVEONTOP #FEARTHEDAVE", desc = "Ok? mad? sad? gonna cry? bad? ez? LLL LOOL #dave LLLLL #daveONTOP #daveSkyWars CRY? #daveBEDWARS #davePIT #daveSB #daveAIRLINES EASY #daveLEGITLUNAR #daveLLL #daveDOTGG #daveGG mad? :) LLLL CRY ABOUT IT? LOL?   #daveLEADERBOARDS #daveUNTOUCHABLE NO CONTEST LOL #daveCANNOTBESTOPPED #daveBEST #PAYFORTRUCE SO SAD LL?? DUELED ME LOL? #daveEZ #daveGG DOGWATER LOL GG HE PARTIED ME LMAOOOOOO SIT DOWN #daveONTOP LLLLLLLLLLLLLLLLLL MAD???? :) :) :) :) MAD? CRY L DANCE LLL #dave LLL #dave L BOXED L MAD????????? :) SOMEONE'S MAD :) :) :) L :) <3 HOW CAN YOU BE SO MAD :) lololol Accept that #dave is superior. :) L mad :) ? :) L
         '''
-        await Utils.generic_embed(ctx, title = "#DAVEONTOP #FEARTHEDAVE", desc = "Ok? mad? sad? gonna cry? bad? ez? LLL LOOL #dave LLLLL #daveONTOP #daveSkyWars CRY? #daveBEDWARS #davePIT #daveSB #daveAIRLINES EASY #daveLEGITLUNAR #daveLLL #daveDOTGG #daveGG mad? :) LLLL CRY ABOUT IT? LOL?   #daveLEADERBOARDS #daveUNTOUCHABLE NO CONTEST LOL #daveCANNOTBESTOPPED #daveBEST #PAYFORTRUCE SO SAD LL?? DUELED ME LOL? #daveEZ #daveGG DOGWATER LOL GG HE PARTIED ME LMAOOOOOO SIT DOWN #daveONTOP LLLLLLLLLLLLLLLLLL MAD???? :) :) :) :) MAD? CRY L DANCE LLL #dave LLL #dave L BOXED L MAD????????? :) SOMEONE'S MAD :) :) :) L :) <3 HOW CAN YOU BE SO MAD :) lololol Accept that #dave is superior. :) L mad :) ? :) L")
+        em = await create_embed(await self.client.get_context(intr), title = "#DAVEONTOP #FEARTHEDAVE", desc = "Ok? mad? sad? gonna cry? bad? ez? LLL LOOL #dave LLLLL #daveONTOP #daveSkyWars CRY? #daveBEDWARS #davePIT #daveSB #daveAIRLINES EASY #daveLEGITLUNAR #daveLLL #daveDOTGG #daveGG mad? :) LLLL CRY ABOUT IT? LOL?   #daveLEADERBOARDS #daveUNTOUCHABLE NO CONTEST LOL #daveCANNOTBESTOPPED #daveBEST #PAYFORTRUCE SO SAD LL?? DUELED ME LOL? #daveEZ #daveGG DOGWATER LOL GG HE PARTIED ME LMAOOOOOO SIT DOWN #daveONTOP LLLLLLLLLLLLLLLLLL MAD???? :) :) :) :) MAD? CRY L DANCE LLL #dave LLL #dave L BOXED L MAD????????? :) SOMEONE'S MAD :) :) :) L :) <3 HOW CAN YOU BE SO MAD :) lololol Accept that #dave is superior. :) L mad :) ? :) L")
+
+        await intr.response.send_message(embed = em)
 
 
-    @commands.command(aliases = ["rocketleague", "rocket"])
-    @commands.cooldown(1, 2.5, commands.BucketType.user)
-    async def rl(self, ctx):
+    @app_commands.command(name="rocketleague", description="Sends a random Rocket League quick chat.")
+    async def rocketleague(self, intr: Intr):
         '''
         Sends a random Rocket League quick chat.
         '''
@@ -146,35 +166,33 @@ class Simple(commands.Cog):
         else:
             descrip = f"{random.choice(responces)}"
 
-        await ctx.send(descrip)
+        await intr.response.send_message(descrip)
 
-    @commands.command()
-    @commands.cooldown(1, 30, commands.BucketType.user)
-    async def ratio(self, ctx, *, target: Member = None):
+    @app_commands.command(name="ratio", description="ratio")
+    async def ratio(self, intr: Intr, *, target: Member = None):
         '''
         Optional argument: `target`
 
         Send a ratio message in chat. Optionally ratio someone
         '''
         if target != None:
-            msg = await ctx.send(f"{target.mention} ratio")
+            msg = await intr.response.send_message(f"{target.mention} ratio")
         else:
-            msg = await ctx.send("ratio")
+            msg = await intr.response.send_message("ratio")
 
         await msg.add_reaction("👍")
 
-    @commands.command()
-    @commands.cooldown(1, 2.5, commands.BucketType.user)
-    async def areyouonline(self, ctx):
+    @app_commands.command(name="areyouonline")
+    async def areyouonline(self, intr: Intr):
         '''
         :3
         '''
-        await Utils.generic_embed(ctx, title = "Nope!", desc = "DaveedBot is currently offline and unable to respond to ANY commands. :3")
+        em = await create_embed(await self.client.get_context(intr), title = "Nope!", desc = "DaveedBot is currently offline and unable to respond to ANY commands. :3")
+        await intr.response.send_message(embed=em)
 
     
-    @commands.command()
-    @commands.cooldown(1, 2.5, commands.BucketType.user)
-    async def cry(self, ctx):
+    @app_commands.command(name="cry", description="Sends a random Cry About It gif.")
+    async def cry(self, intr: Intr):
         '''
         Sends a random 'Cry About It' gif.
         '''
@@ -183,16 +201,16 @@ class Simple(commands.Cog):
         crypath = os.path.join(DIR, "cogs/Media/Cry/cryaboutit{}.gif".format(scene))
         cryfile = "cryaboutit{}.gif".format(scene)
         
-        file = nextcord.File(crypath, filename = cryfile)
-        embed = nextcord.Embed(title = "Cry about it", colour = 0xff0000)
+        file = discord.File(crypath, filename = cryfile)
+        embed = discord.Embed(title = "Cry about it", colour = 0xff0000)
         embed.set_image(url = "attachment://{}".format(cryfile))
 
-        await ctx.send(file = file, embed = embed)
+        await intr.response.send_message(file = file, embed = embed)
 
 
-    @commands.command()
-    @commands.cooldown(1, 2.5, commands.BucketType.user)
-    async def limote(self, ctx):
+
+    @app_commands.command(name="limote", description="Sends a random Lisek Emoji (limote:tm:).")
+    async def limote(self, intr: Intr):
         '''
         Sends a random Lisek Emoji (Limote:tm:) from my collection.
         '''
@@ -208,91 +226,24 @@ class Simple(commands.Cog):
                     '<:vrSmugLi:959627074467942450>','<:wheezeLi:933887689172852758>','<:wheezeLi2:933887721137668167>','<:yeahLi:919701553978421278>',
                     '<:yeahLi2:919701564858445935>','<:partyLi:975520974827048960>','<:layLi:981651009279500378>','<:glueLi:1000226176712847391>','<:derpLi:1000225942586802277>']
 
-        await ctx.send(random.choice(responses))
+        await intr.response.send_message(random.choice(responses))
 
-    @commands.command(hidden=True)
-    @commands.cooldown(1, 5, commands.BucketType.user)
-    async def order(self, ctx, *, thing):
-        '''
-        Required argument: `thing`
-
-        Order something off Google.
-        '''
-
-        EASTER_EGGS = ["john cena"]
-
-        if thing.lower() in EASTER_EGGS:
-            fl = nextcord.File(os.path.join(DIR, "cogs/Media/trans.jpg"), filename="trans.jpg")
-            em = nextcord.Embed(title = f"Order up! {thing}", color = 0xff0000)
-            em.set_image("attachment://trans.jpg")
-
-            await ctx.send(embed = em, file = fl)
-            return
-
-        for string in thing.lower().split(" "):
-            if string in BLACKLIST:
-                await ctx.send("You horny bastard.")
-                return
-        
-        if thing.lower().replace(" ", "") in BLACKLIST:
-            await ctx.send("You horny bastard.")
-            return
-            
-        if not self.is_searching:
-            self.is_searching = True
-            async with ctx.typing():
-                path = os.path.join(DIR, "cogs/Save/order")
-                try:
-                    google_crawler = GoogleImageCrawler(parser_threads=1, downloader_threads=1, storage = {'root_dir': path})
-                    google_crawler.crawl(keyword=thing, max_num=1)
-
-                    pathjpg = os.path.join(path, "000001.jpg")
-                    pathpng = os.path.join(path, "000001.png")
-
-                    try:
-                        img = Image.open(pathjpg).convert("RGB")
-                        img.save(pathpng)
-                    except: pass
-
-                    fl = nextcord.File(pathpng, filename="000001.png")
-                    em = nextcord.Embed(title = f"Order up! {thing}", color = 0xff0000)
-
-                    em.set_image("attachment://000001.png")
-
-                    await ctx.send(embed = em, file = fl)
-                    
-                except Exception:
-                    await Utils.generic_error(ctx, f"Could not find a(n) {thing}.")
-
-                try:
-                    os.remove(pathjpg)
-                except: pass
-                try:
-                    os.remove(pathpng)
-                except: pass
-
-                self.is_searching = False
-                return
-
-        await ctx.send("**HEY!** Wait just a tick <w>")
-
-
-    @commands.command()
-    @commands.cooldown(1, 2.5, commands.BucketType.user)
-    async def fox(self, ctx):
+    @app_commands.command(name="fox", description="Summon a fox.")
+    async def fox(self, intr: Intr):
         '''
         Get a random picture of a fox.
         '''
-        em = nextcord.Embed(title = f"Fox!", color = 0xff0000)
+        em = discord.Embed(title = f"Fox!", color = 0xff0000)
         em.set_image(url = f"https://randomfox.ca/images/{random.randint(1, 123)}.jpg")
 
-        await ctx.send(embed = em)
+        await intr.response.send_message(embed = em)
 
-    @commands.command()
-    @commands.cooldown(1, 60, commands.BucketType.user)
-    async def null(self, ctx):
-        await ctx.send("⠀")
+
+    @app_commands.command(name="null", description="...")
+    async def null(self, intr: Intr):
+        await intr.response.send_message("⠀", ephemeral=True)
+
         
 
-def setup(client):
-    client.add_cog(Simple(client))
+async def setup(client):
+    await client.add_cog(Simple(client))

@@ -1,10 +1,10 @@
-from util.BotUtils import Utils 
-from util.BotUtils import DIR
-import nextcord
-from nextcord import Member
-from nextcord.ext import commands
-from nextcord.ext.commands import Context
-from nextcord.ext.commands.errors import BadBoolArgument
+from util.BotUtils import DIR, generate_filepath, generic_embed, read_av, conv_member
+import discord
+from discord import Interaction as Intr
+from discord import Member, app_commands
+from discord.ext import commands
+from discord.ext.commands import Context
+from discord.ext.commands.errors import BadBoolArgument
 import os
 from PIL import Image, ImageSequence
 
@@ -13,23 +13,30 @@ class Avatars(commands.Cog):
     def __init__(self, client):
         self.client = client
 
-    @commands.command()
-    @commands.cooldown(1, 2.5, commands.BucketType.user)
-    async def av(self, ctx: Context, *, target: Member = None):
+    @app_commands.command(name="av", description="Get someone's avatar")
+    async def av(self, intr: Intr, *, target: Member = None):
         '''
         Optional argument: `target`
         
         Returns the avatar of who you specified, or yourself if you didnt specify anyone.
         '''
+
         if target == None:
-            target = ctx.author
-        embed = nextcord.Embed(title = f"Avatar of {target.name}", 
+            target = intr.user
+            
+        embed = discord.Embed(title = f"Avatar of {target.name}", 
                                 description = "" if target.id != 763914302175445002 else "Hey, that's me! :3",
                                 colour = 0xff0000)
         embed.set_image(url = target.avatar.url)
 
-        await ctx.send(embed = embed)
+        await intr.response.send_message(embed = embed)
 
+
+    # TODO Two commands maybe
+    # first will prompt user for image
+    # and then it will take the image and send jar
+
+    #other command could only take members
     @commands.command()
     @commands.cooldown(1, 2.5, commands.BucketType.user)
     async def jar(self, ctx: Context, *, target: Member = None):
@@ -37,22 +44,22 @@ class Avatars(commands.Cog):
         Optional argument: `target`
 
         Puts whoever you want, or any attached image into a jar!
-        '''        
-        filepath, filename = await Utils.generate_filepath(ctx, target, "jar", "png")
+        '''
+        filepath, filename = await generate_filepath(ctx, target, "jar", "png")
 
         jar = Image.open(os.path.join(DIR, "cogs/Media/mtjar.png"))
-        av = await Utils.read_av(ctx, target, 256, force_square = True)
+        av = await read_av(ctx, target, 256, force_square = True)
 
         jar.paste(av,(230, 420))
         jar.save(filepath)
-        fl = nextcord.File(filepath, filename = filename)
+        fl = discord.File(filepath, filename = filename)
 
         if target is not None:
             title = "-w-" if target.id == 763914302175445002 else f"{target.name} in a jar!"
         else:
             title = ""
 
-        em = nextcord.Embed(title = title, colour = 0xff0000)
+        em = discord.Embed(title = title, colour = 0xff0000)
         em.set_image(url = f"attachment://{filename}")
         await ctx.send(embed = em, file = fl)
 
@@ -65,10 +72,10 @@ class Avatars(commands.Cog):
 
         Pet whoever you want, or any attached image, or even yourself!
         '''
-        filepath, filename = await Utils.generate_filepath(ctx, target, "pet", "gif")
+        filepath, filename = await generate_filepath(ctx, target, "pet", "gif")
 
         gifHand = Image.open(fp = os.path.join(DIR, f'cogs/Media/petpet.gif'))
-        av = await Utils.read_av(ctx, target, 512)
+        av = await read_av(ctx, target, 512)
 
         allFrames = []
         for gifFrame in ImageSequence.Iterator(gifHand):
@@ -79,14 +86,14 @@ class Avatars(commands.Cog):
         
         allFrames[0].save(filepath, save_all = True,append_images=allFrames[1:], duration=100, loop=0)
 
-        fl = nextcord.File(filepath, filename = filename)
+        fl = discord.File(filepath, filename = filename)
 
         if target is not None:
             title = f"{ctx.author.name} pets themselves!" if ctx.author == target else f"{ctx.author.name} pets {target.name}!"
         else:
             title = ""
 
-        em = nextcord.Embed(title = title, colour = 0xff0000)
+        em = discord.Embed(title = title, colour = 0xff0000)
 
         em.set_image(url = f"attachment://{filename}")
         await ctx.send(embed = em, file = fl)
@@ -102,8 +109,8 @@ class Avatars(commands.Cog):
 
         Places a Speech Bubble overlay over any attached images, or the avatar of whoever you specified.
         '''
-        filepath, filename = await Utils.generate_filepath(ctx, target, "speech", "gif")
-        av = await Utils.read_av(ctx, target, 512)
+        filepath, filename = await generate_filepath(ctx, target, "speech", "gif")
+        av = await read_av(ctx, target, 512)
 
         bubble = Image.open(os.path.join(DIR, f'cogs/Media/speech.png')).convert('L').resize(av.size)
         rim = Image.open(os.path.join(DIR, f'cogs/Media/speech_rim.png')).convert("RGBA").resize(av.size)
@@ -112,10 +119,10 @@ class Avatars(commands.Cog):
         av.putalpha(bubble)
         av.save(filepath)
 
-        em = nextcord.Embed(title = "", colour = 0xff0000)
+        em = discord.Embed(title = "", colour = 0xff0000)
         em.set_image(url = f"attachment://{filename}")
 
-        fl = nextcord.File(filepath, filename = filename)
+        fl = discord.File(filepath, filename = filename)
         await ctx.send(file = fl, embed = em)
 
 
@@ -149,8 +156,8 @@ class Avatars(commands.Cog):
             await ctx.send(flags)
             return
 
-        filepath, filename = await Utils.generate_filepath(ctx, target, "pride", "png")
-        av = await Utils.read_av(ctx, target, 512, force_square = True)
+        filepath, filename = await generate_filepath(ctx, target, "pride", "png")
+        av = await read_av(ctx, target, 512, force_square = True)
         av.convert("RGBA")
 
 
@@ -167,14 +174,14 @@ class Avatars(commands.Cog):
             av.paste(flagimg, (0,0), flagimg)
             av.save(filepath)
 
-            fl = nextcord.File(filepath, filename = filename)
-            em = nextcord.Embed(title = f"", colour = 0xff0000)
+            fl = discord.File(filepath, filename = filename)
+            em = discord.Embed(title = f"", colour = 0xff0000)
 
             em.set_image(url = f"attachment://{filename}")
 
             await ctx.send(file = fl, embed = em)
         else:
-            await Utils.generic_embed(ctx, "Missing or inappropriate argument!",
+            await generic_embed(ctx, "Missing or inappropriate argument!",
                                       desc = "Try d!pride `[flag]` `[name]`")
 
 
@@ -201,8 +208,8 @@ class Avatars(commands.Cog):
             await ctx.send("`invert` flag must be a boolean value (try True / False)")
             return
 
-        arg = await Utils.conv_member(ctx, arg)
-        av = await Utils.read_av(ctx, arg, size)
+        arg = await conv_member(ctx, arg)
+        av = await read_av(ctx, arg, size)
 
         img = av.convert("L")
         pixel_list = list(img.getdata())
@@ -234,17 +241,17 @@ class Avatars(commands.Cog):
 
         Overlays an attachment or the avatar of the member specified onto a Subway logo.
         '''
-        filepath, filename = await Utils.generate_filepath(ctx, target, "sub", "jpg")
+        filepath, filename = await generate_filepath(ctx, target, "sub", "jpg")
 
         template = Image.open(os.path.join(DIR, "cogs\Media\subway_template.jpg"))
-        av = await Utils.read_av(ctx, target, 256, force_square=True)
+        av = await read_av(ctx, target, 256, force_square=True)
 
         template.paste(av, (74, 118))
         template.save(filepath)
-        fl = nextcord.File(filepath, filename = filename)
+        fl = discord.File(filepath, filename = filename)
 
-        em = nextcord.Embed(color = 0xff0000)
-        em.set_image(f"attachment://{filename}")
+        em = discord.Embed(color = 0xff0000)
+        em.set_image(url = f"attachment://{filename}")
 
         await ctx.send(file = fl, embed = em)
 
@@ -256,19 +263,19 @@ class Avatars(commands.Cog):
 
         Overlays an attachment or the avatar of the member specified onto a Dominos Pizza logo.
         '''
-        filepath, filename = await Utils.generate_filepath(ctx, target, "dom", "jpg")
+        filepath, filename = await generate_filepath(ctx, target, "dom", "jpg")
 
         template = Image.open(os.path.join(DIR, "cogs\Media\dominos_template.jpg"))
-        av = await Utils.read_av(ctx, target, 256, force_square=True)
+        av = await read_av(ctx, target, 256, force_square=True)
 
         template.paste(av, (195, 118))
         template.save(filepath)
-        fl = nextcord.File(filepath, filename = filename)
+        fl = discord.File(filepath, filename = filename)
 
-        em = nextcord.Embed(color = 0xff0000)
-        em.set_image(f"attachment://{filename}")
+        em = discord.Embed(color = 0xff0000)
+        em.set_image(url = f"attachment://{filename}")
 
         await ctx.send(file = fl, embed = em)
 
-def setup(client):
-    client.add_cog(Avatars(client))
+async def setup(client):
+    await client.add_cog(Avatars(client))

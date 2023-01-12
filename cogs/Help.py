@@ -1,8 +1,7 @@
-from util.BotUtils import Utils
-from util.BotUtils import DIR
-import nextcord
-from nextcord import Member
-from nextcord.ext import commands
+from util.BotUtils import DIR, generic_embed, generic_error
+import discord
+from discord import Member
+from discord.ext import commands
 import numpy as np
 import os
 
@@ -24,13 +23,13 @@ class Help(commands.Cog):
                     comms.append("\n" + str(c).replace("_", ""))
 
             three_coms = np.array_split(comms, 3)
-            em = nextcord.Embed(title = "Welcome to DaveedBot:tm:!", description = "The command prefix is `d!`. Use `d!help [cmd]` to get more info on any other command! \n List of all commands:\n", color = 0xff0000)
+            em = discord.Embed(title = "Welcome to DaveedBot:tm:!", description = "The command prefix is `d!`. Use `d!help [cmd]` to get more info on any other command! \n List of all commands:\n", color = 0xff0000)
             em.add_field(name = ":fox:", value = "".join(three_coms[0]))
             em.add_field(name = ":fox:", value = "".join(three_coms[1]))
             em.add_field(name = ":fox:", value = "".join(three_coms[2]))
 
             filepath = os.path.join(DIR,"cogs/Media/proto.png")
-            fl = nextcord.File(filepath, filename = "proto.png")
+            fl = discord.File(filepath, filename = "proto.png")
 
             em.set_thumbnail(url = "attachment://{}".format("proto.png"))
             em.set_footer(text = "DaveedBot™ | {}".format(ctx.author))
@@ -47,11 +46,11 @@ class Help(commands.Cog):
                 else:
                     desc += c.help
 
-                await Utils.generic_embed(ctx, title=f"help - d!{cmd}", desc = desc)
+                await generic_embed(ctx, title=f"help - d!{cmd}", desc = desc)
                 break
 
         else:
-            await Utils.generic_error(ctx, f"No command found named {cmd}.")
+            await generic_error(ctx, f"No command found named {cmd}.")
 
-def setup(client):
-    client.add_cog(Help(client))
+async def setup(client):
+    await client.add_cog(Help(client))
