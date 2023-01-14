@@ -7,6 +7,7 @@ from discord.ext.commands import Context
 from discord.ext.commands.errors import BadBoolArgument
 import os
 from PIL import Image, ImageSequence
+import requests
 
 
 class Avatars(commands.Cog):
@@ -30,25 +31,37 @@ class Avatars(commands.Cog):
         embed.set_image(url = target.avatar.url)
 
         await intr.response.send_message(embed = embed)
+        
 
+    @app_commands.command(name="jar", description="Puts whoever you want, or any attached image into a jar!")
 
-    # TODO Two commands maybe
-    # first will prompt user for image
-    # and then it will take the image and send jar
-
-    #other command could only take members
-    @commands.command()
-    @commands.cooldown(1, 2.5, commands.BucketType.user)
-    async def jar(self, ctx: Context, *, target: Member = None):
+    async def jar(self, intr: Intr, *, target: Member = None, use_my_own_image: bool = False):
         '''
         Optional argument: `target`
 
         Puts whoever you want, or any attached image into a jar!
         '''
+        ctx = await self.client.get_context(intr)
+
+
+        # TODO this works, but make it cleaner and update all other commands
+
+        def check(msg: discord.Message):
+            return msg.channel.id == ctx.channel.id 
+
+        if use_my_own_image:
+            await intr.response.send_message("Please send your image now.", ephemeral=True)
+            msg: discord.Message = await self.client.wait_for("message", check = check)
+            av = Image.open((requests.get(msg.attachments[0].url, stream=True).raw)).resize((256,256))
+    
+        else:
+            av = await read_av(ctx, target, 256, force_square = True)
+
+            
+
         filepath, filename = await generate_filepath(ctx, target, "jar", "png")
 
         jar = Image.open(os.path.join(DIR, "cogs/Media/mtjar.png"))
-        av = await read_av(ctx, target, 256, force_square = True)
 
         jar.paste(av,(230, 420))
         jar.save(filepath)
@@ -61,7 +74,14 @@ class Avatars(commands.Cog):
 
         em = discord.Embed(title = title, colour = 0xff0000)
         em.set_image(url = f"attachment://{filename}")
-        await ctx.send(embed = em, file = fl)
+        if use_my_own_image:
+            await intr.followup.send(embed = em, file = fl)
+        else:
+            await intr.response.send_message(embed = em, file = fl)
+
+
+
+
 
 
     @commands.command()

@@ -1,1 +1,76 @@
-{"tf": {"texts": ["{n} transforms into {t}! They seem to love their new form~ uwu", "{n} screeches in pain, before slowly transforming into {t} o.O", "{n} drinks a mystical potion, and then transformes into {t}! OwO", "{n} collides with some funky goo, transforming them into {t}! O.O", "{n} steps through a magical ring, which transforms them into {t}! OwO", "{n} gets a glowing fluid injected into them, and then they transformed into {t}!! OwO"], "is_self": "You're already {n}, dummy!", "special_cases": [["Puro", "{n} tfs into fucking Puro"]]}, "boop": {"texts": ["{n} boops {t} right on the snoot! UwU", "{n} tried to boop {t}, but instead {t} booped them first! OwO", "{n}  booped {t}, and {t} booped them right back! ^w^"], "is_self": "{n} boops themselves. This event causes a nuclear reaction equivilant to the power of 621 megatons of TNT. Over 800m people were instantly killed in the Boop Disaster. All is lost. All because {n} wanted to boop themselves.", "special_cases": []}, "nuzzle": {"texts": ["{n} nuzzles {t}! It does 20 base damage, and paralyzes them! owO"], "is_self": "{n} nuzzles themselves! It does 20 base damage, and paralyzes themself! owO", "special_cases": []}, "hug": {"texts": ["{n} hugs {t} tightly! UwU~", "{n} hugs {t}, whispering \"I love you so much, {t}\" ^w^", "{n} quietly wraps their arms around {t} OuO", "{n} wraps their arms tight around {t}, smushing them in love and appreciation :3", "Before {n} even finished opening their arms, {t} jumps into {n}'s loving arms!"], "is_self": "{n} hugs themselves! They look kind of lonely...", "special_cases": []}, "vore": {"texts": ["{n} vores {t} cutely! Yum :yum:", "{n} vores {t} aggressively! OWO", "{n} opens their maw as much as they can, and then devoures {t} in one bite!", "{n} throws {t} into their maw, eating them! O.O", "{n} prepares {t} in a pot over an open flame, cooking {t} to perfection~", "{n} grabs {t} aggressively before tossing them in their maw and gulping them down. At least {t} tasted good..."], "is_self": "{n} vores themselves. They disappear into nothing o.O", "special_cases": []}, "yiff": {"texts": ["{n} yiffs {t}! o.O"], "is_self": "{n} yiffs... themselves? wh- how?", "special_cases": []}, "stomp": {"texts": ["{n} stomps {t} into the ground! UwU", "The macro {n} stomps the micro {t} into the ground! owo", "The huge {n} lifts their paw up into the sky above tiny {t}, before stomping their pawb/hoof/talon/peet/other straight into {t}~", "{n} stepped on {t} without even noticing! {t} doesn't seem to mind though X3", "{t} looks up at {n}'s massive, squishy, adorable pawbs/hooves/talons/peets/other, which are accelerating directly at them~. {n} feels {t} in between their toes as they stepped on {t}~", "{n} rapidly stomps {t} dozens of times! O>O", "{n} shoves their pawbs/hooves/talons/peets/other down {t}'s throat!", "{n} stomps {t} beneath their paw/hoof/foot, grinding them into the ground! Ouch-", "{n} stomps all over {t} face! owo"], "is_self": "{n} tried to stomp themself, but instead created a black hole that devoured the observable universe. Oops!", "special_cases": []}, "kiss": {"texts": ["{n} grabs {t} close, and kisses them right on the snoot! UwU", "{n} gives {t} a little kiss! cuties~", "{n} tightly hugs {t}, before kissing them~ >///<", "{t} gets pulled to the side by {n} as they smooch them right on the lips~"], "is_self": "{n} kisses themselves! Self love is important after all OuO:+1:", "special_cases": []}}
+{
+
+    "boop":{
+        "texts":[
+            "{n} boops {t} right on the nose! uwu",
+            "{n} tried to boop {t}, but instead {t} booped them first!",
+            "{n} booped {t}, and {t} booped them right back! :D"
+        ],
+        "is_self":"{n} boops themselves. This event causes a nuclear reaction equivilant to the power of 621 megatons of TNT. Over 800m people were instantly killed in the Boop Disaster. All is lost. All because {n} wanted to boop themselves.",
+        "special_cases":[
+            
+        ]
+    },
+    "nuzzle":{
+        "texts":[
+            "{n} nuzzles {t}! It does 20 base damage, and paralyzes them! owO"
+        ],
+        "is_self":"{n} nuzzles themselves! It does 20 base damage, and paralyzes themself! owO",
+        "special_cases":[
+            
+        ]
+    },
+    "hug":{
+        "texts":[
+            "{n} hugs {t} tightly!",
+            "{n} hugs {t}, whispering \"I love you so much, {t}\"",
+            "{n} quietly wraps their arms around {t} OuO",
+            "{n} wraps their arms tight around {t}, smushing them in love and appreciation."
+        ],
+        "is_self":"{n} hugs themselves! They look kind of lonely...",
+        "special_cases":[
+            
+        ]
+    },
+
+    "kiss":{
+        "texts":[
+            "{n} grabs {t} close, and kisses them right on the snoot! uwu",
+            "{n} gives {t} a little kiss!",
+            "{n} tightly hugs {t}, before kissing them~",
+            "{t} gets pulled to the side by {n} as they smooch them right on the lips!"
+        ],
+        "is_self":"{n} kisses themselves! Self love is important after all OuO:+1:",
+        "special_cases":[
+            
+        ]
+    },
+
+    "lick": {
+        "texts": ["{n} suddenly licks {t} right across their cheek...! {t} doesn't seem all too pleased..",
+                  "{n} licks {t}'s arm for no reason whatsoever. Great!"],
+        "is_self": "{n} licks themselves! They must think they're a cat...",
+        "special_cases":[]
+    },
+
+    "slap": {
+        "texts": ["{n} slaps {t} right across the face! Ouch.",
+                  "{n} bitch-slaps {t}, saying \"shut.\"",
+                  "{n} slaps {t}, and {t} slaps them right back immediately!",
+                  "{n} firmly smacks the back of {t}'s neck!"],
+        "is_self": "{n} slaps themselves!\n*Why are you hitting yourself? Why are you hitting yourself? Why are you hitting yourself???*",
+        "special_cases":[]
+    },
+
+
+    "explode": {
+        "texts": ["{n} cutely pours a full barrel of gasoline onto {t}. How cute and wholesome!",
+                  "{n} throws {t} into a lit cannon, right as it's about to fire!"],
+        "is_self": "{n} spontaniously combusts!\nAs a young man once said, \"*My main goal... is to blow up*\"",
+        "special_cases":[]
+    }
+
+    
+
+    
+}

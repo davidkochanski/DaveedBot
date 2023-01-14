@@ -34,7 +34,7 @@ class Actions2(commands.Cog):
         return await create_embed(intr, title = actions[cmd]["texts"][random.randint(0, len(actions[cmd]["texts"])-1)].replace("{n}", intr.user.name).replace("{t}", target))
 
 
-    actions = ["tf", "boop", "nuzzle", "hug", "vore", "yiff", "stomp", "kiss"]
+    actions = ["boop", "nuzzle", "hug", "kiss"]
 
     @app_commands.command(name="actionadd", description="Add a prompt to on action command (boop, hug, etc.)")
     @app_commands.choices(command = [app_commands.Choice(name=element, value=element) for element in actions])
@@ -102,28 +102,12 @@ class Actions2(commands.Cog):
         vw.add_item(select)
         await intr.response.send_message(view=vw)
         
-            
-
-
-        
-
-    @app_commands.command(name="tf", description="Transform someone into anything you want!")
-    async def tf(self, intr: Intr, target: str = None):
-        '''
-        Optional argument: `target`
-        '''
-        target = target if target is not None else intr.user.name
-        em, fl = await self.scenify(intr, "tf", target)
-        await intr.response.send_message(embed=em, file=fl)
+    
+    # TODO perhaps merge all of these into one command
 
 
     @app_commands.command(name="boop", description="BOOP!")
     async def boop(self, intr: Intr, target: str = None):
-        '''
-        Optional argument: `target`
-
-        BOOP!
-        '''
         target = target if target is not None else intr.user.name
         em, fl = await self.scenify(intr, "boop", target)
         await intr.response.send_message(embed=em, file=fl)
@@ -131,11 +115,6 @@ class Actions2(commands.Cog):
 
     @app_commands.command(name="nuzzle", description="Nuzzle anyone you want! You might need a PARLYZHEAL afterwards..")
     async def nuzzle(self, intr: Intr, target: str = None):
-        '''
-        Optional argument: `target`
-
-        Nuzzle anyone you want!
-        '''
         target = target if target is not None else intr.user.name
         em, fl = await self.scenify(intr, "nuzzle", target)
         await intr.response.send_message(embed=em, file=fl)
@@ -143,74 +122,34 @@ class Actions2(commands.Cog):
 
     @app_commands.command(name="hug", description="Hug someone tightly!")
     async def hug(self, intr: Intr, target: str = None):
-        '''
-        Optional argument: `target`
-
-        Hug someone tightly!
-        '''
         target = target if target is not None else intr.user.name
         em, fl = await self.scenify(intr, "hug", target)
         await intr.response.send_message(embed=em, file=fl)
 
-    
-    @app_commands.command(name="vore", description="Vore someone- wait what happens if you vore yourself?")
-    async def vore(self, intr: Intr, target: str = None):
-        '''
-        Optional argument: `target`
-
-        Vore someone~ wait what happens if you vore yourself?
-        '''
-        target = target if target is not None else intr.user.name
-        em, fl = await self.scenify(intr, "vore", target)
-        await intr.response.send_message(embed=em, file=fl)
-
-
-    @app_commands.command(name="yiff", description="Yiff someone.")
-    async def yiff(self, intr: Intr, target: str = None):
-        '''
-        Optional argument: `target`
-
-        Yiff someone.
-        '''
-        target = target if target is not None else intr.user.name
-        em, fl = await self.scenify(intr, "yiff", target)
-        await intr.response.send_message(embed=em, file=fl)
-
-    
-    @app_commands.command(name="stomp", description="stomp")
-    async def stomp(self, intr: Intr, target: str = None):
-        '''
-        Optional argument: `target`
-
-        Stomp on someone.
-        '''
-        target = target if target is not None else intr.user.name
-        em, fl = await self.scenify(intr, "stomp", target)
-        await intr.response.send_message(embed=em, file=fl)
-
-    # paralyze heal
-
-
     @app_commands.command(name="kiss", description="Kiss someone!")
     async def kiss(self, intr: Intr, target: str = None):
-        '''
-        Optional argument: `target`
-
-        Kiss someone!
-        '''
         target = target if target is not None else intr.user.name
         em, fl = await self.scenify(intr, "kiss", target)
         await intr.response.send_message(embed=em, file=fl)
 
-    @app_commands.command(name="target", description="Inflate someone. Use at your own risk")
-    async def inflate(self, intr: Intr, target: str = None):
-        '''
-        Optional argument: `target`
 
-        Inflate someone. Use at your own risk
-        '''
+    @app_commands.command(name="lick", description="Lick someone......!")
+    async def lick(self, intr: Intr, target: str = None):
         target = target if target is not None else intr.user.name
-        em, fl = await create_embed(intr, title=f"{intr.user.name} inflates {target}, making them big and round! \nhttps://www.youtube.com/watch?v=NP-UxkYeLV0")
+        em, fl = await self.scenify(intr, "lick", target)
+        await intr.response.send_message(embed=em, file=fl)
+
+    @app_commands.command(name="slap", description="Slap someone.")
+    async def slap(self, intr: Intr, target: str = None):
+        target = target if target is not None else intr.user.name
+        em, fl = await self.scenify(intr, "slap", target)
+        await intr.response.send_message(embed=em, file=fl)
+
+
+    @app_commands.command(name="explode", description="kaboom")
+    async def explode(self, intr: Intr, target: str = None):
+        target = target if target is not None else intr.user.name
+        em, fl = await self.scenify(intr, "explode", target)
         await intr.response.send_message(embed=em, file=fl)
 
 
